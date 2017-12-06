@@ -9,5 +9,10 @@
   "author": "Lambda School",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "sqlite3": "^3.1.13"
   }
 }
