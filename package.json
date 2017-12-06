@@ -1,0 +1,13 @@
+{
+  "name": "relationapimini",
+  "version": "1.0.0",
+  "description": "RDBMS API Mini Sprint",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Lambda School",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
