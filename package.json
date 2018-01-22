@@ -4,7 +4,8 @@
   "description": "RDBMS API Mini Sprint",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "k": "knex init"
   },
   "author": "Lambda School",
   "license": "ISC",
