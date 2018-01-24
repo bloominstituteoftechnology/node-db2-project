@@ -15,6 +15,20 @@ where you'll interface with a database in your route handlers.
 ## Requirements
 For this mini sprint you'll need to have SQLite3 and MySQL intalled. MySQL must be running.
 
+#### Installation Videos:
+- [MySQL Installation video for Windows](https://www.youtube.com/watch?v=uErU2VBv2WE)
+- [MySQL Installation video for MacOS](https://www.youtube.com/watch?v=UcpHkYfWarM)
+- [MySQL Installation video for Ubuntu](https://www.youtube.com/watch?v=uqaoGTnxqNw)
+
+#### Resources
+- [SQL Tryit Editor](https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_in)
+- [Knex Cheat Sheet](https://devhints.io/knex)
+- [Knex Query Playground/Lab](http://michaelavila.com/knex-querylab/)
+
+#### Download Links
+- [MySQL Workbench download link](https://dev.mysql.com/downloads/workbench/)
+- [SQLite 3 download link](https://www.sqlite.org/download.html)
+- [DB Browser for SQLite download link](http://sqlitebrowser.org/)
 
 ## Running the Project
 * Fork and Clone this project.
