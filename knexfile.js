@@ -15,7 +15,7 @@ module.exports = {
     connection: {
       database: 'practice',
       user:     'root',
-      password: 'jUh9wkpinedLC0wUiDrahighd0H2riaateachyK'
+      password: 'xxxx'
     },
     pool: {
       min: 2,
@@ -32,7 +32,7 @@ module.exports = {
       host: 'localhost',
       database: 'practice',
       user:     'root',
-      password: 'jUh9wkpinedLC0wUiDrahighd0H2riaateachyK'
+      password: 'xxxx'
     },
     pool: {
       min: 2,
