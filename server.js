@@ -1,22 +1,72 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const knex = require('./knexfile.js');
+const bodyParser = require('body-parser');
+const knex = require('./database/db');
 
 const server = express();
-
-server.use(bodyParser.json());
 server.use(cors());
+server.use(bodyParser.json());
 
+const port = process.env.PORT || 4300;
 
-// endpoints here
+server.get(('/', () => {res.json({success: true})}));
 
-const port = process.env.PORT || 3000;
-server.get('/', (req, res) => {
-    res.status.json({
-        message: 'Wahoo!'
-    });
+server.post('/zoos', (req, res) => {
+  const zoo = req.body;
+
+  knex
+  .insert(zoo).into('zoos')
+  .then( (ids) => {
+    res.status(201).json({ ids })
+  })
+  .catch( (error) => {
+    res.status(422).json({message: error});
+  });
 });
-server.listen(port, function() {
-    console.log(`Server Listening on ${port}`);
+
+server.get('/zoos', (req, res) => {
+  const allZoos = knex('zoos')
+  .then((allZoos) => {
+    res.status(201).json(allZoos)
+  })
+  .catch((error) => {
+    res.status(422).json({message: error});
+  });
 });
+
+server.post('/bears', (req, res) => {
+  const bear = req.body;
+
+  knex
+  .insert(bear).into('Bears')
+  .then( (ids) => {
+    res.status(201).json({ ids })
+  })
+  .catch( (error) => {
+    res.status(422).json({message: error});
+  });
+});
+
+server.get('/bears', (req, res) => {
+  const allBears = knex('Bears')
+  .then((allBears) => {
+    res.status(201).json(allBears)
+  })
+  .catch((error) => {
+    res.status(422).json({message: error});
+  });
+});
+
+server.get('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = knex('zoos')
+  .where('id', id)
+  .then((records) => {
+    res.status(201).json(records)
+  })
+  .catch((error) => {
+    res.status(422).json({message: error});
+  });
+});
+
+server.listen(port, () => {console.log(`server listening to ${port}`)});
