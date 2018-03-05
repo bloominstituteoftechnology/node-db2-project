@@ -96,11 +96,11 @@ server.post('/zoos/:id', (req, res) => {
   knex('zoos')
     .where({ id: id })
     .update({ name })
-    .then(id => {
-      if (!id) {
+    .then(updatedId => {
+      if (!updatedId) {
         res.status(404).json({
           message: `No zoo with id ${id} was found.`,
-          err: 'Query returned undefined.',
+          err: `Query returned id ${updatedId}.`,
         });
         return;
       }
