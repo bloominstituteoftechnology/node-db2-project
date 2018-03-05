@@ -37,7 +37,14 @@ server.post('/zoos', (req, res) => {
 
 server.get('/zoos', (req, res) => {
   knex('zoos')
-    .then(zoos => res.json(zoos))
+    .then(zoos => {
+      if (zoos.length === 0) {
+        res.json({ message: 'No zoos in server.' });
+        return;
+      }
+
+      res.json(zoos);
+    })
     .catch(err =>
       res.status(500).json({ message: 'Error retrieving zoos.', err }),
     );
@@ -114,6 +121,35 @@ server.post('/zoos/:id', (req, res) => {
     );
 });
 
+server.delete('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  if (!id || !Number.isInteger(+id)) {
+    res
+      .status(422)
+      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
+    return;
+  }
+
+  knex('zoos')
+    .where('id', id)
+    .del()
+    .then(deleted => {
+      if (!deleted) {
+        res.status(404).json({
+          message: `No zoo with id ${id} was found.`,
+          err: `Query returned ${deleted}`,
+        });
+        return;
+      }
+
+      res.json({ deleted: true });
+    })
+    .catch(err =>
+      res.status(500).json({ message: 'Error deleting zoo.', err }),
+    );
+});
+
 server.post('/bears', (req, res) => {
   const { zooId, species, latinName } = req.body;
 
@@ -129,9 +165,84 @@ server.post('/bears', (req, res) => {
 
 server.get('/bears', (req, res) => {
   knex('bears')
-    .then(bears => res.json(bears))
+    .then(bears => {
+      if (bears.length === 0) {
+        res.json({ message: 'No bears in server.' });
+        return;
+      }
+
+      res.json(bears);
+    })
     .catch(err =>
       res.status(500).json({ message: 'Error retrieving bears.', err }),
+    );
+});
+
+server.post('/bears/:id', (req, res) => {
+  const { id } = req.params;
+  const { zooId, species, latinName } = req.body;
+
+  if (!id || !Number.isInteger(+id)) {
+    res
+      .status(422)
+      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
+    return;
+  }
+
+  if (!zooId || !species || !latinName) {
+    res.status(422).json({
+      error: 'Please provide zooId, species, and latinName for the bear.',
+    });
+    return;
+  }
+
+  knex('bears')
+    .where({ id: id })
+    .update({ zooId, species, latinName })
+    .then(updatedId => {
+      if (!updatedId) {
+        res.status(404).json({
+          message: `No zoo with id ${id} was found.`,
+          err: `Query returned id ${updatedId}.`,
+        });
+        return;
+      }
+
+      res.json({ id: id });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: `Error updating zoo with id ${id}`, err }),
+    );
+});
+
+server.delete('/bears/:id', (req, res) => {
+  const { id } = req.params;
+
+  if (!id || !Number.isInteger(+id)) {
+    res
+      .status(422)
+      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
+    return;
+  }
+
+  knex('bears')
+    .where('id', id)
+    .del()
+    .then(deleted => {
+      if (!deleted) {
+        res.status(404).json({
+          message: `No bear with id ${id} was found.`,
+          err: `Query returned ${deleted}`,
+        });
+        return;
+      }
+
+      res.json({ deleted: true });
+    })
+    .catch(err =>
+      res.status(500).json({ message: 'Error deleting bear.', err }),
     );
 });
 
