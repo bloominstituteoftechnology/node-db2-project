@@ -22,18 +22,22 @@ server.post('/zoos', (req, res) => {
     });
     return;
   }
+  //   const { zoo } = req.body;
+  //   knex.insert(zoo).into('zoos').then().catch()
 
   knex('zoos')
     .insert({ name })
     .then(id => {
       res.status(200).json({ id: id[0] });
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err =>
+      res.status(500).json({ message: 'Error inserting zoo.', err }),
+    );
 });
 
 server.get('/zoos', (req, res) => {
   knex('zoos')
-    .select('*')
+    // .select('*')
     .then(zoos => res.json(zoos))
     .catch(err =>
       res.status(500).json({ message: 'Error retrieving zoos.', err }),
@@ -51,12 +55,12 @@ server.get('/zoos/:id', (req, res) => {
   }
 
   knex('zoos')
-    .where('id', +id)
-    .select('*')
+    .where('id', id)
+    // .select('*')
     .first()
     .then(zoo => {
       if (!zoo) {
-        res.status(500).json({
+        res.status(404).json({
           message: `No zoo with id ${id} was found.`,
           err: 'Query returned undefined.',
         });
