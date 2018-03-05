@@ -32,8 +32,25 @@ server.get('/zoos', (req, res) => {
       res.status(200).json(zoos);
     })
     .catch(error => {
-    res.status(500).json({ message: 'Error retrieving Zoos' });
-  });
+      res.status(500).json({ message: 'Error retrieving Zoos' });
+    });
+});
+
+server.get('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  knex('zoos')
+    .where('id', id)
+    .then(zoos => {
+      if (zoos.length > 0) {
+        res.status(200).json(zoos);
+      } else {
+        res.status(404).json({ message: `Zoo with id: ${id} does not exist` })
+      }
+
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error retrieving Zoos' });
+    });
 });
 
 const port = 3000;

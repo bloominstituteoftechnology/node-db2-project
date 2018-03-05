@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
   // for making changes to the database
   return knex.schema.createTable('zoos', (tbl) => {
     tbl.increments();
-    tbl.primary();
+    
 
     tbl
       .string('name', 255)

@@ -3,7 +3,7 @@
 exports.up = function (knex, Promise) {
     return knex.schema.createTable('bears', (tbl) => {
         tbl.increments();
-        tbl.primary();
+        
         tbl
             .integer('zooId')
             .unsigned()
