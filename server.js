@@ -49,6 +49,16 @@ server.get('/zoos', (req, res) => {
     });
 });
 
+server.get('/bears', (req, res) => {
+  knex('bears')
+    .then(bears => {
+      res.status(200).json({ bears });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error retrieving Bears' })
+    });
+});
+
 server.get('/zoos/:id', (req, res) => {
   const { id } = req.params;
   knex('zoos')
