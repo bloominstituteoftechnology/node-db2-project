@@ -37,7 +37,6 @@ server.post('/zoos', (req, res) => {
 
 server.get('/zoos', (req, res) => {
   knex('zoos')
-    // .select('*')
     .then(zoos => res.json(zoos))
     .catch(err =>
       res.status(500).json({ message: 'Error retrieving zoos.', err }),
@@ -56,7 +55,6 @@ server.get('/zoos/:id', (req, res) => {
 
   knex('zoos')
     .where('id', id)
-    // .select('*')
     .first()
     .then(zoo => {
       if (!zoo) {
@@ -76,6 +74,46 @@ server.get('/zoos/:id', (req, res) => {
     );
 });
 
+server.post('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  if (!id || !Number.isInteger(+id)) {
+    res
+      .status(422)
+      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
+    return;
+  }
+
+  if (!name || typeof name !== 'string') {
+    res.status(422).json({
+      error: 'Please provide a name for the zoo.',
+      err: `${name} is not a string.`,
+    });
+    return;
+  }
+
+  knex('zoos')
+    .where({ id: id })
+    .update({ name })
+    .then(id => {
+      if (!id) {
+        res.status(404).json({
+          message: `No zoo with id ${id} was found.`,
+          err: 'Query returned undefined.',
+        });
+        return;
+      }
+
+      res.json({ id: id });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: `Error updating zoo with id ${id}`, err }),
+    );
+});
+
 server.post('/bears', (req, res) => {
   const { zooId, species, latinName } = req.body;
 
@@ -91,7 +129,6 @@ server.post('/bears', (req, res) => {
 
 server.get('/bears', (req, res) => {
   knex('bears')
-    .select('*')
     .then(bears => res.json(bears))
     .catch(err =>
       res.status(500).json({ message: 'Error retrieving bears.', err }),
