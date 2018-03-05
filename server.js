@@ -26,6 +26,19 @@ server.post('/zoos', (req, res) => {
     });
 });
 
+server.post('/bears', (req, res) => {
+  const bear = req.body;
+
+  knex
+    .insert(bear).into('bears')
+    .then(ids => {
+      res.status(201).json({ ids });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'error' })
+    });
+});
+
 server.get('/zoos', (req, res) => {
   knex('zoos').then(
     zoos => {
