@@ -9,5 +9,6 @@
   "author": "Lambda School",
   "license": "ISC",
   "dependencies": {
+    "knex": "^0.14.4"
   }
 }
