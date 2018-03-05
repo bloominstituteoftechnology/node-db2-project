@@ -72,6 +72,28 @@ server.get('/zoos/:id', (req, res) => {
     );
 });
 
+server.post('/bears', (req, res) => {
+  const { zooId, species, latinName } = req.body;
+
+  knex('bears')
+    .insert({
+      zooId,
+      species,
+      latinName,
+    })
+    .then(id => res.json({ id: id[0] }))
+    .catch(err => res.status(500).json({ message: 'Error saving bear.', err }));
+});
+
+server.get('/bears', (req, res) => {
+  knex('bears')
+    .select('*')
+    .then(bears => res.json(bears))
+    .catch(err =>
+      res.status(500).json({ message: 'Error retrieving bears.', err }),
+    );
+});
+
 const port = 3000;
 server.listen(port, function() {
   console.log(`Server Listening on ${port}`);
