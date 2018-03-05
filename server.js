@@ -7,21 +7,56 @@ const server = express();
 
 server.use(bodyParser.json());
 
-// endpoints here
-server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running...' });
-});
+const checkId = (req, res, next) => {
+  const { id } = req.params;
 
-server.post('/zoos', (req, res) => {
+  if (!id || !Number.isInteger(+id)) {
+    res
+      .status(422)
+      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
+    return;
+  }
+
+  req.id = id;
+  next();
+};
+
+const checkZoo = (req, res, next) => {
   const { name } = req.body;
 
-  if (!name || typeof name !== 'string') {
+  if (!name || Number.isInteger(+name)) {
     res.status(422).json({
       error: 'Please provide a name for the zoo.',
       err: `${name} is not a string.`,
     });
     return;
   }
+
+  req.name = name;
+  next();
+};
+
+const checkBear = (req, res, next) => {
+  const { zooId, species, latinName } = req.body;
+
+  if (!zooId || !species || !latinName) {
+    res.status(422).json({
+      error: 'Please provide zooId, species, and latinName for the bear.',
+    });
+    return;
+  }
+
+  next();
+};
+
+// endpoints here
+server.get('/', (req, res) => {
+  res.status(200).json({ api: 'running...' });
+});
+
+server.post('/zoos', checkZoo, (req, res) => {
+  const name = req.name;
+
   //   const { zoo } = req.body;
   //   knex.insert(zoo).into('zoos').then().catch()
 
@@ -50,15 +85,8 @@ server.get('/zoos', (req, res) => {
     );
 });
 
-server.get('/zoos/:id', (req, res) => {
-  const { id } = req.params;
-
-  if (!id || !Number.isInteger(+id)) {
-    res
-      .status(422)
-      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
-    return;
-  }
+server.get('/zoos/:id', checkId, (req, res) => {
+  const id = req.id;
 
   knex('zoos')
     .where('id', id)
@@ -81,24 +109,9 @@ server.get('/zoos/:id', (req, res) => {
     );
 });
 
-server.post('/zoos/:id', (req, res) => {
-  const { id } = req.params;
-  const { name } = req.body;
-
-  if (!id || !Number.isInteger(+id)) {
-    res
-      .status(422)
-      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
-    return;
-  }
-
-  if (!name || typeof name !== 'string') {
-    res.status(422).json({
-      error: 'Please provide a name for the zoo.',
-      err: `${name} is not a string.`,
-    });
-    return;
-  }
+server.post('/zoos/:id', checkId, checkZoo, (req, res) => {
+  const id = req.id;
+  const name = req.name;
 
   knex('zoos')
     .where({ id: id })
@@ -121,15 +134,8 @@ server.post('/zoos/:id', (req, res) => {
     );
 });
 
-server.delete('/zoos/:id', (req, res) => {
-  const { id } = req.params;
-
-  if (!id || !Number.isInteger(+id)) {
-    res
-      .status(422)
-      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
-    return;
-  }
+server.delete('/zoos/:id', checkId, (req, res) => {
+  const id = req.id;
 
   knex('zoos')
     .where('id', id)
@@ -178,23 +184,9 @@ server.get('/bears', (req, res) => {
     );
 });
 
-server.post('/bears/:id', (req, res) => {
-  const { id } = req.params;
+server.post('/bears/:id', checkId, (req, res) => {
+  const id = req.id;
   const { zooId, species, latinName } = req.body;
-
-  if (!id || !Number.isInteger(+id)) {
-    res
-      .status(422)
-      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
-    return;
-  }
-
-  if (!zooId || !species || !latinName) {
-    res.status(422).json({
-      error: 'Please provide zooId, species, and latinName for the bear.',
-    });
-    return;
-  }
 
   knex('bears')
     .where({ id: id })
@@ -217,15 +209,8 @@ server.post('/bears/:id', (req, res) => {
     );
 });
 
-server.delete('/bears/:id', (req, res) => {
-  const { id } = req.params;
-
-  if (!id || !Number.isInteger(+id)) {
-    res
-      .status(422)
-      .json({ message: 'id must be a number.', err: `${id} is not a number.` });
-    return;
-  }
+server.delete('/bears/:id', checkId, (req, res) => {
+  const id = req.id;
 
   knex('bears')
     .where('id', id)
