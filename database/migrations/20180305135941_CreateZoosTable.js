@@ -1,7 +1,10 @@
-exports.up = function(knex, Promise) {
+/*eslint-disable*/
+
+exports.up = function (knex, Promise) {
   // for making changes to the database
-  return knex.schema.createTable('zoos', function(tbl) {
+  return knex.schema.createTable('zoos', (tbl) => {
     tbl.increments();
+    tbl.primary();
 
     tbl
       .string('name', 255)
@@ -10,9 +13,10 @@ exports.up = function(knex, Promise) {
 
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
-};
+}
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   // for undoing changes
   return knex.schema.dropTableIfExists('zoos');
 };
+
