@@ -92,6 +92,30 @@ server.get('/bears/:id', (req, res) => {
     });
 });
 
+server.put('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  knex('zoos').where({ id }).update(zoo)
+    .then(response => {
+      res.status(200).json({ success: true });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Could not update this Zoo' })
+    });
+});
+
+server.put('/bears/:id', (req, res) => {
+  const { id } = req.params;
+  const bear = req.body;
+  knex('bears').where({ id }).update(bear)
+    .then(response => {
+      res.status(200).json({ success: true });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Could not update this Bear' })
+    });
+});
+
 
 
 server.delete('/zoos/:id', (req, res) => {
