@@ -8,22 +8,20 @@ const id = (req, res, next) => {
     return;
   }
 
-  req.id = id;
   next();
 };
 
 const zoo = (req, res, next) => {
-  const { name } = req.body;
+  const zoo = req.body;
 
-  if (!name || Number.isInteger(+name)) {
+  if (!zoo.name || Number.isInteger(+zoo.name)) {
     res.status(422).json({
       error: 'Please provide a name for the zoo.',
-      err: `${name} is not a string.`,
+      err: `${zoo.name} is not a string.`,
     });
     return;
   }
 
-  req.name = name;
   next();
 };
 

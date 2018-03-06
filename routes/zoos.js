@@ -11,8 +11,45 @@ router
 
 router
   .route('/:id')
-  .get(check.id, zoo.getById)
-  .post(check.id, check.zoo, zoo.edit)
-  .delete(check.id, zoo.del);
+  .get(check.id, zoo.checkId, zoo.getById)
+  .put(check.id, check.zoo, zoo.update)
+  .delete(check.id, zoo.checkId, zoo.del);
 
 module.exports = router;
+
+/*
+model solution
+
+*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+const db = require();
+
+zooRouter.get('/', (req, res) => {
+  db
+    .getAll()
+    .then(zoos => res.json(zoos))
+    .catch(err => res.status(500).json(err))
+})
+
+zooRouter.get('/:id', (req, res) => {
+  db
+    .getById(id)
+    .then()
+    .catch()
+})
+
+
+*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+const knex = require();
+
+const db = {
+  getAll: function() {
+    return knex('zoos');
+  },
+  getById: function(id) {
+    return knex('zoos').where({ id });
+  }
+}
+
+module.exports = db;
+
+*/

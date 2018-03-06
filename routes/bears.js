@@ -12,7 +12,7 @@ router
 router
   .route('/:id')
   .get(check.id, bear.getById)
-  .post(check.id, check.bear, bear.edit)
+  .put(check.id, check.bear, bear.edit)
   .delete(check.id, bear.del);
 
 module.exports = router;

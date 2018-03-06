@@ -1,23 +1,20 @@
 const knex = require('../../database/db');
+const db = require('../knex/knexController');
+
+const tbl = 'zoos';
 
 const create = (req, res) => {
-  const name = req.name;
+  const zoo = req.body;
 
-  //   const { zoo } = req.body;
-  //   knex.insert(zoo).into('zoos').then().catch()
-
-  knex('zoos')
-    .insert({ name })
-    .then(id => {
-      res.status(200).json({ id: id[0] });
-    })
-    .catch(err =>
-      res.status(500).json({ message: 'Error inserting zoo.', err }),
-    );
+  db
+    .create(tbl, zoo)
+    .then(id => res.json({ id: id[0] }))
+    .catch(err => res.status(500).json({ message: 'Error saving zoo.', err }));
 };
 
 const get = (req, res) => {
-  knex('zoos')
+  db
+    .get(tbl)
     .then(zoos => {
       if (zoos.length === 0) {
         res.json({ message: 'No zoos in server.' });
@@ -32,49 +29,25 @@ const get = (req, res) => {
 };
 
 const getById = (req, res) => {
-  const id = req.id;
-
-  knex('zoos')
-    .where('id', id)
-    .first()
-    .then(zoo => {
-      if (!zoo) {
-        res.status(404).json({
-          message: `No zoo with id ${id} was found.`,
-          err: 'Query returned undefined.',
-        });
-        return;
-      }
-
-      res.json(zoo);
-    })
-    .catch(err =>
-      res
-        .status(500)
-        .json({ message: `Error retrieving zoo with id ${id}`, err }),
-    );
+  res.json(req.zoo);
 };
 
-const edit = (req, res) => {
-  const id = req.id;
-  const name = req.name;
+const update = (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
 
-  knex('zoos')
-    .where({ id: id })
-    .update({ name })
+  db
+    .update(tbl, id, zoo)
     .then(editedFields => {
-      if (!editedFields) {
-        res.status(404).json({
-          message: `Zoo with id ${id} was not edited.`,
-          err: `Query returned ${editedFields} edited fields.`,
-        });
-        return;
-      }
-
-      knex('zoos')
-        .where({ id: id })
-        .first()
-        .then(zoo => res.json(zoo));
+      db
+        .getById(tbl, id)
+        .then(zoo => res.json(zoo))
+        .catch(err =>
+          res.status(500).json({
+            message: `Error retrieving updated zoo for id ${id}`,
+            err,
+          }),
+        );
     })
     .catch(err =>
       res
@@ -84,20 +57,11 @@ const edit = (req, res) => {
 };
 
 const del = (req, res) => {
-  const id = req.id;
+  const { id } = req.params;
 
-  knex('zoos')
-    .where('id', id)
-    .del()
+  db
+    .del(tbl, id)
     .then(deleted => {
-      if (!deleted) {
-        res.status(404).json({
-          message: `No zoo with id ${id} was found.`,
-          err: `Query returned ${deleted}`,
-        });
-        return;
-      }
-
       res.json({ deleted: true });
     })
     .catch(err =>
@@ -105,10 +69,35 @@ const del = (req, res) => {
     );
 };
 
+const checkId = (req, res, next) => {
+  const { id } = req.params;
+
+  db
+    .getById(tbl, id)
+    .then(zoo => {
+      if (!zoo) {
+        res.status(404).json({
+          message: `No zoo with id ${id} was found.`,
+          err: `Query returned ${zoo}.`,
+        });
+        return;
+      }
+
+      req.zoo = zoo;
+      next();
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: `Error retrieving zoo with id ${id}`, err }),
+    );
+};
+
 module.exports = {
   create,
   get,
   getById,
-  edit,
+  update,
   del,
+  checkId,
 };
