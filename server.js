@@ -76,6 +76,23 @@ server.get('/zoos/:id', (req, res) => {
     });
 });
 
+server.get('/bears/:id', (req, res) => {
+  const { id } = req.params;
+  knex('bears')
+  .where('id', id)
+  .then(bears => {
+    if (bears.length > 0) {
+      res.status(200).json(bears);
+    } else {
+      res.status(404).json({ message: `Bear with id: ${id} does not exist`});
+    }
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error retrieving Bears' });
+    });
+  });
+
+
 const port = 3000;
 server.listen(port, function () {
   console.log(`Server Listening on ${port}`);

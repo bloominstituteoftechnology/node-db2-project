@@ -7,7 +7,7 @@ module.exports = {
       host: 'localhost',
       database: 'zoos_db',
       user: 'root',
-      password: 'Virtue-8'
+      password: 'ticketforthezoo'
     },
     pool: {
       min: 2,
