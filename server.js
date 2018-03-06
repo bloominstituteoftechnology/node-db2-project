@@ -112,16 +112,23 @@ server.post("/bears", (req, res) => {
   const bear = { zooId, species, latinName };
   if (!zooId) {
     res.status(422).json({ err: "Include a zooId" });
+  } else if (!species) {
+    res.status(422).json({ err: "include a species name" });
+  } else if (!latinName) {
+    res.status(422).json({ err: "include a latinName" });
+  } else {
+    knex
+      .insert(req.body)
+      .into("bears")
+      .then(id => {
+        res.status(200).json(id);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ err: "error adding. did you include a valid zooId" });
+      });
   }
-  knex
-    .insert(req.body)
-    .into("bears")
-    .then(id => {
-      res.status(200).json(id);
-    })
-    .catch(err => {
-      res.status(500).json({ err });
-    });
 });
 
 server.get("/bears", (req, res) => {
