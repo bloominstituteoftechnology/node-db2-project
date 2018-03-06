@@ -18,7 +18,7 @@ server.post("/zoos", (req, res) => {
       .insert({ name })
       .into("zoos")
       .then(id => {
-        res.status(200).json({ success: `${name} created with id: ${id}` });
+        res.status(201).json({ success: `${name} created with id: ${id}` });
       })
       .catch(err => {
         res.status(500).json({ error: "problem adding the zoo" });
@@ -29,9 +29,9 @@ server.post("/zoos", (req, res) => {
 });
 
 server.get("/zoos", (req, res) => {
-  knex
-    .select()
-    .from("zoos")
+  knex("zoos")
+    // .select()
+    // .from("zoos")
     .then(zoos => {
       res.status(200).json(zoos);
     })
@@ -47,14 +47,64 @@ server.get("/zoos/:id", (req, res) => {
       .where({ id })
       .select("name")
       .then(zoo => {
-        res.status(200).json(zoo[0].name);
+        if (zoo.length) {
+          res.status(200).json(zoo);
+        } else {
+          res.status(404).json({ message: `Cannot find zoo with id: ${id}` });
+        }
       })
       .catch(err => {
-        res.status(500).json({ error: "Cannot find a zoo with that id." });
+        res.status(500).json({ error: "Error getting zooos" });
       });
   } else {
     res.status(422).json({ error: "Please include an id number" });
   }
+});
+
+server.put("/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedName = req.body.name;
+  knex("zoos")
+    .where({ id })
+    .update("name", updatedName)
+    .then(zoo => {
+      knex("zoos")
+        .where({ id })
+        .then(zoo => {
+          res.status(200).json(zoo);
+        })
+        .catch(err => {
+          res.status(404).json({ msg: `Could not find zoo with id: ${id}` });
+        });
+    })
+    .catch(err => {
+      res.status(404).json({ msg: `Could not find zoo with id: ${id}` });
+    });
+});
+
+server.delete("/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  knex("zoos")
+    .where({ id })
+    .then(zoo => {
+      if (zoo.length) {
+        knex("zoos")
+          .where({ id })
+          .del()
+          .then(success => {
+            res
+              .status(200)
+              .json({ msg: `Zoo with id: ${id} successfully deleted` });
+          })
+          .catch(fail => {
+            res
+              .status(500)
+              .json({ error: `Zoo with id: ${id} could not be deleted` });
+          });
+      } else {
+        res.status(404).json({ msg: `Zoo with id : ${id} does not exist.` });
+      }
+    });
 });
 
 const port = 3000;

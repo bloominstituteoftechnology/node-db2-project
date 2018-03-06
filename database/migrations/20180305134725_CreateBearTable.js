@@ -3,14 +3,20 @@ exports.up = function(knex, Promise) {
     tbl.increments("id").primary();
 
     tbl
-      .integer("zooid")
+      .integer("zoo_ id")
       .unsigned()
       .references("id") // foreign key
       .inTable("zoos");
 
-    tbl.string("species", 80).unique("species");
+    tbl
+      .string("species", 80)
+      .unique("species")
+      .notNullable();
 
-    tbl.string("latinName", 80);
+    tbl
+      .string("latinName", 80)
+      .unique("latinName")
+      .notNullable();
 
     tbl.timestamp("createdAt").default(knex.fn.now());
   });
