@@ -7,7 +7,7 @@ server.use(bodyParser.json());
 
 // endpoints here
 
-const port = 3000;
-server.listen(port, function() {
-    console.log(`Server Listening on ${port}`);
+const prt = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Server is listening on port ${ port }`);
 });
