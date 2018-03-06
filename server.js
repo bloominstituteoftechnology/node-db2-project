@@ -14,25 +14,44 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'running...' });
 });
 
-server.post('/zoos', check.zoo, zoo.create);
+server
+  .route('/zoos')
+  .get(zoo.get)
+  .post(check.zoo, zoo.create);
 
-server.get('/zoos', zoo.get);
+server
+  .route('/zoos/:id')
+  .get(check.id, zoo.getById)
+  .post(check.id, check.zoo, zoo.edit)
+  .delete(check.id, zoo.del);
 
-server.get('/zoos/:id', check.id, zoo.getById);
+// server.get('/zoos', zoo.get);
 
-server.post('/zoos/:id', check.id, check.zoo, zoo.edit);
+// server.get('/zoos/:id', check.id, zoo.getById);
 
-server.delete('/zoos/:id', check.id, zoo.del);
+// server.post('/zoos/:id', check.id, check.zoo, zoo.edit);
 
-server.post('/bears', check.bear, bear.create);
+// server.delete('/zoos/:id', check.id, zoo.del);
 
-server.get('/bears', bear.get);
+server
+  .route('/bears')
+  .get(bear.get)
+  .post(check.bear, bear.create);
 
-server.get('/bears/:id', check.id, bear.getById);
+server
+  .route('/bears/:id')
+  .get(check.id, bear.getById)
+  .post(check.id, check.bear, bear.edit)
+  .delete(check.id, bear.del);
+// server.post('/bears', check.bear, bear.create);
 
-server.post('/bears/:id', check.id, check.bear, bear.edit);
+// server.get('/bears', bear.get);
 
-server.delete('/bears/:id', check.id, bear.del);
+// server.get('/bears/:id', check.id, bear.getById);
+
+// server.post('/bears/:id', check.id, check.bear, bear.edit);
+
+// server.delete('/bears/:id', check.id, bear.del);
 
 const port = 3000;
 server.listen(port, function() {

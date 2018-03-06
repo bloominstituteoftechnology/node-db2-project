@@ -99,6 +99,4 @@ const del = (req, res) => {
     );
 };
 
-const bear = { create, get, getById, edit, del };
-
-module.exports = bear;
+module.exports = { create, get, getById, edit, del };

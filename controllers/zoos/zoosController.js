@@ -105,12 +105,10 @@ const del = (req, res) => {
     );
 };
 
-const zoo = {
+module.exports = {
   create,
   get,
   getById,
   edit,
   del,
 };
-
-module.exports = zoo;

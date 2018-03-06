@@ -40,10 +40,8 @@ const bear = (req, res, next) => {
   next();
 };
 
-const check = {
+module.exports = {
   id,
   zoo,
   bear,
 };
-
-module.exports = check;
