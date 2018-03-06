@@ -71,7 +71,10 @@ const edit = (req, res) => {
         return;
       }
 
-      res.json({ id: id });
+      knex('zoos')
+        .where({ id: id })
+        .first()
+        .then(zoo => res.json(zoo));
     })
     .catch(err =>
       res
