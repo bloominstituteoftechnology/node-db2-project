@@ -62,11 +62,11 @@ const edit = (req, res) => {
   knex('zoos')
     .where({ id: id })
     .update({ name })
-    .then(updatedId => {
-      if (!updatedId) {
+    .then(editedFields => {
+      if (!editedFields) {
         res.status(404).json({
-          message: `No zoo with id ${id} was found.`,
-          err: `Query returned id ${updatedId}.`,
+          message: `Zoo with id ${id} was not edited.`,
+          err: `Query returned ${editedFields} edited fields.`,
         });
         return;
       }
