@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     tbl.increments("id").primary();
 
     tbl
-      .integer("zoo_ id")
+      .integer("zooId")
       .unsigned()
       .references("id") // foreign key
       .inTable("zoos");
@@ -13,10 +13,7 @@ exports.up = function(knex, Promise) {
       .unique("species")
       .notNullable();
 
-    tbl
-      .string("latinName", 80)
-      .unique("latinName")
-      .notNullable();
+    tbl.string("latinName", 80).notNullable();
 
     tbl.timestamp("createdAt").default(knex.fn.now());
   });
