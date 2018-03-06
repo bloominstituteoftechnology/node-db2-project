@@ -79,19 +79,42 @@ server.get('/zoos/:id', (req, res) => {
 server.get('/bears/:id', (req, res) => {
   const { id } = req.params;
   knex('bears')
-  .where('id', id)
-  .then(bears => {
-    if (bears.length > 0) {
-      res.status(200).json(bears);
-    } else {
-      res.status(404).json({ message: `Bear with id: ${id} does not exist`});
-    }
+    .where('id', id)
+    .then(bears => {
+      if (bears.length > 0) {
+        res.status(200).json(bears);
+      } else {
+        res.status(404).json({ message: `Bear with id: ${id} does not exist` });
+      }
     })
     .catch(error => {
       res.status(500).json({ message: 'Error retrieving Bears' });
     });
-  });
+});
 
+
+
+server.delete('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  knex('zoos').where({ id }).del()
+    .then(response => {
+      res.status(200).json({ success: true });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error deleting this Zoo' })
+    });
+});
+
+server.delete('/bears/:id', (req, res) => {
+  const { id } = req.params;
+  knex('bears').where('id', id).del()
+    .then(response => {
+      res.status(200).json({ success: true });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error deleting this Bear' })
+    });
+});
 
 const port = 3000;
 server.listen(port, function () {
