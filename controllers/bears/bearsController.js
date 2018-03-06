@@ -1,20 +1,20 @@
 const knex = require('../../database/db');
+const db = require('../knex/knexController');
+
+const tbl = 'bears';
 
 const create = (req, res) => {
-  const { zooId, species, latinName } = req.body;
+  const bear = req.body;
 
-  knex('bears')
-    .insert({
-      zooId,
-      species,
-      latinName,
-    })
+  db
+    .create(tbl, bear)
     .then(id => res.json({ id: id[0] }))
     .catch(err => res.status(500).json({ message: 'Error saving bear.', err }));
 };
 
 const get = (req, res) => {
-  knex('bears')
+  db
+    .get(tbl)
     .then(bears => {
       if (bears.length === 0) {
         res.json({ message: 'No bears in server.' });
@@ -31,44 +31,25 @@ const get = (req, res) => {
 const getById = (req, res) => {
   const id = req.id;
 
-  knex('bears')
-    .where('id', id)
-    .first()
-    .then(bear => {
-      if (!bear) {
-        res.status(404).json({
-          message: `No bear with id ${id} was found.`,
-          err: 'Query returned undefined.',
-        });
-        return;
-      }
-
-      res.json(bear);
-    })
-    .catch(err =>
-      res
-        .status(500)
-        .json({ message: `Error retrieving bear with id ${id}`, err }),
-    );
+  res.json(req.bear);
 };
 
-const edit = (req, res) => {
-  const id = req.id;
-  const { zooId, species, latinName } = req.body;
+const update = (req, res) => {
+  const { id } = req.params;
+  const bear = req.body;
 
-  knex('bears')
-    .where({ id: id })
-    .update({ zooId, species, latinName })
-    .then(updatedId => {
-      if (!updatedId) {
-        res.status(404).json({
-          message: `No zoo with id ${id} was found.`,
-          err: `Query returned id ${updatedId}.`,
-        });
-        return;
-      }
-
-      res.json({ id: id });
+  db
+    .update(tbl, id, bear)
+    .then(editedFields => {
+      db
+        .getById(tbl, id)
+        .then(bear => res.json(bear))
+        .catch(err =>
+          res.status(500).json({
+            message: `Error retrieving updated bear for id ${id}`,
+            err,
+          }),
+        );
     })
     .catch(err =>
       res
@@ -78,20 +59,11 @@ const edit = (req, res) => {
 };
 
 const del = (req, res) => {
-  const id = req.id;
+  const { id } = req.params;
 
-  knex('bears')
-    .where('id', id)
-    .del()
+  db
+    .del(tbl, id)
     .then(deleted => {
-      if (!deleted) {
-        res.status(404).json({
-          message: `No bear with id ${id} was found.`,
-          err: `Query returned ${deleted}`,
-        });
-        return;
-      }
-
       res.json({ deleted: true });
     })
     .catch(err =>
@@ -99,4 +71,28 @@ const del = (req, res) => {
     );
 };
 
-module.exports = { create, get, getById, edit, del };
+const checkId = (req, res, next) => {
+  const { id } = req.params;
+
+  db
+    .getById(tbl, id)
+    .then(bear => {
+      if (!bear) {
+        res.status(404).json({
+          message: `No bear with id ${id} was found.`,
+          err: `Query returned ${bear}.`,
+        });
+        return;
+      }
+
+      req.bear = bear;
+      next();
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: `Error retrieving bear with id ${id}`, err }),
+    );
+};
+
+module.exports = { create, get, getById, update, del, checkId };

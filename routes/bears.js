@@ -11,8 +11,8 @@ router
 
 router
   .route('/:id')
-  .get(check.id, bear.getById)
-  .put(check.id, check.bear, bear.edit)
-  .delete(check.id, bear.del);
+  .get(check.id, bear.checkId, bear.getById)
+  .put(check.id, check.bear, bear.checkId, bear.update)
+  .delete(check.id, bear.checkId, bear.del);
 
 module.exports = router;
