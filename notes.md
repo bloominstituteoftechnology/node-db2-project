@@ -26,3 +26,5 @@ knex init
 
 knex migrate:make CreateZoosTable
 knex migrate:latest
+
+**TypeError: knex.insert is not a function
