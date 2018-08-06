@@ -12,6 +12,7 @@ server.get("/", (req, res) => {
   res.send("up and running...");
 });
 
+//* GET Zoos
 server.get("/zoos", (req, res) => {
   db("zoos")
     .then(zoos => {
@@ -20,6 +21,7 @@ server.get("/zoos", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+//* POST to Zoos
 server.post("/zoos", (req, res) => {
   const zoo = req.body;
 
