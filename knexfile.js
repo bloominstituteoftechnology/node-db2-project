@@ -5,7 +5,8 @@ module.exports = {
     client: "sqlite3",
     connection: {
       filename: "./data/cs11.sqlite3"
-    }
+    },
+    useNullAsDefault: true
   },
 
   staging: {
