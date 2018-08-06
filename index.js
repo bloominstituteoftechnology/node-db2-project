@@ -39,8 +39,8 @@ server.get("/zoos/:id", (req, res) => {
   const { id } = req.params;
 
   db("zoos")
-    .select()
-    .where("id", id)
+    .select() //! <------ Knex SELECT
+    .where("id", id) //! <----- WHERE id =
     .then(zoos => {
       res.status(200).json(zoos);
     })
