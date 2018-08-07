@@ -19,6 +19,16 @@ server.get('/zoos', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 server.post('/zoos', (req, res) => {
   const zoo = req.body;
   db.insert(zoo)
