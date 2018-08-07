@@ -1,6 +1,5 @@
 const express = require('express');
-// const helmet = require('helmet');
-// const cors = require('cors');
+
 const db = require('./data/db');
 
 
@@ -24,8 +23,10 @@ server.get('/zoos', (req, res) => {
 server.post('/zoos', (req, res) => {
   const zoo = req.body;
 
-  db.insert(zoo).into('zoos')
-  .then(ids =>{
+  db
+  .insert(zoo)
+  .into('zoos')
+  .then(ids => {
     const id = ids[0];
      res.status(201).json({ id, ...zoo });
   })
