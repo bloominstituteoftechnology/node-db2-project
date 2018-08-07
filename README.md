@@ -16,7 +16,7 @@ You'll write a server that lets you create and read Zoos and Bears stored in a R
 
 For this mini sprint we'll use SQLite3 to persist our API data.
 
-## Running the Project
+## Running the Project 
 
 - Fork and Clone this project.
 - `cd` into your project folder.
