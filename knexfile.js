@@ -7,6 +7,7 @@ module.exports = {
     connection: {
       filename: './data/cs11.sqlite3'
     }
+    , useNullAsDefault: true //otherwise we get a warning
   },
 
   staging: {
