@@ -33,6 +33,44 @@ server.post('/zoos', (req, res) => {
   .catch(err => res.status(500).json(err));
 });
 
+server.put('/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db('zoos')
+  .where({ id })
+  .update(changes)
+  .then(count => {
+    if (count) {
+
+      db('zoos')
+      .select('name')
+      .where({ id })
+      .then(zoo => {
+        res.status(200).json(zoo);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })
+    } else {
+      res.status(404).json({ message: 'The zoo was not found'});
+    }
+ })
+  .catch(err => res.status(500).json(err))
+});
+
+server.delete('/zoos/:id', (req,res) => {
+  const { id } = req.params;
+
+  db('zoos')
+  .where({ id })
+  .del()
+  .then(count => {
+    res.status(200).json(count);
+  })
+  .catch(err => res.status(500).json(err))
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
