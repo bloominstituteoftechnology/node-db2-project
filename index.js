@@ -17,6 +17,14 @@ function upperName(req, res, next) {
   next();
 }
 
+function checkForZoo (req,res,zoo) {
+  if(zoo.length > 0) {
+    res.status(200).json(zoo);
+  } else {
+    res.status(404).json({ message: "The zoo with that id does not exist" });
+  }
+
+}
 
 // endpoints here
 
@@ -44,11 +52,12 @@ server.get("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({ id })
     .then(zoo => {
-      if(zoo.length > 0) {
-        res.status(200).json(zoo);
-      } else {
-        res.status(404).json({ message: "The zoo with that id does not exist" });
-      }
+      // if(zoo.length > 0) {
+      //   res.status(200).json(zoo);
+      // } else {
+      //   res.status(404).json({ message: "The zoo with that id does not exist" });
+      // }
+      checkForZoo(req,res,zoo);
     })
     .catch(err => {
       console.log("error", err);
