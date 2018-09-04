@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const zooController = require('../controllers/index')
+const zooController = require("../controllers/index");
 
 router.get("/", zooController.get);
 
