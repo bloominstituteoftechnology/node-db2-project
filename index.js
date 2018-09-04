@@ -75,6 +75,71 @@ server.put('/api/zoos/:id', (req, res) => {
 });
 
 
+
+// Bears CRUD operations goes here
+
+server.get('/api/bears', (req, res) => {
+  db('bears').then(bears => {
+      res.status(201).json(bears);
+  })
+  .catch(error => {
+      res.status(500).json(error);
+  })
+});
+
+server.get('/api/bears/:id', (req, res) => {
+  const {id} = req.params;
+  // Using knex
+  db('bears')
+    .select()
+    .where('id', id)
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(error => {
+      res.status(500).json(error)
+    })
+})
+
+server.post('/api/bears', (req, res) => {
+  const bear = req.body;
+  db.insert(bear).into('bears')
+      .then(ids => {
+          res.status(201).json(ids);
+      })
+      .catch(error => res.status(500).json(error))
+});
+
+server.delete('/api/bears/:id', (req, res) => {
+  const {id} = req.params;
+  // Using Knex
+  db('bears')
+    .where({id})
+    .del()
+    .then( bears => {
+      res.status(200).json(bears);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
+});
+
+server.put('/api/bears/:id', (req, res) => {
+  const {id} = req.params;
+  const name = req.body;
+  // Using Knex
+  db('bears')
+    .where({id})
+    .update(name)
+    .then( bears => {
+      res.status(200).json(bears);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
+});
+
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
