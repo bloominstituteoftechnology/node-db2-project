@@ -40,8 +40,8 @@ server.post('/api/zoos', (req, res) => {
   db
     .insert({ name })
     .into('zoos')
-    .then(zoos => res.status(201).json(zoos))
-    .catch(err => res.status(500).json(errr));
+    .then(id => res.status(201).json(id))
+    .catch(err => res.status(500).json(err));
 
 });
 
@@ -53,6 +53,18 @@ server.delete('/api/zoos/:id', (req, res) => {
     .where({ id })
     .del()
     .then(delZoo => res.status(200).json(delZoo))
+    .catch(err => res.status(500).json(err));
+});
+
+//PUT (Update) a zoo by id
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  db('zoos')
+    .where({ id })
+    .update({ name })
+    .then(count => res.status(200).json(count))
     .catch(err => res.status(500).json(err));
 });
 
