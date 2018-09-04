@@ -15,6 +15,12 @@ server.get('/', (req, res) => {
   res.send('It works mon');
 });
 
+server.get('/api/zoos', (req, res) => {
+  db('zoos').then(zoos => {
+    res.status(200).json(zoos);
+  });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
