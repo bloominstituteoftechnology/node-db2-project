@@ -16,34 +16,34 @@ server.get("/api", async (req, res) => {
     res.status(500).json(err);
   }
 });
-// server.get("/api/:actionID", async (req, res) => {
-//   if (!Number(req.params.actionID)) {
-//     res.status(400).json({ errorMessage: "ID not a number" });
-//   }
-//   try {
-//     const results = await actionsHelper.get(req.params.actionID);
-//     res.status(200).json(results);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+server.get("/api/:zooID", async (req, res) => {
+  if (!Number(req.params.zooID)) {
+    res.status(400).json({ errorMessage: "ID not a number" });
+  }
+  try {
+    const results = await zoohelpers.get(req.params.zooID);
+    res.status(200).json(results);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-// server.delete("/api/:actionID", async (req, res) => {
-//   if (!Number(req.params.actionID)) {
-//     res.status(400).json({ errorMessage: "ID not a number" });
-//   }
-//   try {
-//     const results = await actionsHelper.remove(Number(req.params.actionID));
-//     if (results === 1) {
-//       res.status(200).json({ message: "Success" });
-//     } else {
-//       res.status(500).json({ errorMessage: "Invalid ID for removal" });
-//     }
-//   } catch (err) {
+server.delete("/api/:zooID", async (req, res) => {
+  if (!Number(req.params.zooID)) {
+    res.status(400).json({ errorMessage: "ID not a number" });
+  }
+  try {
+    const results = await zoohelpers.delete(req.params.zooID);
+    if (results) {
+      res.status(200).json({ message: "Success" });
+    } else {
+      res.status(500).json({ errorMessage: "Invalid ID for removal" });
+    }
+  } catch (err) {
     
-//     res.status(500).json(err);
-//   }
-// });
+    res.status(500).json(err);
+  }
+});
 
 // server.put("/api", async (req, res) => {
   
