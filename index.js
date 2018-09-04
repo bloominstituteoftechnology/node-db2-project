@@ -47,7 +47,7 @@ server.post('/api/zoos', (req, res) => {
 
 server.delete('/api/zoos/:id', (req, res) => {
   const {id} = req.params;
-
+  // Using Knex
   db('zoos')
     .where({id})
     .del()
@@ -57,7 +57,23 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(error => {
       res.status(500).json(error);
     })
-})
+});
+
+server.put('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  const name = req.body;
+  // Using Knex
+  db('zoos')
+    .where({id})
+    .update(name)
+    .then( zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
+});
+
 
 const port = 3300;
 server.listen(port, function() {
