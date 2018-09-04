@@ -3,15 +3,10 @@ const helmet = require('helmet');
 const morgan=require('morgan');
 const server = express();
 const knex=require('knex');
+const dbConfig=require('./knexfile');
 server.use(express.json()).use(helmet()).use(morgan('dev'));
 
-const db = knex({
-  client: 'sqlite3',
-  connection: {
-    filename: './data/lambda.sqlite3',
-  },
-  useNullAsDefault: true,
-});
+const db = knex(dbConfig.development);
 // endpoints here
 server.get('/api/zoos',(req,res)=>{
   db('zoos').select('name').then(zoos=>res.status(200).json(zoos)).catch(err=>res.status(500).json(err));
