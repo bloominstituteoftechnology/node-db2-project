@@ -8,5 +8,15 @@ module.exports = {
       filename: './data/lambda.sqlite3'
     },
     useNullAsDefault: true, 
+    log: {
+      warn(message) {
+      },
+      error(message) {
+      },
+      deprecate(message) {
+      },
+      debug(message) {
+      },
+    }
   },
 };
