@@ -1,2 +1,10 @@
 GET http://localhost:3300/api/zoos HTTP/1.1
 ###
+
+POST http://localhost:3300/api/zoos HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Wildlife Zoo"
+}
+###

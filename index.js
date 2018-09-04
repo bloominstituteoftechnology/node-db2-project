@@ -9,11 +9,22 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
-server.route('/api/zoos').get((req, res, next) => {
-  db('zoos')
-    .then(data => res.status(200).json(data))
-    .catch(next);
-});
+server
+  .route('/api/zoos')
+  .get((req, res, next) => {
+    db('zoos')
+      .then(data => res.status(200).json(data))
+      .catch(next);
+  })
+  .post((req, res, next) => {
+    if (!req.body.name)
+      return res.status(400).json({ message: 'Please provide a name' });
+
+    db('zoos')
+      .insert({ name: req.body.name })
+      .then(data => res.status(200).json(data))
+      .catch(next);
+  });
 
 server.use(function(err, _, res, _) {
   console.log(err);
