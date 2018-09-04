@@ -8,3 +8,6 @@ Content-Type: application/json
   "name": "Wildlife Zoo"
 }
 ###
+
+GET http://localhost:3300/api/zoos/1 HTTP/1.1
+###

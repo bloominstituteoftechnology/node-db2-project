@@ -22,9 +22,23 @@ server
 
     db('zoos')
       .insert({ name: req.body.name })
-      .then(data => res.status(200).json(data))
+      .then(data => res.status(201).json(data))
       .catch(next);
   });
+
+server.route('/api/zoos/:id').get((req, res, next) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .then(data => {
+      if (!data.length)
+        return res
+          .status(404)
+          .json({ message: 'The zoo with the specified ID cannot be found' });
+
+      res.status(200).json(data);
+    })
+    .catch(next);
+});
 
 server.use(function(err, _, res, _) {
   console.log(err);
