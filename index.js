@@ -8,32 +8,45 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
-server.get("/api", async (req, res) => {
+server.get("/api/:whichtable", async (req, res) => {
+  let table = "zoos";
+  if(req.params.whichtable ==="b"){
+    table = "bears";
+  }
   try {
-    const results = await zoohelpers.get();
+    const results = await zoohelpers.get(null,table);
     res.status(200).json(results);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-server.get("/api/:zooID", async (req, res) => {
+server.get("/api/:whichtable/:zooID", async (req, res) => {
+  let table = "zoos";
+  if(req.params.whichtable ==="b"){
+    table = "bears";
+  }
   if (!Number(req.params.zooID)) {
     res.status(400).json({ errorMessage: "ID not a number" });
   }
   try {
-    const results = await zoohelpers.get(req.params.zooID);
+    const results = await zoohelpers.get(req.params.zooID,table);
     res.status(200).json(results);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-server.delete("/api/:zooID", async (req, res) => {
+server.delete("/api/:whichtable/:zooID", async (req, res) => {
+  let table = "zoos";
+  if(req.params.whichtable ==="b"){
+    table = "bears";
+  }
   if (!Number(req.params.zooID)) {
     res.status(400).json({ errorMessage: "ID not a number" });
   }
+  
   try {
-    const results = await zoohelpers.delete(req.params.zooID);
+    const results = await zoohelpers.delete(req.params.zooID, table);
     if (results) {
       res.status(200).json({ message: "Success" });
     } else {
@@ -45,15 +58,18 @@ server.delete("/api/:zooID", async (req, res) => {
   }
 });
 
-server.put("/api", async (req, res) => {
-  
+server.post("/api/:whichtable", async (req, res) => {
+  let table = "zoos";
+  if(req.params.whichtable ==="b"){
+    table = "bears";
+  }
   if (
     !req.body.name
   ) {
     res.status(400).json({ errorMessage: "Invalid body" });
   }
   try {
-    const results = await zoohelpers.insert(req.body);
+    const results = await zoohelpers.insert(req.body,table);
     res.status(200).json({ results });
   } catch (err) {
     
@@ -61,8 +77,11 @@ server.put("/api", async (req, res) => {
   }
 });
 
-server.put("/api/:zooID", async (req, res) => {
-  
+server.put("/api/:whichtable/:zooID", async (req, res) => {
+  let table = "zoos";
+  if(req.params.whichtable ==="b"){
+    table = "bears";
+  }
   if (
     !req.body.name
   ) {
@@ -74,7 +93,7 @@ server.put("/api/:zooID", async (req, res) => {
     return;
   }
   try {
-    const results = await zoohelpers.edit(req.params.zooID,req.body);
+    const results = await zoohelpers.edit(req.params.zooID,req.body,table);
     res.status(200).json({ results });
   } catch (err) {
     

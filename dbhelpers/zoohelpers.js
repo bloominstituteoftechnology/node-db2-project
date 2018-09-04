@@ -3,9 +3,9 @@ const knexConfig = require("../knexfile.js");
 const db = knex(knexConfig.development);
 
 module.exports = {
-  get: (id) => {
+  get: (id,which) => {
     if (id) {
-      return db("zoos")
+      return db(which)
         .where({"id": id})
         .then(rows => {
           console.log(rows);
@@ -15,7 +15,7 @@ module.exports = {
           console.error(error);
         });
     } else {
-      return db("zoos")
+      return db(which)
         .then(rows => {
           return rows;
         })
@@ -24,17 +24,17 @@ module.exports = {
         });
     }
   },
-  delete:(id)=>{
-    return db("zoos")
+  delete:(id,which)=>{
+    return db(which)
     .where({"id":id})
     .del();
   },
-  insert: (body)=>{
-    return db("zoos")
+  insert: (body,which)=>{
+    return db(which)
     .insert({...body})
   },
-  edit: (id, body)=>{
-    return db("zoos")
+  edit: (id, body,which)=>{
+    return db(which)
     .where({"id":id})
     .update({...body})
   }
