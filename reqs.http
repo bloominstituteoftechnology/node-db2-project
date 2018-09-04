@@ -1,0 +1,2 @@
+GET http://localhost:3300/api/zoos HTTP/1.1
+###

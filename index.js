@@ -9,6 +9,16 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.route('/api/zoos').get((req, res, next) => {
+  db('zoos')
+    .then(data => res.status(200).json(data))
+    .catch(next);
+});
+
+server.use(function(err, _, res, _) {
+  console.log(err);
+  res.status(500).json({ message: 'Something went wrong. Try again later. ' });
+});
 
 const port = 3300;
 server.listen(port, function() {
