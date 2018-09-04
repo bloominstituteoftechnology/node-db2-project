@@ -17,13 +17,12 @@ function upperName(req, res, next) {
   next();
 }
 
-function checkForZoo (req,res,zoo) {
-  if(zoo.length > 0) {
-    res.status(200).json(zoo);
+function checkForResource(req, res, resource) {
+  if (resource.length > 0) {
+    res.status(200).json(resource);
   } else {
-    res.status(404).json({ message: "The zoo with that id does not exist" });
+    res.status(404).json({ message: "The resource with that id does not exist" });
   }
-
 }
 
 // endpoints here
@@ -52,12 +51,7 @@ server.get("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({ id })
     .then(zoo => {
-      // if(zoo.length > 0) {
-      //   res.status(200).json(zoo);
-      // } else {
-      //   res.status(404).json({ message: "The zoo with that id does not exist" });
-      // }
-      checkForZoo(req,res,zoo);
+      checkForResource(req, res, zoo);
     })
     .catch(err => {
       console.log("error", err);
@@ -116,7 +110,6 @@ server.delete("/api/zoos/:id", (req, res) => {
     });
 });
 
-
 //BEARS ENDPOINTS
 
 server.get("/api/bears", (req, res) => {
@@ -137,7 +130,7 @@ server.get("/api/bears/:id", (req, res) => {
   db("bears")
     .where({ id })
     .then(bear => {
-      res.status(200).json(bear);
+      checkForResource(req, res, bear);
     })
     .catch(err => {
       console.log("error", err);
@@ -147,7 +140,7 @@ server.get("/api/bears/:id", (req, res) => {
     });
 });
 
-server.post("/api/bears",upperName, (req, res) => {
+server.post("/api/bears", upperName, (req, res) => {
   const bear = req.body;
 
   db.insert(bear)
