@@ -4,36 +4,36 @@ const dbConfig = require("../knexfile");
 const db = knex(dbConfig.development);
 
 exports.get = async (req, res) => {
-  const bearData = await db.select().table(req.tableName);
+  const data = await db.select().table(req.tableName);
   res.status(200).json({
     status: true,
-    bearData: bearData
+    data: data
   });
 };
 
 exports.getId = async (req, res) => {
   const id = req.params.id;
-  const bearData = await db(req.tableName)
+  const data = await db(req.tableName)
     .where({
       id: id
     })
     .select();
   res.status(200).json({
     status: true,
-    bearData: bearData
+    data: data
   });
 };
 
 exports.post = async (req, res) => {
   try {
     console.log(req.body);
-    const bearID = await db(req.tableName).insert({
+    const id = await db(req.tableName).insert({
       name: req.body.name
     });
 
     res.status(200).json({
       status: true,
-      bearID: bearID[0]
+      id: id[0]
     });
   } catch (err) {
     console.log(err);
@@ -59,9 +59,9 @@ exports.del = async (req, res) => {
 
 exports.put = async (req, res) => {
   const id = req.params.id;
-  const updatedbear = await db(req.tableName).update("name", req.body.name);
+  const update = await db(req.tableName).update("name", req.body.name);
   res.status(200).json({
     status: true,
-    updatedbear: updatedbear
+    update: update
   });
 };
