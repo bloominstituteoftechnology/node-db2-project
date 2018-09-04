@@ -63,7 +63,19 @@ server.put('/api/zoos/:id', (req,res) => {
   });
 });
 
-
+server.delete('/api/zoos/:id', (req, res) => {
+  const id = req.params.id;
+  db('zoos')
+    .where('id', '=', id)
+    .del()
+    .then(count => {
+      // count === number of records deleted
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 
 
 const port = 3300;
