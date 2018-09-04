@@ -12,7 +12,14 @@ server.use(express.json());
 
 // endpoints here
 server.get("/api/zoos", (req, res) => {
-  res.send("Get request working");
+  // res.send("Get request working");
+  db("zoos")
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The zoos could not be retrieved." });
+    });
 });
 
 // end endpoints
