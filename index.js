@@ -65,11 +65,18 @@ server.post("/api/zoos", (req, res) => {
 // start DELETE
 server.delete("/api/zoos/:id", (req, res) => {
   const { id } = req.params;
+
   db("zoos")
     .where({ id })
     .del()
     .then(zoos => {
-      res.status(200).json(zoos);
+      if (zoos === 0) {
+        res.status(404).json({
+          message: "The post with the specified ID does not exist.",
+        });
+      } else {
+        res.status(200).json({ message: "Zoo removed successfully." });
+      }
     })
     .catch(err => {
       res.status(500).json({ error: "The zoo could not be removed." });
@@ -82,8 +89,8 @@ server.put("/api/zoos/:id", (req, res) => {
   const { id } = req.params;
   const newName = req.body.name;
   if (!newName) {
-    return res.status(404).json({
-      errorMessage: "Could not find zoo with the specified ID.",
+    return res.status(406).json({
+      errorMessage: "Please provide a name for the zoo.",
     });
   } else {
     db("zoos")
