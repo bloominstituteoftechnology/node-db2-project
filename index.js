@@ -5,6 +5,8 @@ const knexConfig = require('./knexfile.js');
 const db = knex(knexConfig.development);
 const server = express();
 
+// https://github.com/LambdaSchool/db-zoos/pull/56
+
 server.use(express.json());
 server.use(helmet());
 
@@ -48,6 +50,19 @@ server.put('/zoos', (req, res)=>{
     .catch(err => {
 
       res.status(500).json({message:` ${err}`})
+    })
+})
+
+server.delete('/zoos', (req, res)=>{
+  let id = req.body.id;
+  db('zoos')
+    .where('id', id)
+    .del()
+    .then(data => {
+      res.status(204).json({message: 'Zoo deleted'})
+    })
+    .catch(err => {
+      res.status(504).json({message: `Unable to delete zoo: ${req.body.name}`});
     })
 })
 
