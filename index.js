@@ -19,15 +19,6 @@ server.get("/api/zoos", (req,res)=> {
   }); 
 })
 
-server.post("/api/zoos", (req,res) => {
-  const newZoo = req.body; 
-  db.insert(newZoo).into('zoos').then(id => {
-    res.status(200).json(id); 
-  }).catch(err => {
-    res.status(500).json({err})
-  })
-})
-
 server.get("/api/zoos/:id", (req, res) => {
   const id = req.params.id; 
   db('zoos').where({id}).then(zoo => {
@@ -37,8 +28,25 @@ server.get("/api/zoos/:id", (req, res) => {
   })
 })
 
+server.post("/api/zoos", (req,res) => {
+  const newZoo = req.body; 
+  db.insert(newZoo).into('zoos').then(id => {
+    res.status(200).json(id); 
+  }).catch(err => {
+    res.status(500).json({err})
+  })
+})
 
-// endpoints here
+server.delete("/api/zoos/:id", (req,res) => {
+  const id = req.params.id; 
+  db('zoos').where({id}).del().then(count => {
+    res.status(200).json({message: "Deleted Successfully"}); 
+  }).catch( err => {
+    res.status(500).json({err});
+  })
+})
+
+
 
 const port = 3300;
 server.listen(port, function() {
