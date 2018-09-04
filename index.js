@@ -26,6 +26,8 @@ function projectCheckName(req, res, next){
 }
 
 
+//========== CRUD ZOOS ==============================
+
 
 server.post('/api/zoos', projectCheckName, (req, res) => {
   const zoo = req.body; 
@@ -84,7 +86,7 @@ server.put('/api/zoos/:id', (req, res) => {
 })
 
 
-//========== CRUDDY BEARS ==============================
+//========== CRUD BEARS ==============================
 
 
 server.post('/api/bears', projectCheckName, (req, res) => {
