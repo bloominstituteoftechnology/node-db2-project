@@ -23,6 +23,19 @@ server.get('/zoos', (req, res)=>{
   })
 });
 
+server.get('/zoos/:id', (req, res) => {
+  db('zoos')
+    .select('name')
+    .where({id: req.params.id})
+    .then((data) => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      console.log('get error: ', err);
+      res.status(500).json({ message: 'Unable to request zoos' })
+    })
+});
+
 server.post('/zoos', (req, res)=>{
   let zoo = req.body;
   db.insert(zoo)
