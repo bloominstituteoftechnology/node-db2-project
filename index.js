@@ -20,12 +20,17 @@ server.get('/', (req, res) => {
 server.post('/api/zoos', (req, res) => {
   const name = req.body;
   console.log(name)
-  db.insert(name)
+  if(!name) {
+    res.status(400).json({message:  "Must provide a name in order to post a new record"})
+    return;
+  }
+  db
+  .insert(name)
   .into('zoos')
   .then(id => {
   res.status(201).json(id);
   })
-  .catch(err => res.status(500).json(err));
+  .catch(err => res.status(500).json({message:  err}));
   });
 
 //GET Request for all records
@@ -76,7 +81,6 @@ server.delete('/api/zoos/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
-
 
 const port = 3300;
 server.listen(port, function() {
