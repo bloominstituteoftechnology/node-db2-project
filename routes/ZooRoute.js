@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const zooController = require('../controllers/index')
 
-router.get("/", (req, res) => zooController.get('zoos', req, res));
+router.get("/", zooController.get);
 
-router.get("/:id", (req, res) => zooController.getId('zoos', req, res));
+router.get("/:id", zooController.getId);
 
-router.post("/", (req, res) => zooController.post('zoos', req, res));
+router.post("/", zooController.post);
 
-router.delete("/:id", (req, res) => zooController.del('zoos', req, res));
+router.delete("/:id", zooController.del);
 
-router.put("/:id", (req, res) => zooController.put('zoos', req, res));
+router.put("/:id", zooController.put);
 
 module.exports = router;

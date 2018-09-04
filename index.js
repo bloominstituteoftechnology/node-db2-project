@@ -4,6 +4,7 @@ const server = express();
 
 server.use(express.json());
 server.use(helmet());
+server.use(require('./middlewares/index').assignTable)
 
 // endpoints here
 server.use('/api/zoo', require('./routes/ZooRoute'))
