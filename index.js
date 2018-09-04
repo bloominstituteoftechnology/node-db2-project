@@ -2,8 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 
-const config = require('./knexfile');
-const db = knex(config.development);
+const knexConfig = require('./knexfile');
+const db = knex(knexConfig.development);
 
 const server = express();
 
@@ -32,6 +32,18 @@ server.get('/api/zoos', (req, res) => {
   db('zoos')
   .then(zoos => {
     res.status(200).json(zoos)
+  })
+  .catch(err => res.status(500).json(err));
+})
+
+server.get('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  db('zoos').where({ id: id })
+  .then(zoo => {
+    if (zoo.length === 0) {
+      res.status(404).json({ message: "The zoo with the specified ID does not exist." });
+    } else 
+    res.status(200).json(zoo);
   })
   .catch(err => res.status(500).json(err));
 })
