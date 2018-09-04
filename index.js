@@ -15,7 +15,7 @@ server.use(helmet());
 
 
 
-function projectCheckName(req, res, next){
+function checkName(req, res, next){
   let body = req.body
 
   if(body.name.length !== 0) {
@@ -29,7 +29,7 @@ function projectCheckName(req, res, next){
 //========== CRUD ZOOS ==============================
 
 
-server.post('/api/zoos', projectCheckName, (req, res) => {
+server.post('/api/zoos', checkName, (req, res) => {
   const zoo = req.body; 
   db.insert(zoo).into('zoos')
   .then(id => {
@@ -73,7 +73,7 @@ server.delete('/api/zoos/:id', (req, res) => {
       res.status(500).json({error: "Zoo by that ID could not be deleted."}));
 })
 
-server.put('/api/zoos/:id', (req, res) => {
+server.put('/api/zoos/:id', checkName, (req, res) => {
   const [id, body] = [req.params.id, req.body]; 
   db('zoos')
   .where('id', id)
@@ -89,7 +89,7 @@ server.put('/api/zoos/:id', (req, res) => {
 //========== CRUD BEARS ==============================
 
 
-server.post('/api/bears', projectCheckName, (req, res) => {
+server.post('/api/bears', checkName, (req, res) => {
   const bear = req.body; 
   db.insert(bear).into('bears')
   .then(id => {
@@ -99,7 +99,7 @@ server.post('/api/bears', projectCheckName, (req, res) => {
       res.status(500).json({error: "The bear could not be posted."}));
 });
 
-server.get('/api/bears', projectCheckName, (req, res) => {
+server.get('/api/bears', (req, res) => {
   db('bears')
   .then(bears => {
       res.status(201).json(bears); 
@@ -132,7 +132,7 @@ server.delete('/api/bears/:id', (req, res) => {
       res.status(500).json({error: "Bear by that ID could not be deleted."}));
 })
 
-server.put('/api/bears/:id', (req, res) => {
+server.put('/api/bears/:id', checkName, (req, res) => {
   const [id, body] = [req.params.id, req.body]; 
   db('bears')
   .where('id', id)
