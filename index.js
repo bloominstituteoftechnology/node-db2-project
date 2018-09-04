@@ -26,19 +26,40 @@ server
       .catch(next);
   });
 
-server.route('/api/zoos/:id').get((req, res, next) => {
-  db('zoos')
-    .where({ id: req.params.id })
-    .then(data => {
-      if (!data.length)
-        return res
-          .status(404)
-          .json({ message: 'The zoo with the specified ID cannot be found' });
+server
+  .route('/api/zoos/:id')
+  .get((req, res, next) => {
+    db('zoos')
+      .where({ id: req.params.id })
+      .then(data => {
+        if (!data.length)
+          return res
+            .status(404)
+            .json({ message: 'The zoo with the specified ID cannot be found' });
 
-      res.status(200).json(data);
-    })
-    .catch(next);
-});
+        res.status(200).json(data);
+      })
+      .catch(next);
+  })
+  .put((req, res, next) => {
+    if (!req.body.name)
+      return res.status(400).json({ message: 'Please provide a name field.' });
+
+    db('zoos')
+      .update({ name: req.body.name })
+      .where({ id: req.params.id })
+      .then(data => {
+        if (!data)
+          return res
+            .status(404)
+            .json({ message: 'The zoo with the specified ID cannot be found' });
+
+        res
+          .status(200)
+          .json({ message: 'Record updated successfully', count: data });
+      })
+      .catch(next);
+  });
 
 server.use(function(err, _, res, _) {
   console.log(err);
