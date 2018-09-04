@@ -54,7 +54,7 @@ server.post("/api/zoos", (req, res) => {
       .insert(zoo)
       .into("zoos")
       .then(zoos => {
-        res.status(201).json(zoos);
+        res.status(201).json({ message: "Zoo successfully added." });
       })
       .catch(err => {
         res.status(500).json({ error: "The zoo could not be added." });
@@ -98,7 +98,7 @@ server.put("/api/zoos/:id", (req, res) => {
       .where({ id })
       .update({ name: newName })
       .then(zoos => {
-        res.status(200).json(zoos);
+        res.status(200).json({ message: "Zoo successfully modified." });
       })
       .catch(err => {
         res.status(500).json({ error: "The zoo could not be updated." });
@@ -151,7 +151,7 @@ server.post("/api/bears", (req, res) => {
       .insert(bear)
       .into("bears")
       .then(bears => {
-        res.status(201).json(bears);
+        res.status(201).json({ message: "Bear successfully added." });
       })
       .catch(err => {
         res.status(500).json({ error: "The bear could not be added." });
@@ -195,7 +195,7 @@ server.put("/api/bears/:id", (req, res) => {
       .where({ id })
       .update({ name: newBear })
       .then(bears => {
-        res.status(200).json(bears);
+        res.status(200).json({ message: "Bear successfully modified." });
       })
       .catch(err => {
         res.status(500).json({ error: "The bear could not be updated." });
