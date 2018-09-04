@@ -32,6 +32,8 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const { name, zoo_id } = req.body;
 
+  if(!name) return res.status(422).json({ message: "A name is required for that operation" });
+
   db
     .insert({ name, zoo_id })
     .into('bears')
@@ -55,6 +57,8 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
+
+  if(!name) return res.status(422).json({ message: "A name is required for that operation" });
 
   db('bears')
     .where({ id })
