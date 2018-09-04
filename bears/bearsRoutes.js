@@ -1,15 +1,7 @@
 const express = require("express");
 const bearsRouter = express.Router();
-
+const bodyChecker = require('../data/middleware/bodyChecker')
 const db = require("../data/dbConfig");
-
-function bodyChecker(req, res, next) {
-  if (req.body.name) {
-    next();
-  } else {
-    res.status(500).json({ Error: "Must include name property" });
-  }
-}
 
 bearsRouter.get("/", (req, res) => {
   db("bears")
