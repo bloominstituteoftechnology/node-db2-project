@@ -12,7 +12,7 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
-server.post('/api/zoos', async (req, res) => {
+server.post('/api/zoos', (req, res) => {
   const { name } = req.body;
   console.log(name);
   db.insert({name}).into('zoos')
@@ -22,12 +22,49 @@ server.post('/api/zoos', async (req, res) => {
   .catch(err => res.status(500).json(err))
 })
 
-server.get('/api/zoos', async (req, res) => {
+server.get('/api/zoos', (req, res) => {
   db('zoos')
   .then(zoos => {
     res.status(200).json(zoos);
   })
-  .catch(err => res.status(500).json(err))
+  .catch(err => res.status(500).json(err));
+})
+
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+  .where({id})
+  .then(zoo => {
+    res.status(200).json(zoo);
+  })
+  .catch(err => res.status(500).json(err));
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+  .where({id})
+  .del()
+  .then(count => {
+    res.status(200).json(count);
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  })
+})
+
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  db('zoos')
+  .where({id})
+  .update({name})
+  .then(count => {
+    res.status(200).json(count);
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  })
 })
 
 const port = 3300;
