@@ -43,6 +43,7 @@ server.get('/api/zoos', (req, res) => {
 
 server.get('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
+  
   db('zoos')
     .where('id', '=', id)
     .then(zoo => {
@@ -57,6 +58,21 @@ server.get('/api/zoos/:id', (req, res) => {
         console.error('error', err);
         res.status(500).json({ error: 'The zoo information could not be retrieved.'})
   })
+});
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos')
+    .where({ id }) // or .where(id, '=', id)
+    .del()
+    .then(count => {
+      // count === number of records deleted
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 const port = 3300;
