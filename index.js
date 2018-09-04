@@ -16,6 +16,15 @@ server.get('/', (req, res) => {
   res.send('API Running?');
 });
 
+// add a zoo
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.body;
+
+  db.insert(zoo).into('zoos').then(ids => {
+      res.status(201).json(ids);
+  }).catch(err => res.status(500).json(err));
+});
+
 server.get('/api/zoos', (req, res) => {
   db('zoos')
       // .select('name')
