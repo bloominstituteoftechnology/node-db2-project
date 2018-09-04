@@ -43,11 +43,40 @@ server.get('/api/zoos/:id', (req, res) => {
     if (zoo.length === 0) {
       res.status(404).json({ message: "The zoo with the specified ID does not exist." });
     } else 
-    res.status(200).json(zoo);
+      res.status(200).json(zoo);
   })
   .catch(err => res.status(500).json(err));
 })
 
+server.delete('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  db('zoos').where({ id: id }).del()
+  .then(count => {
+    if (count) {
+      res.status(204).end();
+    } else {
+      res.status(404).json({ message: "The zoo with the specified ID does not exist." });
+    }
+  })
+  .catch(err => res.status(500).json(err));
+})
+
+server.put('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  const zoo = req.body;
+  if (!zoo.name) {
+    res.status(400).json({ error: "Please provide a name for the zoo." })
+  } else
+    db('zoos').where({ id: id }).update(zoo)
+    .then(count => {
+      if (count) {
+        res.status(200).json({ message: "The zoo was successfully updated." });
+      } else {
+        res.status(404).json({ message: "The zoo with the specified ID does not exist." });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+})
 
 
 const port = 3300;
