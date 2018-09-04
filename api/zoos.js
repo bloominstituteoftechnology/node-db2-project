@@ -28,6 +28,18 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+//GET bears by zoo id
+router.get('/:id/bears', (req, res) => {
+  const { id } = req.params;
+
+  db('bears')
+    .where({ zoo_id: id })
+      .then(bears => bears.length ?
+                      res.status(200).json(bears) :
+                      res.status(404).json({ message: "No bears found in that zoo" }))
+      .catch(err => res.status(500).json(err));
+})
+
 //POST a new zoo
 router.post('/', (req, res) => {
   const { name } = req.body;
