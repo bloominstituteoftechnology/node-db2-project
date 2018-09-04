@@ -13,13 +13,27 @@ server.use(express.json());
 // endpoints here
 // GET
 server.get("/api/zoos", (req, res) => {
-  // res.send("Get request working");
   db("zoos")
     .then(zoos => {
       res.status(200).json(zoos);
     })
     .catch(err => {
       res.status(500).json({ error: "The zoos could not be retrieved." });
+    });
+});
+
+server.get("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where({ id })
+    .then(zoo => {
+      if (zoo.length === 0) {
+        res
+          .status(404)
+          .json({ message: "The zoo with the specified ID does not exist." });
+      } else {
+        return res.status(200).json({ zoo });
+      }
     });
 });
 // end GET
