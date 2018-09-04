@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
@@ -92,7 +94,7 @@ server.put('/api/bears/:id', (req, res) => {
   }).catch(err => res.status(500).json(err))
 })
 
-const port = 3300;
+const port = process.env.PORT || 8000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
