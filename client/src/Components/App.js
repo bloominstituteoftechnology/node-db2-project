@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'; 
 import { Route } from "react-router-dom"; 
 import './App.css';
+import All from './All';
 
 class App extends Component {
   state = {
@@ -38,7 +39,7 @@ class App extends Component {
     console.log(this.state)
     return (
       <div className="App">
-        Test
+        <Route  exact path ='/' render={(props) => <All {...props} zoos={this.state.zoos} bears={this.state.bears}/> } />
       </div>
     );
   }
