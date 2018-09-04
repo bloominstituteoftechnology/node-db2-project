@@ -4,10 +4,6 @@ const helmet = require("helmet");
 const knex = require("knex");
 const dbConfig = require("./knexfile");
 const db = knex(dbConfig.development);
-// 2nd database
-const bearDBConfig = require("./knexfileBears");
-const bearDB = knex(bearDBConfig.development);
-// end 2nd database
 
 const server = express();
 
@@ -15,6 +11,7 @@ server.use(helmet());
 server.use(express.json());
 
 // endpoints here
+/////// ZOOS ENDPOINTS START /////////
 // GET
 server.get("/api/zoos", (req, res) => {
   db("zoos")
@@ -109,6 +106,104 @@ server.put("/api/zoos/:id", (req, res) => {
   }
 });
 // end PUT
+/////// ZOOS ENDPOINTS END /////////
+
+/////// BEARS ENDPOINTS START /////////
+// GET
+server.get("/api/bears", (req, res) => {
+  db("bears")
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The bears could not be retrieved." });
+    });
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db("bears")
+    .where({ id })
+    .then(bear => {
+      if (bear.length === 0) {
+        res
+          .status(404)
+          .json({ message: "The bear with the specified ID does not exist." });
+      } else {
+        return res.status(200).json({ bear });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The bear could not be retrieved." });
+    });
+});
+// end GET
+
+// start POST
+server.post("/api/bears", (req, res) => {
+  const bear = req.body;
+  if (!bear.name) {
+    return res.status(406).json({
+      errorMessage: "Please provide a name for the bear.",
+    });
+  } else {
+    db("bears")
+      .insert(bear)
+      .into("bears")
+      .then(bears => {
+        res.status(201).json(bears);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "The bear could not be added." });
+      });
+  }
+});
+// end POST
+
+// start DELETE
+server.delete("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("zoos")
+    .where({ id })
+    .del()
+    .then(zoos => {
+      if (zoos === 0) {
+        res.status(404).json({
+          message: "The post with the specified ID does not exist.",
+        });
+      } else {
+        res.status(200).json({ message: "Zoo removed successfully." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The zoo could not be removed." });
+    });
+});
+// end DELETE
+
+// start PUT
+server.put("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const newName = req.body.name;
+  if (!newName) {
+    return res.status(406).json({
+      errorMessage: "Please provide a name for the zoo.",
+    });
+  } else {
+    db("zoos")
+      .where({ id })
+      .update({ name: newName })
+      .then(zoos => {
+        res.status(200).json(zoos);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "The zoo could not be updated." });
+      });
+  }
+});
+// end PUT
+/////// BEARS ENDPOINTS END /////////
 
 // end endpoints
 const port = 3300;
