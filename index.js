@@ -50,8 +50,33 @@ server.post("/api/zoos", (req, res) => {
 
   db.insert(zoo)
     .into("zoos")
-    .then(id => res.status(201).json(id))
-    .catch(err => res.status(500).json(err));
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err => {
+      console.log("error", err);
+      res
+        .status(500)
+        .json({ error: "The zoo information could not be retrieved" });
+    });
+});
+
+server.put("/api/zoos/:id", (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db("zoos")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      console.log("error", err);
+      res
+        .status(500)
+        .json({ error: "The zoo information could not be updated" });
+    });
 });
 
 const port = 3300;
