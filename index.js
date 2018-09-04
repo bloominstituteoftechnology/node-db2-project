@@ -19,10 +19,17 @@ server.get('/', (req, res) => {
 // add a zoo
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
-
-  db.insert(zoo).into('zoos').then(ids => {
+  const { name } = req.body;
+  if (!name) {
+    res.status(400).json({ errorMessage: 'The zoo name is required, please enter the name and try again.' });
+    return;
+  }
+  db.insert(zoo)
+    .into('zoos')
+    .then(ids => {
       res.status(201).json(ids);
-  }).catch(err => res.status(500).json(err));
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 server.get('/api/zoos', (req, res) => {
@@ -32,7 +39,25 @@ server.get('/api/zoos', (req, res) => {
           res.status(200).json(zoos);
       })
       .catch(err => res.status(500).json(err));
-})
+});
+
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where('id', '=', id)
+    .then(zoo => {
+        // console.log(zoo);
+        if (!zoo) {
+            res.status(404).json({ message: 'The zoo with the specified ID does not exist.' });
+            return;
+        }
+        res.status(200).json(zoo);
+    })
+    .catch(err => {
+        console.error('error', err);
+        res.status(500).json({ error: 'The zoo information could not be retrieved.'})
+  })
+});
 
 const port = 3300;
 server.listen(port, function() {
