@@ -48,7 +48,7 @@ server.get('/api/zoos/:id', (req, res) => {
 
 server.delete('/api/zoos/:id', (req, res) => {
   db('zoos').where('id', parseInt(req.params.id)).del().then(id => {
-    res.status(200).json(id);
+    res.status(200).json({ message: 'The selected zoo was deleted'});
   }).catch(err => {
     res.status(500).json({ message: 'The zoo could not be deleted, please try again'})
   })
@@ -59,6 +59,56 @@ server.put('/api/zoos/:id', (req, res) => {
     res.status(201).json({ message: 'The zoo has been successfully updated!'});
   }).catch(err => {
     res.status(500).json({ message: 'The selected zoo could not be updated, please try again'});
+  })
+});
+
+server.get('/api/bears', (req, res) => {
+  db('bears').then(bears => {
+    res.status(200).json(bears);
+  }).catch(err => {
+    res.status(500).json(err);
+  })
+});
+
+server.post('/api/bears', (req, res) => {
+  if (!req.body.name) {
+    res.status(422).json({ message: 'Please provide a name for the bear'})
+  }
+  else {
+    db.insert(req.body).into('bears').then(ids => {
+      res.status(201).json(ids)
+    }).catch(err => {
+      res.status(500).json({ message: 'Bear could not be saved, please try again'})
+    })
+  }
+});
+
+server.get('/api/bears/:id', (req, res) => {
+  db('bears').where('id', parseInt(req.params.id)).then(bear => {
+    if (bear === []) {
+      res.status(404).json({ message: 'A bear with the provided id could not be found'})
+    }
+    else {
+      res.status(200).json(bear);
+    }
+  }).catch(err => {
+    res.status(500).json({ message: 'Server could not be reached, please try agian'})
+  })
+});
+
+server.delete('/api/bears/:id', (req, res) => {
+  db('bears').where('id', parseInt(req.params.id)).del().then(id => {
+    res.status(200).json({ message: 'The selected bear was deleted'});
+  }).catch(err => {
+    res.status(500).json({ message: 'The bear could not be deleted, please try again'})
+  })
+});
+
+server.put('/api/bears/:id', (req, res) => {
+  db('bears').where('id', parseInt(req.params.id)).update(req.body).then(ids => {
+    res.status(201).json({ message: 'The bear has been successfully updated!'});
+  }).catch(err => {
+    res.status(500).json({ message: 'The selected bear could not be updated, please try again'});
   })
 });
 
