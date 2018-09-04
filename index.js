@@ -14,7 +14,9 @@ server.use(express.json());
 server.use(helmet());
 
 server.get('/', (req, res) => {
-  res.send('API running')
+  const secret = process.env.SECRET
+  const message = "API is running"
+  res.status(200).json({secret, message})
 })
 
 server.get('/api/zoos/', (req, res) => {
