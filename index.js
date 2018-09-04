@@ -7,7 +7,6 @@ server.use(helmet());
 
 // endpoints here
 server.use('/api/zoo', require('./routes/ZooRoute'))
-server.use('/api/bear', require('./routes/BearRoute'))
 
 const port = 3300;
 server.listen(port, function() {
