@@ -46,7 +46,8 @@ server.post("/api/zoos", (req, res) => {
       errorMessage: "Please provide a name for the zoo.",
     });
   } else {
-    db.insert(zoo)
+    db("zoos")
+      .insert(zoo)
       .into("zoos")
       .then(zoos => {
         res.status(201).json(zoos);
@@ -55,6 +56,19 @@ server.post("/api/zoos", (req, res) => {
   }
 });
 // end POST
+
+// start DELETE
+server.delete("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where({ id })
+    .del()
+    .then(zoos => {
+      res.status(201).json(zoos);
+    })
+    .catch(err => res.status(500).json(err));
+});
+// end DELETE
 
 // end endpoints
 const port = 3300;
