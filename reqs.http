@@ -19,3 +19,6 @@ Content-Type: application/json
   "name": "Mega wildlife zoo"
 }
 ###
+
+DELETE http://localhost:3300/api/zoos/2 HTTP/1.1
+###
