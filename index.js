@@ -45,47 +45,43 @@ server.delete("/api/:zooID", async (req, res) => {
   }
 });
 
-// server.put("/api", async (req, res) => {
+server.put("/api", async (req, res) => {
   
-//   if (
-//     !req.body.project_id ||
-//     !req.body.description ||
-//     !req.body.notes
-//   ) {
-//     res.status(400).json({ errorMessage: "Invalid body" });
-//   }
-//   try {
-//     const results = await actionsHelper.insert(req.body);
-//     res.status(200).json({ results });
-//   } catch (err) {
+  if (
+    !req.body.name
+  ) {
+    res.status(400).json({ errorMessage: "Invalid body" });
+  }
+  try {
+    const results = await zoohelpers.insert(req.body);
+    res.status(200).json({ results });
+  } catch (err) {
     
-//     res.status(500).json(err);
-//   }
-// });
+    res.status(500).json(err);
+  }
+});
 
-// server.put("/api/:actionID", async (req, res) => {
+server.put("/api/:zooID", async (req, res) => {
   
-//   if (
-//     !req.body.project_id ||
-//     !req.body.description ||
-//     !req.body.notes
-//   ) {
-//     res.status(400).json({ errorMessage: "Invalid body" });
-//     return;
-//   }
-//   if (!Number(req.params.actionID)) {
-//     res.status(400).json({ errorMessage: "ID not a number" });
-//     return;
-//   }
-//   try {
-//     const results = await actionsHelper.update(req.params.actionID,req.body);
-//     res.status(200).json({ results });
-//   } catch (err) {
+  if (
+    !req.body.name
+  ) {
+    res.status(400).json({ errorMessage: "Invalid body" });
+    return;
+  }
+  if (!Number(req.params.zooID)) {
+    res.status(400).json({ errorMessage: "ID not a number" });
+    return;
+  }
+  try {
+    const results = await zoohelpers.edit(req.params.zooID,req.body);
+    res.status(200).json({ results });
+  } catch (err) {
     
-//     res.status(500).json(err);
-//   }
+    res.status(500).json(err);
+  }
 
-// });
+});
 
 
 server.use("/", (req, res) =>
