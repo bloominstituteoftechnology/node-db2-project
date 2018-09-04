@@ -65,7 +65,13 @@ server.delete("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({ id: req.params.id })
     .delete()
-    .then();
+    .then(item => {
+      if (!item) {
+        res.status(404).json({ message: "That ID does not exist" });
+      }
+      res.status(200).json({ id: req.params.id });
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 server.listen(3300, console.log("\n ==== WORKING ==== \n"));
