@@ -22,3 +22,28 @@ Content-Type: application/json
 
 DELETE http://localhost:3300/api/zoos/2 HTTP/1.1
 ###
+
+GET http://localhost:3300/api/bears HTTP/1.1
+###
+
+POST http://localhost:3300/api/bears HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Yogi Bear"
+}
+###
+
+GET http://localhost:3300/api/bears/1 HTTP/1.1
+###
+
+PUT http://localhost:3300/api/bears/2 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Iorek"
+}
+###
+
+DELETE http://localhost:3300/api/bears/2 HTTP/1.1
+###
