@@ -39,7 +39,7 @@ server.get('/api/zoos', (req,res) => {
   .then(zoos => {
   res.status(200).json(zoos);
   })
-  .catch(err => res.status(500).json(err));
+  .catch(err => res.status(500).json({message:  'Error retrieving data'}));
   });
 
 //GET Request for individual record 
@@ -48,9 +48,12 @@ server.get('/api/zoos/:id', (req,res) => {
   db('zoos')
   .where('id', '=', id)
   .then(zoo => {
+    if (zoo.length == 0) {
+      res.status(404).json({message: "Cannot find corresponding record "})
+    }
     res.status(200).json(zoo);
   })
-  .catch(err => res.status(500).json(err));
+  .catch(err => res.status(500).json({message: "There was an error looking for the specified record"}));
 })
 
 //PUT Request
