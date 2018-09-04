@@ -46,6 +46,15 @@ server.delete("/api/zoos/:id", (req,res) => {
   })
 })
 
+server.put("/api/zoos/:id", (req,res) => {
+  const id = req.params.id; 
+  const data = req.body 
+  db('zoos').where({id}).update(data).then(count =>{
+    res.status(200).json({message: "Successfully updated database"})
+  }).catch(err => {
+    res.status(500).json({err}); 
+  })
+})
 
 
 const port = 3300;
