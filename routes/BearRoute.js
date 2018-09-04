@@ -38,6 +38,7 @@ router.post("/", async (req, res) => {
       bearID: bearID[0]
     });
   } catch (err) {
+    console.log(err)
     res.status(500).json({
       status: false,
       message: "There was problem in inserting data into db"
