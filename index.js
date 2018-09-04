@@ -7,6 +7,10 @@ const dbConfig = require('./knexfile');
 const server = express();
 const db = knex(dbConfig.development); 
 
+server.use(express.json());
+server.use(helmet());
+
+
 server.get("/api/zoos", (req,res)=> {
   db('zoos').then(zoos => {
     console.log("This worked!"); 
@@ -16,10 +20,16 @@ server.get("/api/zoos", (req,res)=> {
   }); 
 })
 
+server.post("/api/zoos", (req,res) => {
+  const newZoo = req.body; 
+  db.insert(newZoo).into('zoos').then(id => {
+    res.status(200).json(id); 
+  }).catch(err => {
+    res.status(500).json({err})
+  })
+})
 
 
-server.use(express.json());
-server.use(helmet());
 
 // endpoints here
 
