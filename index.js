@@ -11,6 +11,13 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+//custom middleware
+function upperName(req, res, next) {
+  req.body.name = req.body.name.toUpperCase();
+  next();
+}
+
+
 // endpoints here
 
 server.get("/", (req, res) => {
@@ -28,7 +35,7 @@ server.get("/api/zoos", (req, res) => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The zoos information could not be retrieved" });
+        .json({ error: "The zoos information could not be retrieved." });
     });
 });
 
@@ -37,13 +44,17 @@ server.get("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({ id })
     .then(zoo => {
-      res.status(200).json(zoo);
+      if(zoo.length > 0) {
+        res.status(200).json(zoo);
+      } else {
+        res.status(404).json({ message: "The zoo with that id does not exist" });
+      }
     })
     .catch(err => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The bear information could not be retrieved" });
+        .json({ error: "The zoo information could not be retrieved" });
     });
 });
 
@@ -127,7 +138,7 @@ server.get("/api/bears/:id", (req, res) => {
     });
 });
 
-server.post("/api/bears", (req, res) => {
+server.post("/api/bears",upperName, (req, res) => {
   const bear = req.body;
 
   db.insert(bear)
