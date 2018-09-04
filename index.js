@@ -73,7 +73,7 @@ server.delete("/api/zoos/:id", (req, res) => {
     .then(zoos => {
       if (zoos === 0) {
         res.status(404).json({
-          message: "The post with the specified ID does not exist.",
+          message: "The zoo with the specified ID does not exist.",
         });
       } else {
         res.status(200).json({ message: "Zoo removed successfully." });
@@ -161,44 +161,44 @@ server.post("/api/bears", (req, res) => {
 // end POST
 
 // start DELETE
-server.delete("/api/zoos/:id", (req, res) => {
+server.delete("/api/bears/:id", (req, res) => {
   const { id } = req.params;
 
-  db("zoos")
+  db("bears")
     .where({ id })
     .del()
-    .then(zoos => {
-      if (zoos === 0) {
+    .then(bears => {
+      if (bears === 0) {
         res.status(404).json({
-          message: "The post with the specified ID does not exist.",
+          message: "The bear with the specified ID does not exist.",
         });
       } else {
-        res.status(200).json({ message: "Zoo removed successfully." });
+        res.status(200).json({ message: "Bear removed successfully." });
       }
     })
     .catch(err => {
-      res.status(500).json({ error: "The zoo could not be removed." });
+      res.status(500).json({ error: "The bear could not be removed." });
     });
 });
 // end DELETE
 
 // start PUT
-server.put("/api/zoos/:id", (req, res) => {
+server.put("/api/bears/:id", (req, res) => {
   const { id } = req.params;
-  const newName = req.body.name;
-  if (!newName) {
+  const newBear = req.body.name;
+  if (!newBear) {
     return res.status(406).json({
-      errorMessage: "Please provide a name for the zoo.",
+      errorMessage: "Please provide a name for the bear.",
     });
   } else {
-    db("zoos")
+    db("bears")
       .where({ id })
-      .update({ name: newName })
-      .then(zoos => {
-        res.status(200).json(zoos);
+      .update({ name: newBear })
+      .then(bears => {
+        res.status(200).json(bears);
       })
       .catch(err => {
-        res.status(500).json({ error: "The zoo could not be updated." });
+        res.status(500).json({ error: "The bear could not be updated." });
       });
   }
 });
