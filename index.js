@@ -34,6 +34,9 @@ server.get("/api/zoos/:id", (req, res) => {
       } else {
         return res.status(200).json({ zoo });
       }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The zoo could not be retrieved." });
     });
 });
 // end GET
@@ -42,7 +45,7 @@ server.get("/api/zoos/:id", (req, res) => {
 server.post("/api/zoos", (req, res) => {
   const zoo = req.body;
   if (!zoo.name) {
-    return res.status(400).json({
+    return res.status(406).json({
       errorMessage: "Please provide a name for the zoo.",
     });
   } else {
@@ -52,7 +55,9 @@ server.post("/api/zoos", (req, res) => {
       .then(zoos => {
         res.status(201).json(zoos);
       })
-      .catch(err => res.status(500).json(err));
+      .catch(err => {
+        res.status(500).json({ error: "The zoo could not be added." });
+      });
   }
 });
 // end POST
@@ -64,11 +69,35 @@ server.delete("/api/zoos/:id", (req, res) => {
     .where({ id })
     .del()
     .then(zoos => {
-      res.status(201).json(zoos);
+      res.status(200).json(zoos);
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      res.status(500).json({ error: "The zoo could not be removed." });
+    });
 });
 // end DELETE
+
+// start PUT
+server.put("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const newName = req.body.name;
+  if (!newName) {
+    return res.status(404).json({
+      errorMessage: "Could not find zoo with the specified ID.",
+    });
+  } else {
+    db("zoos")
+      .where({ id })
+      .update({ name: newName })
+      .then(zoos => {
+        res.status(200).json(zoos);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "The zoo could not be updated." });
+      });
+  }
+});
+// end PUT
 
 // end endpoints
 const port = 3300;
