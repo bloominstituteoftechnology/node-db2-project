@@ -32,6 +32,7 @@ server.post('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get all the zoos
 server.get('/api/zoos', (req, res) => {
   db('zoos')
       // .select('name')
@@ -41,9 +42,10 @@ server.get('/api/zoos', (req, res) => {
       .catch(err => res.status(500).json(err));
 });
 
+// get a specific zoo
 server.get('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
-  
+
   db('zoos')
     .where('id', '=', id)
     .then(zoo => {
@@ -60,6 +62,7 @@ server.get('/api/zoos/:id', (req, res) => {
   })
 });
 
+// delete a zoo
 server.delete('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
 
@@ -68,6 +71,23 @@ server.delete('/api/zoos/:id', (req, res) => {
     .del()
     .then(count => {
       // count === number of records deleted
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+// update a zoo's name
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db('zoos')
+    .where('id', '=', id) // or .where({ id: id })
+    .update(changes)
+    .then(count => {
+      // count === number of records updated
       res.status(200).json(count);
     })
     .catch(err => {
