@@ -8,13 +8,13 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-  db('zoos').select('name')
-  .then(zoos => {
-    console.log(zoos)
-    zoos.length === 0 ?
-    res.status(200).json({message: 'No Zoos Listed, Send a Post request to list a Zoo'})
+  db('bear').select('name')
+  .then(bears => {
+    console.log(bears)
+    bears.length === 0 ?
+    res.status(200).json({message: 'No Bears Listed, Send a Post request to list a Bear'})
     :
-    res.status(200).json(zoos)
+    res.status(200).json(bears)
   })
   .catch(err => {
     console.log(err)
@@ -26,13 +26,13 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
-  db('zoos').where({ id }).select('name')
-  .then(zoo => {
-    console.log(zoo)
-    zoo.length === 0 ?
-    res.status(400).json({message: 'No Zoo Listed, check your id'})
+  db('bear').where({id}).select('name')
+  .then(bear => {
+    console.log(bear)
+    bear.length === 0 ?
+    res.status(400).json({message: 'No Bear Listed, check your id'})
     :
-    res.status(200).json(zoo)
+    res.status(200).json(bear)
   })
   .catch(err => {
     console.log(err)
@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
 
   const name = req.body;
 
-  db.insert(name).into('zoos')
+  db.insert(name).into('bear')
   .then(count => {
     console.log(count);
     res.status(200).json(count)
@@ -65,11 +65,11 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  db('zoos').where({id}).del()
+  db('bear').where({id}).del()
   .then(count => {
     console.log(count);
     count === 0 ?
-    res.status(400).json({message: 'Error deleting Zoo, check your id'})
+    res.status(400).json({message: 'Error deleting Bear, check your id'})
     :
     res.status(200).json(count)
   })
@@ -90,11 +90,11 @@ router.put('/:id', (req, res) => {
 
   const name = req.body;
 
-  db('zoos').where({id}).update(name)
+  db('bear').where({id}).update(name)
   .then(count => {
     console.log(count);
     count === 0 ?
-    res.status(400).json({message: 'Error updating Zoo, check your id'})
+    res.status(400).json({message: 'Error updating Bear, check your id'})
     :
     res.status(200).json(count)
   })

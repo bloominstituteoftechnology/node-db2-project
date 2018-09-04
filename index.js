@@ -1,18 +1,14 @@
 const express = require('express');
 const helmet = require('helmet');
 
-
-
-
-
 const ZooRoutes = require('./zoos/ZooRoutes');
+const bearRoutes = require('./bear/bearRoutes');
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
 
 server.get('/', (req, res) => {
   res.send('hello');
@@ -20,7 +16,7 @@ server.get('/', (req, res) => {
 
 
 server.use('/api/zoos', ZooRoutes);
-
+server.use('/api/bear', bearRoutes);
 
 
 const port = 3300;
