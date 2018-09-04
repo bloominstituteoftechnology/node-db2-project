@@ -52,8 +52,15 @@ server.delete('/api/zoos/:id', (req, res) => {
   }).catch(err => {
     res.status(500).json({ message: 'The zoo could not be deleted, please try again'})
   })
-})
+});
 
+server.put('/api/zoos/:id', (req, res) => {
+  db('zoos').where('id', parseInt(req.params.id)).update(req.body).then(ids => {
+    res.status(201).json({ message: 'The zoo has been successfully updated!'});
+  }).catch(err => {
+    res.status(500).json({ message: 'The selected zoo could not be updated, please try again'});
+  })
+});
 
 const port = 3300;
 server.listen(port, function() {
