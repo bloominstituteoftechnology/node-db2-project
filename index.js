@@ -21,9 +21,24 @@ server.get('/api/zoos', (req, res) => {
   });
 });
 
+server.get('/api/zoos/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .then(row => {
+      if (row.length < 1) {
+        return res.status(404).json({ message: 'This zoo doesnt exist' });
+      }
+      res.status(200).json(row);
+    });
+});
+
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
-
+  if (!zoo.name) {
+    return res
+      .status(400)
+      .json({ message: 'Please provide a name for the zoo.' });
+  }
   db.insert(zoo)
     .into('zoos')
     .then(ids => {
