@@ -8,14 +8,14 @@ const router = express.Router();
 
 //zoo endpoints
 
-//GET all zoos
+//GET all bears
 router.get('/', (req, res) => {
   db('bears')
     .then(bears => res.status(200).json(bears))
     .catch(err => res.status(500).json(err));
 });
 
-//GET zoo by id
+//GET bears by id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-//POST a new zoo
+//POST a new bear
 router.post('/', (req, res) => {
   const { name, zoo_id } = req.body;
 
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
 
 });
 
-//DELETE zoo by id
+//DELETE bear by id
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -53,7 +53,7 @@ router.delete('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-//PUT (Update) a zoo by id
+//PUT (Update) a bear by id
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
