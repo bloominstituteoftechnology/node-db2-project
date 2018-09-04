@@ -11,6 +11,7 @@ const db = knex(dbConfig.development);
 
 // endpoints here
 
+//zoos
 server.post("/api/zoos", (req, res) => {
   const zoo = req.body;
   if (!zoo.name) {
@@ -39,7 +40,6 @@ server.get("/api/zoos", (req, res) => {
   });
 });
 
-
 server.get("/api/zoos/:id", (req, res) => {
   const { id } = req.params;
   db('zoos')
@@ -55,13 +55,19 @@ server.get("/api/zoos/:id", (req, res) => {
 server.put('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
   const updated = req.body;
-  db('zoos')
+  if ( !updated.name ) {
+    res.status(400).json({
+      message: "Name is required."
+    })
+  } else {
+    db('zoos')
     .where({ id })
     .update(updated)
     .then( update => {
       res.status(200).json(update);
     })
     .catch( err => res.status(500).json(err));
+  }
 });
 
 server.delete('/api/zoos/:id', (req, res) => {
@@ -76,6 +82,74 @@ server.delete('/api/zoos/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+//bears
+server.post("/api/bears", (req, res) => {
+  const bear = req.body;
+  if ( !bear.name ) {
+    res.status(400).json({
+      message: "Bear name is required."
+    });
+  }
+  else {
+    db.insert(bear)
+      .into('bears')
+      .then( ids => {
+        res.status(201).json(ids);
+      })
+      .catch( err => res.status(500).json(err));
+  };
+});
+
+server.get("/api/bears", (req, res) => {
+  db('bears')
+    .then( bears => {
+      res.status(200).json(bears);
+    })
+    .catch( err => {
+      res.status(500).json(err);
+    });
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db('bears')
+    .where({ id })
+    .then( bear => {
+      res.status(200).json(bear);
+    })
+    .catch( err => res.status(500).json(err));
+});
+
+server.put("/api/bears/:id", (req, res) => {
+  const updated = req.body;
+  const { id } = req.params;
+  if( !updated.name ) {
+    res.status(400).json({
+      message: "Name is required."
+    });
+  } else {
+    db('bears')
+    .where({ id })
+    .update(updated)
+    .then( bear => {
+      res.status(200).json(bear);
+    })
+    .catch( err => res.status(500).json(err));
+  };
+});
+
+server.delete("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db('bears')
+    .where({ id })
+    .del()
+    .then( count => {
+      res.status(200).json(count);
+    })
+    .catch( err => res.status(500).json(err)
+  )}
+);
 
 const port = 3300;
 server.listen(port, function() {
