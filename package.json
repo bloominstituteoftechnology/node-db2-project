@@ -4,15 +4,28 @@
   "description": "RDBMS API Mini Sprint",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon"
   },
   "author": "Lambda School",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
-    "helmet": "^3.13.0"
+    "helmet": "^3.13.0",
+    "knex": "^0.15.2",
+    "morgan": "^1.9.0",
+    "sqlite3": "^4.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codejoncode/db-zoos.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/codejoncode/db-zoos/issues"
+  },
+  "homepage": "https://github.com/codejoncode/db-zoos#readme"
 }
