@@ -26,6 +26,10 @@ server.get('/api/zoos/:id',(req,res)=>{
 server.delete('/api/zoos/:id',(req,res)=>{
   db('zoos').where({'id':req.params.id}).del().then(count=>res.status(200).json(count)).catch(err=>res.status(500).json(err));
 })
+server.put('/api/zoos/:id',(req,res)=>{
+  const zoo=req.body;
+  db('zoos').where({'id':req.params.id}).update(zoo).then(count=>res.status(200).json(count)).catch(err=>res.status(500).json(err));
+})
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
