@@ -3,61 +3,58 @@
 Topics:
 
 - Relational Databases
-- SQLLite
-- Query Builders
+- SQLite
 - Knex
 - Create/Read/Update/Delete operations
 
 ## Description
 
-You'll write a server that lets you create and read Zoos and Bears stored in a Relational Database. Much of the knowledge from Node and Express will carry over to this mini project, where you'll interface with a database in your route handlers.
-
-## Requirements
-
-For this mini sprint we'll use SQLite3 to persist our API data.
+You'll write a server that lets you create and read _Zoos_ stored in a Relational Database. Much of the knowledge from Node and Express will carry over to this mini project, where you'll interface with a database in your route handlers.
 
 ## Running the Project
 
 - Fork and Clone this project.
 - `cd` into your project folder.
 - Run `npm install` or `yarn` to download the dependencies.
-- Write your implementation inside `server.js` to satisfy the specifications listed below.
+- Add `knex` and `sqlite3` npk modules.
+- Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
+- Write a set of endpionts inside `index.js` to satisfy the specifications listed below.
 - To start the API server, run `yarn start` or `npm start`.
 - Use _Postman_ to test your API.
 
 ## Specifications
 
-### Tables
+### Table
 
-Create the following tables for the Zoos and Bears collection.
+The included database has a _zoos_ table with the following schema:
 
-Zoos Table should have the following columns:
+- id: integer, primary key, automincrements.
+- name: text, required, unique.
 
-- id: primary key, automincrements.
-- name: unique, alphanumeric up to 255 characters long.
-- created_at: should automatically default to the current date and time.
+### `POST /api/zoos`
 
-Bears Table should have the following columns:
+When the client makes a `POST` request to this endpoint, a new _zoo_ should be created in the _zoos_ table.
 
-- id: primary key, automincrements.
-- zooId: an integer that relates this table to the zoos table. Enforce data integrity.
-- species: unique, alphanumeric up to 80 characters long.
-- latinName: alphanumeric up to 80 characters long.
-- createdAt: should automatically default to the current date and time.
+Ensure the client passes a `name` property in the request body. If there's an error, respond with an appropriate status code, and send a JSON response of the form `{ error: "Some useful error message" }`.
 
-### `POST /zoos`
+Return de `id` of the inserted zoo and a 201 status code.
 
-When the client makes a `POST` request to `/api/zoos` a new _zoo_ should be created in the zoos table:
+### `GET /api/zoos`
 
-- Ensure the client passes a name parameter in the request body. If there's an error, respond with an appropriate status code, and send a JSON response of the form `{ error: "Some useful error message" }`.
-- return de `id` of the inserted zoo.
+When the client makes a `GET` request to this endpoint, return a list of all the _zoos_ in the database. Remember to handle any errors and return the correct status code.
 
-### `GET /zoos`
+### `GET /api/zoos/:id`
 
-When the client makes a `GET` request to `/api/zoos`, return a list of all the zoos in the database. Remember to handle the errors and return the correct status code.
+When the client makes a `GET` request to `/api/zoos/:id`, find the _zoo_ associated with the given `id`. Remember to handle errors and send the correct status code.
 
-### `GET /zoos/:id`
+### DELETE /api/zoos/:id
 
-When the client makes a `GET` request to `/api/zoos/:id` (remember, `:id` is a parameter embedded in the URL, not in the query-string):
+When the client makes a `DELETE` request to this endpoint, the _zoo_ that has the provided `id` should be removed from the database.
 
-- Find the zoo associated with the given `id`. Remember to handle errors and send the correct status code.
+### PUT /api/zoos/:id
+
+When the client makes a `PUT` request to this endpoint passing an object with the changes, the _zoo_ with the provided `id` should be updated with the new information.
+
+## Stretch Problem
+
+Add a new _bears_ table to the database and add endpoints to perform CRUD operations on it.
