@@ -4,6 +4,10 @@ const helmet = require("helmet");
 const knex = require("knex");
 const dbConfig = require("./knexfile");
 const db = knex(dbConfig.development);
+// 2nd database
+const bearDBConfig = require("./knexfileBears");
+const bearDB = knex(bearDBConfig.development);
+// end 2nd database
 
 const server = express();
 
