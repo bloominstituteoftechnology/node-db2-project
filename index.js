@@ -43,6 +43,18 @@ app.get('/api/zoos/:id', async (req, res) => {
 	}
 });
 
+app.delete('/api/zoos/:id', async (req, res) => {
+	const { id } = req.params;
+	try {
+		const count = await db('zoos').where({ id: id }).del();
+		count > 0
+		? res.status(201).json({ message: 'Successfully deleted.' })
+		: res.status(404).json({ error: 'The specified ID could not be found.' })
+	} catch(err){
+		res.status(500).json({ error: 'The request could not be fulfilled.' });
+	}
+});
+
 const port = 9000;
 app.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
