@@ -16,7 +16,7 @@ You'll write a server that lets you create and read _Zoos_ stored in a Relationa
 - Fork and Clone this project.
 - `cd` into your project folder.
 - Run `npm install` or `yarn` to download the dependencies.
-- Add `knex` and `sqlite3` npk modules.
+- Add `knex` and `sqlite3` npm modules.
 - Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
 - Write a set of endpionts inside `index.js` to satisfy the specifications listed below.
 - To start the API server, run `yarn start` or `npm start`.
@@ -28,7 +28,7 @@ You'll write a server that lets you create and read _Zoos_ stored in a Relationa
 
 The included database has a _zoos_ table with the following schema:
 
-- id: integer, primary key, automincrements.
+- id: integer, primary key, autoincrements.
 - name: text, required, unique.
 
 ### `POST /api/zoos`
@@ -57,4 +57,4 @@ When the client makes a `PUT` request to this endpoint passing an object with th
 
 ## Stretch Problem
 
-Add a new _bears_ table to the database and add endpoints to perform CRUD operations on it.
+Add a new _bears_ table to the database and add endpoints to perform CRUD operations on it. Each bear should have an `id` and `name` property similar to the _zoos_ table.
