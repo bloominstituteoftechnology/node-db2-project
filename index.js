@@ -1,72 +1,14 @@
 const express = require('express');
 const helmet = require('helmet');
-const knex = require('knex');
-const knexConfig = require('./knexfile.js');
+const routes = require('./routes')
 
 const app = express();
-
-const db = knex(knexConfig.development);
 
 app.use(express.json());
 app.use(helmet());
 
+app.use('/api', routes)
 // endpoints here
-
-app.get('/api/zoos', async (req, res) => {
-	try {
-		const names = await db('zoos');
-		res.status(200).json(names)
-	} catch(err){
-		res.status(500).json({ error: 'The request could not be fulfilled.' });
-	}
-})
-
-app.post('/api/zoos', async (req, res) => {
-	const zoo = req.body;
-	try {
-		const id = await db('zoos').insert(zoo);
-		res.status(201).json(id);
-	} catch(err){
-		res.status(500).json({ error: 'The request could not be fulfilled.' });
-	}
-})
-
-app.get('/api/zoos/:id', async (req, res) => {
-	const { id } = req.params;
-	try {
-		const zoo = await db('zoos').where({ id: id });
-		zoo.length > 0
-		? res.status(201).json(zoo)
-		: res.status(404).json({ error: 'The specified ID could not be found.' })
-	} catch(err){
-		res.status(500).json({ error: 'The request could not be fulfilled.' });
-	}
-});
-
-app.delete('/api/zoos/:id', async (req, res) => {
-	const { id } = req.params;
-	try {
-		const count = await db('zoos').where({ id: id }).del();
-		count > 0
-		? res.status(201).json({ message: 'Successfully deleted.' })
-		: res.status(404).json({ error: 'The specified ID could not be found.' })
-	} catch(err){
-		res.status(500).json({ error: 'The request could not be fulfilled.' });
-	}
-});
-
-app.put('/api/zoos/:id', async (req, res) => {
-	const { id } = req.params;
-	const zoo = req.body;
-	try {
-		const count = await db('zoos').where({ id: id }).update(zoo);
-		count > 0
-		? res.status(201).json({ message: 'Successfully updated.' })
-		: res.status(404).json({ error: 'The specified ID could not be found.' })
-	} catch(err){
-		res.status(500).json({ error: 'The request could not be fulfilled.' });
-	}
-})
 
 const port = 9000;
 app.listen(port, function() {
