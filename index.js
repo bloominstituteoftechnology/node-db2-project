@@ -55,6 +55,19 @@ app.delete('/api/zoos/:id', async (req, res) => {
 	}
 });
 
+app.put('/api/zoos/:id', async (req, res) => {
+	const { id } = req.params;
+	const zoo = req.body;
+	try {
+		const count = await db('zoos').where({ id: id }).update(zoo);
+		count > 0
+		? res.status(201).json({ message: 'Successfully updated.' })
+		: res.status(404).json({ error: 'The specified ID could not be found.' })
+	} catch(err){
+		res.status(500).json({ error: 'The request could not be fulfilled.' });
+	}
+})
+
 const port = 9000;
 app.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
