@@ -18,7 +18,7 @@ You'll write a server that lets you create and read _Zoos_ stored in a Relationa
 - Run `npm install` or `yarn` to download the dependencies.
 - Add `knex` and `sqlite3` npm modules.
 - Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
-- Write a set of endpionts inside `index.js` to satisfy the specifications listed below.
+- Write a set of endpoints inside `index.js` to satisfy the specifications listed below.
 - To start the API server, run `yarn start` or `npm start`.
 - Use _Postman_ to test your API.
 
@@ -37,7 +37,7 @@ When the client makes a `POST` request to this endpoint, a new _zoo_ should be c
 
 Ensure the client passes a `name` property in the request body. If there's an error, respond with an appropriate status code, and send a JSON response of the form `{ error: "Some useful error message" }`.
 
-Return de `id` of the inserted zoo and a 201 status code.
+Return the `id` of the inserted zoo and a 201 status code.
 
 ### `GET /api/zoos`
 
