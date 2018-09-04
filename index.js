@@ -14,8 +14,10 @@ const zoos = "/api/zoos";
 server.use(express.json());
 server.use(helmet());
 server.use(morgan("short"));
+server.use(cors());//must be before routes/routers. 
 server.use(bears, bearsRoutes);
 server.use(zoos, zoosRoutes);
+
 
 server.get("/", (req, res) => {
   res.send(`Started up add a end point ${bears} or  ${zoos}`);
