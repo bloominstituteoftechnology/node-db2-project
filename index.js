@@ -28,15 +28,25 @@ server.post('/api/zoos', (req, res) => {
   .catch(err => res.status(500).json(err));
   });
 
-//GET Request
+//GET Request for all records
 server.get('/api/zoos', (req,res) => {
   db('zoos')
-  .then(zoo => {
-  res.status(200).json(zoo);
+  .then(zoos => {
+  res.status(200).json(zoos);
   })
   .catch(err => res.status(500).json(err));
   });
 
+//GET Request for individual record 
+server.get('/api/zoos/:id', (req,res) => {
+  const id = req.params.id;
+  db('zoos')
+  .where('id', '=', id)
+  .then(zoo => {
+    res.status(200).json(zoo);
+  })
+  .catch(err => res.status(500).json(err));
+})
 
 //PUT Request
 server.put('/api/zoos/:id', (req,res) => {
@@ -52,6 +62,8 @@ server.put('/api/zoos/:id', (req,res) => {
     res.status(500).json(err);
   });
 });
+
+
 
 
 const port = 3300;
