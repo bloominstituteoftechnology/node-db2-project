@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const middleware = require("./middleware");
 const zooRoutes = require("./Routes/zooRoutes");
 const bearRoutes = require("./Routes/bearRoutes");
 
@@ -13,6 +14,7 @@ server.use(morgan("dev"));
 
 server.use("/api/zoos", zooRoutes);
 server.use("/api/bears", bearRoutes);
+server.use(middleware);
 
 // endpoints here
 

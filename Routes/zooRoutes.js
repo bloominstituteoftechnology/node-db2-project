@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("../dbConfig.js");
 
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
 	const zoo = req.body;
 	if (!zoo.name) {
-		return res.status(400).json({ message: "Please provide a name" });
+		return next({ code: 400 });
 	}
 	db.insert(zoo)
 		.into("zoos")
@@ -13,32 +13,32 @@ router.post("/", (req, res) => {
 			res.status(201).json(ids);
 		})
 		.catch(err => {
-			res.status(500).json(err);
+			next(err);
 		});
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
 	db("zoos")
 		.then(zoos => {
 			res.status(201).json(zoos);
 		})
 		.catch(err => {
-			res.status(500).json(err);
+			next(err);
 		});
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
 	db("zoos")
 		.where({ id: req.params.id })
 		.then(zoo => {
 			res.status(201).json(zoo);
 		})
 		.catch(err => {
-			res.status(500).json(err);
+			next(err);
 		});
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => {
 	db("zoos")
 		.where({ id: req.params.id })
 		.del()
@@ -46,14 +46,14 @@ router.delete("/:id", (req, res) => {
 			res.status(201).json(ver);
 		})
 		.catch(err => {
-			res.status(500).json(err);
+			next(err);
 		});
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", (req, res, next) => {
 	const zoo = req.body;
 	if (!zoo.name) {
-		return res.status(400).json({ message: "Please include name data" });
+		return next({ code: 400 });
 	}
 
 	db("zoos")
@@ -63,7 +63,7 @@ router.put("/:id", (req, res) => {
 			res.status(201).json(ver);
 		})
 		.catch(err => {
-			res.status(500).json(err);
+			next(err);
 		});
 });
 
