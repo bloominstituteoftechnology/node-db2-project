@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
   let cache = [];
   db('zoos as z')
-    .leftJoin('bears as b', function () { this.on({ 'b.zooId': 'z.id' }) })
+    .leftJoin('bears as b', { 'b.zooId': 'z.id' })
     .select('z.id', 'z.name', 'b.name as bears')
     .then(zoos => {
       zoos.forEach((zoo, ind) => {
@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   let cache = [];
   db('zoos as z')
-    .leftJoin('bears as b', function () { this.on({ 'b.zooId': 'z.id' }) })
+    .leftJoin('bears as b', { 'b.zooId': 'z.id' })
     .select('z.id', 'z.name', 'b.name as bears')
     .then(zoos => {
       zoos.forEach((zoo, ind) => {
