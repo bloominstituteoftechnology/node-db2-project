@@ -1,5 +1,5 @@
-const express = require('express');
-const helmet = require('helmet');
+const express = require("express");
+const helmet = require("helmet");
 const knex = require("knex");
 
 const server = express();
@@ -16,15 +16,6 @@ server.get("/", (req, res) => {
   res.send("API RUNNING");
 });
 
-server.get("/api/zoos", async (req, res) => {
-    try {
-      let response = await db("zoos");
-      res.status(200).json(response);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-})
-
 // server.get("/api/zoos", (req, res) => {
 //   db("zoos")
 //     .select("name")
@@ -34,40 +25,96 @@ server.get("/api/zoos", async (req, res) => {
 //     .catch(err => res.status(500).json(err));
 // });
 
-server.post("/api/zoos", (req, res) => {
-  const name = req.body;
-  db.insert(name).into("zoos").then(ids => {
-    res.status(201).json(ids);
-  })
-  .catch(err => res.status(500).json(err));
+server.get("/api/zoos", async (req, res) => {
+  try {
+    let response = await db("zoos");
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-server.get("/api/zoos/:id", (req, res) => {
-  db("zoos").where({ id: req.params.id }).then(id => {
-    res.status(200).json(id);
-  })
-  .catch(err => {
+// server.post("/api/zoos", (req, res) => {
+//   const name = req.body;
+//   db.insert(name).into("zoos").then(ids => {
+//     res.status(201).json(ids);
+//   })
+//   .catch(err => res.status(500).json(err));
+// });
+
+server.post("/api/zoos", async (req, res) => {
+  try {
+    let response = await db("zoos").insert(req.body);
+    res.status(200).json(response);
+  } catch (err) {
     res.status(500).json(err);
-  });
+  }
 });
 
-server.put("/api/zoos/:id", (req, res) => {
-  db("zoos").where({ id: req.params.id }).update(req.body)
-  .then(id => {
-    res.status(200).json(id);
-  })
-  .catch(err => {
+// server.get("/api/zoos/:id", (req, res) => {
+//   db("zoos")
+//     .where({ id: req.params.id })
+//     .then(id => {
+//       res.status(200).json(id);
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
+
+server.get("/api/zoos/:id", async (req, res) => {
+  try {
+    let response = await db("zoos").where({ id: req.params.id });
+    res.status(200).json(response);
+  } catch (err) {
     res.status(500).json(err);
-  });
+  }
 });
 
-server.delete("/api/zoos/:id", (req, res) => {
-  db("zoos").where(req.params).del().then(id => {
-    res.status(200).json(id);
-  })
-  .catch(err => {
+// server.put("/api/zoos/:id", (req, res) => {
+//   db("zoos")
+//     .where({ id: req.params.id })
+//     .update(req.body)
+//     .then(id => {
+//       res.status(200).json(id);
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
+
+server.put("/api/zoos/:id", async (req, res) => {
+  try {
+    let response = await db("zoos")
+      .where({ id: req.params.id })
+      .update(req.body);
+    res.status(200).json(response);
+  } catch (err) {
     res.status(500).json(err);
-  });
+  }
+});
+
+// server.delete("/api/zoos/:id", (req, res) => {
+//   db("zoos")
+//     .where(req.params)
+//     .del()
+//     .then(id => {
+//       res.status(200).json(id);
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
+
+server.delete("/api/zoos/:id", async (req, res) => {
+  try {
+    let response = await db("zoos")
+      .where(req.params)
+      .del();
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 const port = 3300;
