@@ -3,9 +3,8 @@ const db = require('knex')(require('../knexfile').development);
 
 router.post('/', (req, res) => {
   const { name, zooId } = req.body;
-  if (!name || !zooId) {
-    res.status(404).json({ error: 'Bears require a zooId and a name.' });
-  } else {
+  if (!name || !zooId) res.status(404).json({ error: 'Bears require a zooId and a name.' });
+  else {
     db('bears')
       .insert(req.body)
       .then(id => res.status(201).json(id))
@@ -48,11 +47,8 @@ router.put('/:id', (req, res) => {
     .where({ id })
     .update(req.body)
     .then(count => {
-      if (count) {
-        res.status(200).json(count);
-      } else {
-        res.status(404).json({ error: 'The bear with the specified ID wasn\'t found.' });
-      }
+      if (count) res.status(200).json(count);
+      else res.status(404).json({ error: 'The bear with the specified ID wasn\'t found.' });
     })
     .catch(err => res.status(500).json(err));
 });
