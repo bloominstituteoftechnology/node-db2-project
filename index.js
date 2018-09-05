@@ -21,7 +21,7 @@ server.get("/api/zoos", (req,res)=> {
 })
 
 server.get("/api/zoos/:id", (req, res) => {
-  const id = req.params.id; 
+  const {id} = req.params;
   db('zoos').where({id}).then(zoo => {
     res.status(200).json(zoo);
   }).catch(err => {
@@ -39,7 +39,7 @@ server.post("/api/zoos", (req,res) => {
 })
 
 server.delete("/api/zoos/:id", (req,res) => {
-  const id = req.params.id; 
+  const {id} = req.params;
   db('zoos').where({id}).del().then(count => {
     res.status(200).json({message: "Deleted Successfully"}); 
   }).catch( err => {
@@ -48,7 +48,7 @@ server.delete("/api/zoos/:id", (req,res) => {
 })
 
 server.put("/api/zoos/:id", (req,res) => {
-  const id = req.params.id; 
+  const {id} = req.params;
   const data = req.body 
   db('zoos').where({id}).update(data).then(count =>{
     res.status(200).json({message: "Successfully updated database"})
@@ -69,7 +69,7 @@ server.get("/api/bears", (req, res) => {
 }); 
 
 server.get("/api/bears/:id", (req,res) => {
-  const id = req.params.id
+  const {id} = req.params; 
   db('bears').where({id}).then(bear => {
     res.status(200).json(bear)
   }).catch(err => {
@@ -87,7 +87,7 @@ server.post("/api/bears", (req,res) => {
 }); 
 
 server.delete("/api/bears/:id", (req, res) => {
-  const id = req.params.id
+  const {id} = req.params;
   db('bears').where({id}).del().then(count => {
     res.status(200).json({message: "Deleted item successfully"})
   }).catch(err => {
@@ -96,7 +96,7 @@ server.delete("/api/bears/:id", (req, res) => {
 }); 
 
 server.put("/api/bears/:id", (req, res) => {
-  const id = req.params.id; 
+  const {id} = req.params; 
   const data = req.body; 
   db('bears').where({id}).update(data).then(count => {
     res.status(200).json({message:"Updated the database with new data"})
@@ -104,7 +104,6 @@ server.put("/api/bears/:id", (req, res) => {
     res.status(500).json({err})
   }); 
 }); 
-
 
 
 const port = 3300;
