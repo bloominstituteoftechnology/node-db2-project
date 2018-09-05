@@ -5,30 +5,30 @@ const db = knex(knexConfig.development);
 module.exports = {
     
     get: (id)=>{
-        let zoos = db('zoos');
+        let bears = db('bears');
         if(id){
-            zoos
+            bears
                 .select('name')
                 .where({'id':id});
-            return zoos
+            return bears
         }
-        return zoos;
+        return bears;
     },
 
     insert: (post)=>{
         return db.insert(post)
-            .into('zoos')
+            .into('bears')
             .then(ids => ({ id: ids[0]}));
     },
 
     update: (id, zoo)=>{
-        return db('zoos')
+        return db('bears')
             .where('id', id)
             .update(zoo);
     },
 
     delete: (id)=>{
-        return db('zoos')
+        return db('bears')
             .where('id', id)
             .del();
     }
