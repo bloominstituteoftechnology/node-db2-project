@@ -1,7 +1,10 @@
 const express = require('express');
 const helmet = require('helmet');
-const db = require('./knexfile');
+const knex = require('knex')
+const dbConfig = require('./knexfile');
+const db = knex(dbConfig.development);
 const morgan = require('morgan');
+
 
 const server = express();
 
@@ -25,7 +28,7 @@ server.post('/api/zoos', async (req, res) => {
   }
 })
 
-server.get('/api/zoos', async (res, req) => {
+server.get('/api/zoos', async (req, res) => {
   try {
     const response = await db('zoos');
     res.status(201).json(response);
