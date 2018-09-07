@@ -7,5 +7,8 @@ module.exports = {
       filename: "./data/zoos.sqlite3"
     }
   },
-  useNullAsDefault: true
+  useNullAsDefault: true,
+  migrations: {
+    directory: "./db/migrations"
+  }
 };

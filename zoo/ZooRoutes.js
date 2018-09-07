@@ -31,7 +31,7 @@ router.get("/:id", (req, res) => {
     .where({ id: req.params.id })
     .then(row => {
       if (row.length < 1) {
-        res.statusZ(404).json({ message: "Item does not exist" });
+        res.status(404).json({ message: "Item does not exist" });
       }
       res.status(200).json(row);
     })
