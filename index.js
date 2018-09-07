@@ -37,6 +37,41 @@ server.get('/api/zoos', async (req, res) => {
   }
 })
 
+server.get('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await db('zoos').where('id', id);
+    res.status(201).json(response);
+  } catch(err) {
+    res.status(501).json({ message: "cannot retrieve zoo" });
+  }
+})
+
+server.delete('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await db('zoos').where('id', id).del();
+    res.status(201).json(response);
+  } catch(err) {
+    res.status(501).json({ message: "cannot delete zoo" });
+  }
+})
+
+
+server.put('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  if(zoo.name) {
+    try {
+      const response = await db('zoos').where('id','=', id).update(zoo);
+      res.status(201).json(response);
+    } catch (err) {
+      res.status(501).json({ message: "cannot update zoo"});
+    }
+  } else {
+    res.status(404).json({ message: "must enter a name"});
+  }
+})
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
