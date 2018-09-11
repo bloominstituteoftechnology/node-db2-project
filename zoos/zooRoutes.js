@@ -1,42 +1,43 @@
-
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
  
 const dbConfig = require('../knexfile');
+ 
 const db = knex(dbConfig.development);
- 
- const router = express.Router();
- 
+
+const router = express.Router();
+
 router.use(express.json());
 router.use(helmet());
 
-// bear endpoints 
+
+// zoo endpoints
 
 router.get('/', (req,res) => {
-    db('bears')
-    .then(bears => {
-      res.status(200).json(bears)
+    db('zoos')
+    .then(zoos => {
+      res.status(200).json(zoos)
     })
     .catch(err => res.status(500).json(err))
   });
   
   router.get('/:id', (req,res) => {
-    db('bears')
+    db('zoos')
     .where({ id: req.params.id })
-    .then(bears => {
-      res.status(200).json(bears)
+    .then(zoos => {
+      res.status(200).json(zoos)
     })
     .catch(err => res.status(500).json(err))
   });
   
   router.post('/', (req, res) => {
-    const bear = req.body;
-    if(!bear) {
-      res.status(400).status({ message: "Please provide a bear name."})
+    const zoo = req.body;
+    if(!zoo) {
+      res.status(400).status({ message: "Please provide zoo name."})
     }
-    db.insert(bear)
-    .into('bears')
+    db.insert(zoo)
+    .into('zoos')
     .then(ids => {
       res.status(201).json(ids);
     })
@@ -44,29 +45,29 @@ router.get('/', (req,res) => {
   });
   
   router.delete('/:id', (req,res) => {
-    db('bears')
+    db('zoos')
     .where({ id: req.params.id})
     .del()
     .then(count => {
       if(count) {
         res.status(204).end()
       } else {
-        res.status(404).json({ message: "There was no bear with this id found"})
+        res.status(404).json({ message: "There was no zoo with this id found"})
       }
     })
     .catch(err => res.status(500).json(err))
   });
   
-  router.put('/', (req,res) => {
-    const bear = req.body;
-    db('bears')
+  router.put('/:id', (req,res) => {
+    const zoo = req.body;
+    db('zoos')
     .where({id: req.params.id})
-    .update(bear)
-    .then(bear => {
-      if(bear) {
-        res.status(200).json({ message: "This bear has been updated"})
+    .update(zoo)
+    .then(zoo => {
+      if(zoo) {
+        res.status(200).json({ message: "This zoo has been updated"})
       } else {
-        res.status(404).json({ message: "No bear with thi id was found"})
+        res.status(404).json({ message: "No zoo with thi id was found"})
       }
     })
     .catch(err => {
@@ -75,4 +76,3 @@ router.get('/', (req,res) => {
   });
 
   module.exports = router;
-
