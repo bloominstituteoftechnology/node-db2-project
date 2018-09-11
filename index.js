@@ -31,7 +31,7 @@ server.get('/api/zoos/:id', (req,res) => {
 
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
-  if(!zoos) {
+  if(!zoo) {
     res.status(400).status({ message: "Please provide zoo name."})
   }
   db.insert(zoo)
