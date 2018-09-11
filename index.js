@@ -14,6 +14,13 @@ server.use(helmet());
 // endpoints here
 
 //---------GET REQUESTS-------//
+//-----obligatory welcome----///
+server.get('/', (req, res) => {
+  db('zoos')
+  .then( zoos => {
+    res.status(200).send("welcome pilgrim");
+  })
+})
 
 //All:
 
