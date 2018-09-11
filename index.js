@@ -27,6 +27,21 @@ server.get("/zoos", (req, res) => {
     });
 });
 
+server.get("/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where({ id: id })
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err => {
+      console.error("error", err);
+      res
+        .status(500)
+        .json({ error: "The  zoos information could not be retrieved" });
+    });
+});
+
 server.post("/zoos", (req, res) => {
   const zoo = req.body;
   if (zoo.name) {
