@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require("knex");
+const bearRoutes = require('./bears/bearRoutes.js');
 
 const dbconfig = require("./knexfile");
 const db = knex(dbconfig.development);
@@ -10,7 +11,9 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
+server.use('/api/bears', bearRoutes);
+
+// zoo endpoints here
 
 server.get('/api/zoos', (req,res) => {
   db('zoos')
