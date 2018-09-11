@@ -32,7 +32,8 @@ server.get("/api/zoos", (req, res) => {
 server.get("/api/zoos/:id", (req, res) => {
   const id = req.params.id;
   dataBase("zoos")
-    .get(id)
+    .select("name")
+    .where({ id: id })
     .then(names => {
       res.status(200).json(names);
     })
