@@ -67,7 +67,7 @@ router.get('/', (req,res) => {
       if(zoo) {
         res.status(200).json({ message: "This zoo has been updated"})
       } else {
-        res.status(404).json({ message: "No zoo with thi id was found"})
+        res.status(404).json({ message: "No zoo with this id was found"})
       }
     })
     .catch(err => {

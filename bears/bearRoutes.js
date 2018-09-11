@@ -66,7 +66,7 @@ router.get('/', (req,res) => {
       if(bear) {
         res.status(200).json({ message: "This bear has been updated"})
       } else {
-        res.status(404).json({ message: "No bear with thi id was found"})
+        res.status(404).json({ message: "No bear with this id was found"})
       }
     })
     .catch(err => {
