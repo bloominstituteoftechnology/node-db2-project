@@ -28,13 +28,16 @@ server.get('/', (req, res) => {
 // Return the id of the inserted zoo and a 201 status code.
 
 server.post('/zoos', (req, res) => {
-  const name = req.body;
+  const zoo = req.body;
 
   // insert into zoos
-  db.insert(name)
+  if(!zoo.name) {
+    res.status(400).json({ errorMsg: 'A name is required to post.' })
+  }
+  db.insert(zoo)
     .into('zoos')
     .then(ids => {
-      res.status(201).json(ids[0]);
+      res.status(201).json(ids);
     })
     .catch(err => res.status(500).json({ errorMsg: 'Could not add zoo to database.' }))
 })
@@ -47,6 +50,54 @@ server.get('/zoos', (req, res) => {
   db('zoos')
     .then(zoos => res.status(200).json(zoos))
     .catch(err => res.status(500).json({ errorMsg: 'Could not retrieve zoos.' }))
+})
+
+// GET /api/zoos/:id
+// When the client makes a GET request to /api/zoos/:id, find the zoo associated with the given id. 
+// Remember to handle errors and send the correct status code.
+
+server.get('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos')
+  .where('id', '=', id)
+  .then(zoo => {
+      res.status(200).json(zoo)
+  })
+  .catch(err => res.status(500).json({ errorMsg: 'Unable to retrieve the zoo.' }))
+})
+
+// DELETE /api/zoos/:id
+// When the client makes a DELETE request to this endpoint, the zoo that has the provided id 
+// should be removed from the database.
+
+server.put('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+
+  db('zoos')
+    .where('id', '=', id)
+    .update(zoo)
+    .then(count => {
+      res.status(200).json(count)
+    })
+    .catch(err => res.status(500).json({ errorMsg: 'Unable to edit zoo with the provided id.' }))
+})
+
+// PUT /api/zoos/:id
+// When the client makes a PUT request to this endpoint passing an object with the changes, the 
+// zoo with the provided id should be updated with the new information.
+
+server.delete('/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos')
+  .where('id', '=', id)
+  .del()
+  .then(count => {
+    res.status(200).json(count)
+  })
+  .catch(err => res.status(500).json({ errorMsg: 'Unable to delete zoo/zoos with that id.' }))
 })
 
 const port = 3300;
