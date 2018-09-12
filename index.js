@@ -106,11 +106,11 @@ server.get("/api/bears", (req, res) => {
       console.log("Error: ", err);
       res.status(500).json({ Error: "Bears  cannot be retrieved" });
     });
-  });
+});
 
-  server.get("/api/bears/:id", (req, res) => {
-    const { id } = req.params;
-    dataBase2("bears")
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  dataBase2("bears")
     .select("name")
     .where({ id })
     .then(bear => {
@@ -121,43 +121,43 @@ server.get("/api/bears", (req, res) => {
       res
         .status(500)
         .json({ Error: "Bear Name with specified id cannot be retrieved" });
-      });
     });
+});
 
-    server.post("/api/bears", (req, res) => {
-      const bears = req.body;
-      
-      dataBase2
-      .insert(bears)
-      .into("bears")
-      .then(ids => {
-        res.status(201).json(ids);
-      })
-      .catch(err => {
-        console.log("Error: ", err);
-        res.status(500).json({ Error: "Pass a bear name." });
-      });
+server.post("/api/bears", (req, res) => {
+  const bears = req.body;
+
+  dataBase2
+    .insert(bears)
+    .into("bears")
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      console.log("Error: ", err);
+      res.status(500).json({ Error: "Pass a bear name." });
     });
-    
-    server.put("/api/bears/:id", (req, res) => {
-      const changes = req.body;
-      const { id } = req.params;
-      
-      dataBase2("bears")
-      .where({ id })
-      .update(changes)
-      .then(count => {
+});
+
+server.put("/api/bears/:id", (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  dataBase2("bears")
+    .where({ id })
+    .update(changes)
+    .then(count => {
       res.status(200).json(count);
     })
     .catch(err => {
       res.status(500).json(err);
     });
-  });
-  
-  server.delete("/api/bears/:id", (req, res) => {
-    const { id } = req.params;
-    
-    dataBase2("bears")
+});
+
+server.delete("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+
+  dataBase2("bears")
     .where({ id })
     .del()
     .then(count => {
