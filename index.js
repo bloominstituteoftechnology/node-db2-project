@@ -22,13 +22,36 @@ server.get('/', (req, res) => {
 server.get('/api/zoos', (req, res) => {
 
   db('zoos')
-    .then(zoos => {
-      res.status(200).json(zoos)})
+    .then(zoo => {
+      res.status(200).json(zoo)})
     .catch(fail => {
       console.log('fail', fail)
       res.status(500).json({message: 'Error getting the zoos'});
   });
   })
+
+
+  server.get(`/api/zoos/:id`, (req,res) => {
+  
+
+    db('zoos').where({ id:req.params.id })
+        .then((id) => {
+            res.json(id);
+        })
+        .catch((fail) => {
+            console.log(fail);
+            res.status(404).json({message: "The zoo with the specified ID does not exist."});
+        })
+
+    .catch((fail) => {
+        console.log(fail)
+        res.status(500).json({error: "The zoo's information could not be retrieved."});
+    })
+})
+
+
+
+
 
   server.post('/api/zoos', (req, res) => {
     const zoo = req.body;
