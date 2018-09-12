@@ -24,20 +24,23 @@ server.get("/zoos", (req, res) => {
 });
 
 server.get("/zoos/:id", (req, res) => {
-  if (db.select("zoos").where({ id: req.params.id })) {
-    db("zoos")
-      .select("name")
-      .where({ id: req.params.id })
-      .then(zoo => {
+  db("zoos")
+    .select("name")
+    .where({ id: req.params.id })
+    .then(zoo => {
+      console.log(zoo);
+      if (zoo.length === 0) {
+        res
+          .status(404)
+          .json({ message: "The zoo with the specified ID does not exist" });
+      } else {
         res.status(200).json(zoo);
-      })
-      .catch(err => {
-        console.log("error", err);
-        res.status(500).json({ message: "error fetching data" });
-      });
-  } else {
-    res.status(404).json({ message: "There is no zoo with the specified ID" });
-  }
+      }
+    })
+    .catch(err => {
+      console.log("error", err);
+      res.status(500).json({ message: "error fetching data" });
+    });
 });
 
 server.post("/zoos", (req, res) => {
