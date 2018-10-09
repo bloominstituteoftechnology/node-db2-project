@@ -8,6 +8,11 @@ server.use(helmet());
 
 // endpoints here
 
+// sanity check endpoint
+server.get('/', (req, res) => {
+  res.send("You are home");
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
