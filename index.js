@@ -77,3 +77,58 @@ server.put('/api/zoos/:id', checkName, (req, res) => {
     .catch(err =>
       res.status(500).json({ error: "I could not update zoo by that ID " }));
 })
+server.post('/api/bears', checkName, (req, res) => {
+  const bear = req.body;
+  db.insert(bear)
+    .into("bears")
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err =>
+      res.status(500).json({ error: "I could not post this bear." })
+    );
+});
+
+server.get('/api/bears', (req, res) => {
+  db("bears")
+    .then(bears => {
+      res.status(201).json(bears);
+    })
+    .catch(err => res.status(500).json({ error: "I could not get bears" }));
+})
+
+
+server.get('/api/bears/:id', (req, res) => {
+  const id = req.params.id;
+  db("bears")
+    .where("id", id)
+    .then(bears => {
+      res.status(201).json(bears);
+    })
+    .catch(err => res.status(500).json({ error: "I could not get bear by that ID" }));
+})
+
+server.delete('/api/bears/:id', (req, res) => {
+  const id = req.params.id;
+  db('bears')
+    .where('id', id)
+    .del()
+    .then(bears => {
+      res.status(201).json(bears);
+    })
+    .catch(err =>
+      res.status(500).json({ error: "I could not delete bear by that ID." }));
+})
+
+server.put('/api/bears/:id', checkName, (req, res) => {
+  const [id, body] = [req.params.id, req.body];
+  db('bears')
+    .where('id', id)
+    .update('name', body.name)
+    .then(bears => {
+      res.status(201).json(bears);
+    })
+    .catch(err =>
+      res.status(500).json({ error: "I could not update the bear by that ID." }));
+})
+
