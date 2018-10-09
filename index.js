@@ -151,5 +151,5 @@ server.delete('/api/bears/:id', (req, res) => {
 const port = 6000;
 
 server.listen(port, () => {
-  console.log(`API is listening on port ${port}`);
+  console.log(`API is running on port ${port}`);
 });
