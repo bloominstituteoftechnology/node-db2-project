@@ -1,16 +1,19 @@
+/// --- Node Dependencies ---
 const express = require('express');
 const helmet = require('helmet');
 const knexConfig = require('./knexfile');
 const knex = require('knex');
 
+/// --- Instantiate Server ---
 const server = express();
-
 server.use(express.json());
 server.use(helmet());
 
+/// --- Instantiate Database ---
 const db = knex(knexConfig.development);
 
-///// --- endpoints here ---
+
+///// --- CRUD Endpoints ---
 
 /// --- Server Test READ Endpoint ---
 server.get('/', (request, response) => {
@@ -53,7 +56,6 @@ server.get('/api/:table', (request, response) => {
   })
   .catch(error => response.status(500).send(error))
 })
-
 
 /// --- READ Entry with Id CRUD Enpoint ---
 server.get('/api/:table/:id', (request, response) => {
@@ -115,6 +117,8 @@ server.delete('/api/:table/:id', (request, response) => {
   .catch(error => response.status(500).send(error))
 })
 
+
+/// --- Server Port and Listen Function ---
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
