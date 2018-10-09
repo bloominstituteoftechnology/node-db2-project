@@ -95,6 +95,24 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db('zoos').where({ id }).update(changes)
+  .then(countOfRecordsChanged => {
+
+
+    if (countOfRecordsChanged < 1 || !countOfRecordsChanged) {
+      res.status(404).json({ missingError: 'Could Not Find Given ID' });
+    } else {
+      res.status(200).json(countOfRecordsChanged);
+    }
+
+  })
+  .catch(err => res.status(500).json(err));
+})
+
 
 
 const port = 4401;
