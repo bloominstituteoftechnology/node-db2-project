@@ -11,6 +11,26 @@ server.use(helmet());
 
 // endpoints here
 
+// GET //
+server.get("/api/zoos", (req, res) => {
+	db("zoos")
+		.then(zoos => {
+			res.status(200).json(zoos);
+		})
+		.catch(err => res.status(500).json(err));
+});
+
+server.get("/api/zoos/:id", (req, res) => {
+	const { id } = req.params;
+	db("zoos")
+		.where({ id })
+		.then(zoos => {
+			res.status(200).json(zoos);
+		})
+		.catch(err => res.status(500).json(err));
+});
+////
+
 // POST //
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
