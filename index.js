@@ -48,6 +48,24 @@ server.get('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+/*########################################### DELETE ###########################################*/
+
+/************************ DELETE Zoo's ************************/
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+   db('zoos')
+    .where({ id })
+    .delete(id)
+    .then(count => {
+      if (!count || count < 1) {
+        res.status(404).json({ message: `We can't find that darn ID` });
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 const port = 9001;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on power (port) level ${port} ===\n`);
