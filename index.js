@@ -58,7 +58,7 @@ server.get('/api/zoos/:id', async (req, res) => {
 // server.get('/api/zoos/:id', (req, res) => {
 //   const { id } = req.params;
 //   db('zoos')
-//     .get(id)
+//     .where({ id })
 //     .then(zoo => {
 //       res.status(200).json(zoo);
 //     })
