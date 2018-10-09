@@ -17,11 +17,14 @@ server.get('/', (request, response) => {
   response.send('Working');
 })
 
+//// --- Zoos Table Enpoints ---
+
 /// --- CREATE New Zoo CRUD Endpoint ---
-server.post('/api/zoos', (request, response) => {
+server.post('/api/:table', (request, response) => {
+  const { table } = request.params;
   const { name } = request.body;
   db.insert({ name })
-  .into('zoos')
+  .into(table)
   .then(ids => {
     response.status(201).send(ids);
   })
@@ -31,44 +34,45 @@ server.post('/api/zoos', (request, response) => {
 })
 
 /// --- READ All Zoos CRUD Endpoint ---
-server.get('/api/zoos', (request, response) => {
-  db('zoos')
-  .then(zoos => {
-    if (zoos.length < 1) {
-      return response.status(404).send({errorMessage:"No Zoos were Found"})
+server.get('/api/:table', (request, response) => {
+  const { table } = request.params;
+  db(table)
+  .then(data => {
+    if (data.length < 1) {
+      return response.status(404).send({errorMessage:`No ${ table } were found`})
     }
-    response.status(200).send(zoos)
+    response.status(200).send(data)
   })
   .catch(error => response.status(500).send(error))
 })
 
 
 /// --- READ Zoo with Id CRUD Enpoint ---
-server.get('/api/zoos/:id', (request, response) => {
-  const { id } = request.params;
-  db('zoos')
+server.get('/api/:table/:id', (request, response) => {
+  const { id, table } = request.params;
+  db(table)
   .where({ id })
   .first()
-  .then(zoo => {
-    if(!zoo) {
-    return response.status(404).send({errorMessage:"Unable to find a Zoo with the provided id."})
+  .then(data => {
+    if(!data) {
+    return response.status(404).send({errorMessage:`Unable to find a ${ table.slice(0, -1) } with the provided id.`})
     }
-    response.status(200).send(zoo)
+    response.status(200).send(data)
 })
   .catch(error => response.status(500).send(error))
 })
 
 /// --- PUT Zoo with Id CRUD Enpoint ---
-server.put('/api/zoos/:id', (request, response) => {
-  const { id } = request.params;
+server.put('/api/:table/:id', (request, response) => {
+  const { id, table } = request.params;
   const { name } = request.body;
 
-  db('zoos')
+  db(table)
   .where({ id })
   .update({ name })
   .then(updated => {
     if(!updated || updated < 1) {
-    return response.status(400).send({errorMessage:"Unable to update the Zoo with the provided id."})
+    return response.status(400).send({errorMessage:`Unable to update the ${ table.slice(0, -1) } with the provided id.`})
     }
     response.status(200).json(updated)
 })
@@ -76,15 +80,15 @@ server.put('/api/zoos/:id', (request, response) => {
 })
 
 /// --- DELETE Zoo with Id CRUD Enpoint ---
-server.delete('/api/zoos/:id', (request, response) => {
-  const { id } = request.params;
+server.delete('/api/:table/:id', (request, response) => {
+  const { id, table } = request.params;
 
-  db('zoos')
+  db(table)
   .where({ id })
   .del()
   .then(deleted => {
     if(!deleted || deleted < 1) {
-    return response.status(400).send({errorMessage:"Unable to delete the Zoo with the provided id."})
+    return response.status(400).send({errorMessage:`Unable to delete the ${ table.slice(0, -1) } with the provided id.`})
     }
     response.status(200).json(deleted)
 })
