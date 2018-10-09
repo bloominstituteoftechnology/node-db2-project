@@ -9,6 +9,15 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+// log all method calls and addresses
+function logger(req, res, next){
+  console.log(`${req.method} to ${req.url}`)
+
+  next();
+}
+
+server.use(logger);
+
 // endpoints here
 
 server.get('/', (req, res) => {
@@ -97,6 +106,12 @@ server.delete('/api/zoos/:id', (req, res) => {
     res.status(500).json(err);
   })
 })
+
+/*** BEARS ***/
+
+const bearRoutes = require('./bearRoutes');
+server.use('/api/bears', bearRoutes);
+
 
 
 const port = 8000;
