@@ -10,7 +10,8 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
-// API ENDPOINTS FOR ZOO'S
+// GET ENDPOINTS FOR ZOO'S
+
 server.get('/api/zoos', (req, res) => {
   db('zoos')
     .then(zoos => {
@@ -27,6 +28,22 @@ server.get('/api/zoos/:id', (req, res) => {
       res.status(200).json(zoos);
     })
     .catch(err => res.status(500).json(err));
+});
+
+// POST ENDPOINTS FOR ZOO'S
+
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.body;
+  if (!zoo) {
+    res.status(500).json({ error: 'Please include a body.' });
+  } else {
+    db.insert(zoo)
+      .into('zoos')
+      .then(ids => {
+        res.status(201).json(ids[0]);
+      })
+      .catch(err => res.status(500).json(err));
+  }
 });
 
 const port = 6000;
