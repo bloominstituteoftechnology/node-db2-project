@@ -133,6 +133,21 @@ server.put('/api/bears/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// DELETE ENDPOINT FOR BEAR'S
+
+server.delete('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+  db('bears')
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(() =>
+      res.status(500).json({ error: 'There are no bear records to delete.' })
+    );
+});
+
 const port = 6000;
 
 server.listen(port, () => {
