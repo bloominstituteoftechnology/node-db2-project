@@ -23,7 +23,7 @@ function checkName(req, res, next) {
   }
 
 }
-server.post('./api/zoos', checkName, (req, res) => {
+server.post('/api/zoos', checkName, (req, res) => {
   const zoo = req.body;
   db.insert(zoo).into('zoos')
     .then(id => {
@@ -33,7 +33,7 @@ server.post('./api/zoos', checkName, (req, res) => {
       res.status(500).json({ error: 'I could not post this zoo.' }));
 
 });
-server.get('./api/zoos', (req, res)=> {
+server.get('/api/zoos', (req, res)=> {
   db('zoos')
   .then(zoos=> {
     res.status(201).json(zoos);
@@ -42,7 +42,7 @@ server.get('./api/zoos', (req, res)=> {
     res.status(500).json({error: 'I could not get zoos'}));
 
 })
-server.get('./api/zoos/:id', (req, res) => {
+server.get('/api/zoos/:id', (req, res) => {
   const id = req.params.id;
   db('zoos')
   .where('id', id)
@@ -53,7 +53,7 @@ server.get('./api/zoos/:id', (req, res) => {
       res.status(500).json({ error: 'I could not get zoo by ID' }));
 
 });
-server.delete('./api/zoos/:id', (req, res) => {
+server.delete('/api/zoos/:id', (req, res) => {
   const id= req.params.id;
   db('zoo')
   .where('id', id)
