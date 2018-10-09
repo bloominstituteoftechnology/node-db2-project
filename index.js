@@ -92,11 +92,13 @@ server.post('/api/bears', (req, res) => {
 });
 
 server.get('/api/bears', (req, res) => {
+  console.log('running bears')
   db.select().table('bears')
     .then(table => {
       res.status(201).json(table)
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json(err)
     })
 })
