@@ -31,6 +31,14 @@ server.post('/api/zoos', (request, response) => {
   })
 })
 
+/// --- READ All Zoos CRUD Endpoint ---
+
+server.get('/api/zoos', (request, response) => {
+  db('zoos')
+  .then(zoos => response.status(200).send(zoos))
+  .catch(error => response.status(500).send(error))
+})
+
 
 
 const port = 3300;
