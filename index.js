@@ -1,12 +1,17 @@
 const express = require('express');
 const helmet = require('helmet');
-
+const zooRoutes = require('./zoos/zooRoutes.js');
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.get('/', (req, res)=>{
+  res.send('This is Working');
+});
+
+server.use('/api/zoos', zooRoutes);
 
 const port = 3300;
 server.listen(port, function() {
