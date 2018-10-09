@@ -79,6 +79,16 @@ server.put('/api/zoos/:id', (req, res) => {
   });
 });
 
+//DELETE
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where({ id }).del().then(count => {
+    res.status(200).json(count);
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  });
+});
 
 
 const port = 3300;
