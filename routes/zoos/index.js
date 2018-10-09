@@ -32,4 +32,17 @@ router.post('/', (req, res) => {
 		.catch(err => res.status(500).json({ error: `There was an error while inserting the zoo into the database: ${ err }` }));
 });
 
+// update zoo with given ID
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const name = req.body;
+	zooDb
+		.update(id, name)
+		.then(putBool => {
+			if (putBool) return res.status(200).json(`The zoo with ID ${ id } was updated successfully`);
+			return res.status(404).json(`The zoo with ID ${ id } does not exist`);
+		})
+		.catch(err => res.status(500).json({ error: `There was an error while updating zoo with ID ${ id }: ${ err }` }));
+});
+
 module.exports = router;
