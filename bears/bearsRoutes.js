@@ -6,6 +6,16 @@ const router = express.Router();
 
 //=============== BEAR ENDPOINTS =============== //
 
+// get a list of zoos
+router.get("/", (req, res) => {
+  bears
+    .find()
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 // Add a bear
 router.post("/", (req, res) => {
   const { name } = req.body;
