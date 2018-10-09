@@ -1,10 +1,25 @@
 const express = require('express');
+
+const cors = require('cors');
+
 const helmet = require('helmet');
+
+const logger = require('morgan');
+
+const zoos = require('./data/lambda.sqlite3');
 
 const server = express();
 
-server.use(express.json());
-server.use(helmet());
+
+////// ++++++++MIDDLEWARE +++++++//////////
+
+server.use(
+  express.json(),
+  cors(),
+  loggger(":method :url :status :response-time ms"),
+  helmet()
+  );
+
 
 // endpoints here
 
