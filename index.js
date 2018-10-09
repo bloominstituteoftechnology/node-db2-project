@@ -25,6 +25,18 @@ server.route('/api/zoos')
       .catch(err => res.status(500).json({ error: 'The zoo could not be added.' }))
   })
 
+server.route('/api/zoos/:id')
+  .get((req, res) => {
+    const { id } = req.params
+    db('zoos')
+      .where({ id })
+      .then(zoo => {
+        if (!zoo || !zoo.length) return res.status(404).json({ error: 'The specified zoo could not be found.'})
+        return res.status(200).json(zoo)
+      })
+      .catch(err => res.status(500).json({ error: 'Could not get the specified zoo' }))
+  })
+
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`)
 })
