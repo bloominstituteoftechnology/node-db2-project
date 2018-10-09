@@ -10,11 +10,25 @@ server.use(helmet());
 
 const db = knex(knexConfig.development);
 
-// endpoints here
+///// --- endpoints here ---
 
-// Server Test READ Endpoint
+/// --- Server Test READ Endpoint ---
 server.get('/', (request, response) => {
   response.send('Working');
+})
+
+/// --- CREATE New Zoo CRUD Endpoint ---
+
+server.post('/api/zoos', (request, response) => {
+  const { name } = request.body;
+  db.insert({ name })
+  .into('zoos')
+  .then(ids => {
+    response.status(201).send(ids);
+  })
+  .catch(error => {
+    response.status(500).send(error);
+  })
 })
 
 
