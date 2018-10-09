@@ -8,7 +8,7 @@ server.use(helmet());
 
 // endpoints here
 
-// sanity check endpoint
+// main endpoint
 server.get('/', (req, res) => {
   res.send("You are home");
 });
