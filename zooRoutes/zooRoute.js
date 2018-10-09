@@ -16,21 +16,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    console.log(id);
+    const id = req.params;
 
     zoos.getById(id).then(zoo => {
-        console.log(zoo);
-        if(zoo) {
-            console.log(zoo);
-            res.status(200).json(zoo);
-        } else {
-            res.status(404).send({message: 'Zoo not found'});
+        if(!zoo) {
+            return res.status(404).send({message: 'There are no zoos by that ID'});
         }
-    }).catch(err => res.status(500).send(err));
-
-
-});
+        res.status(200).json(zoo);
+    }).catch(err => {
+        res.status(500).json(err.message);
+    });
+    
+    
+})
 
 router.post('/', (req, res) => {
     const zoo = req.body;
