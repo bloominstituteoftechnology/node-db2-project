@@ -35,8 +35,14 @@ router.get("/:id", async (req, res) => {
 
 // create a zoo
 router.post("/", (req, res) => {
-  const zoo = req.body;
+  const { name } = req.body;
+  const zoo = { name };
 
+  if (!name) {
+    return res
+      .status(400)
+      .json({ error: "Please provide a name for your zoo." });
+  }
   zoos
     .add(zoo)
     .then(ids => {
