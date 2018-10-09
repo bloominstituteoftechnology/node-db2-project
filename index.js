@@ -37,13 +37,11 @@ server.get('/api/zoos', (req, res) => {
   .catch(err => res.status(500).json(err));
 });
 
-server.get('/api/zoos/:id', (req, res) => {
+server.get('/api/zoos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const zoo = await db('zoos')
-    .where({ id })
-    .first();
-
+    const zoo = await zoos.findById(id);
+    
     if (zoo) {
       res.status(200).json(zoo);
     } else {
@@ -52,6 +50,23 @@ server.get('/api/zoos/:id', (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
+});
+
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db('zoos')
+  .where({ id })
+  .update(changes)
+  .then(count => {
+    if (!count || count < 1) {
+      res.status(404).json({ message: 'No records found to delete' });
+    } else {
+      res.status(200).json(count);
+    }
+  })
+  .catch(err => res.status(500).json(err));
 });
 
 server.delete('/api/zoos/:id', (req, res) => {
