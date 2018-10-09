@@ -46,3 +46,22 @@ router.post("/", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// put endpoint route
+router.put("/:id", (req, res) => {
+  const zoo = req.body;
+  console.log(zoo);
+  db("zoos")
+    .where({ id: req.params.id })
+    .update(zoo)
+    .then(zoo => {
+      if (zoo) {
+        res.status(200).json({ message: "update completed successfully" });
+      } else {
+        res.status(404).json({ message: "there is no zoo with this ID" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "update Faiure" });
+    });
+});
