@@ -45,7 +45,7 @@ server.get('/api/zoos', (request, response) => {
 })
 
 
-/// --- READ Zoo By Id CRUD Enpoint ---
+/// --- READ Zoo with Id CRUD Enpoint ---
 
 server.get('/api/zoos/:id', (request, response) => {
   const { id } = request.params;
@@ -61,8 +61,24 @@ server.get('/api/zoos/:id', (request, response) => {
   .catch(error => response.status(500).send(error))
 })
 
+/// --- PUT Zoo with Id CRUD Enpoint ---
 
 
+server.put('/api/zoos/:id', (request, response) => {
+  const { id } = request.params;
+  const { name } = request.body;
+
+  db('zoos')
+  .where({ id })
+  .update({ name })
+  .then(updated => {
+    if(!updated || updated < 1) {
+    return response.status(400).send({errorMessage:"Unable to update the Zoo with the provided id."})
+    }
+    response.status(200).json(updated)
+})
+  .catch(error => response.status(500).send(error))
+})
 
 const port = 3300;
 server.listen(port, function() {
