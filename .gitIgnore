@@ -61,4 +61,4 @@ typings/
 .DS_Store
 
 # VSCode settings
-.vscode/
+.vscode/node_modules
