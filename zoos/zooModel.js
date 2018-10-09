@@ -32,3 +32,17 @@ router.get("/:id", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// post endpoint
+router.post("/", (req, res) => {
+  const zoo = req.body;
+  if (!zoo) {
+    res.status(400).json({ message: "provide a zoo name" });
+  }
+  db.insert(zoo)
+    .into("zoos")
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => res.status(500).json(err));
+});
