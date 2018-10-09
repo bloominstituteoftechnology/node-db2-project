@@ -9,14 +9,14 @@ const db = knex(knexConfig.development)
 server.use(helmet())
 server.use(express.json())
 
-server.route('/')
+server.route('/api/zoos')
   .get((req, res) => {
     db('zoos')
       .then(zoos => res.status(200).json(zoos))
-      .catch(err => res.status(500).json(err))
+      .catch(err => res.status(500).json({ error: 'Could not retrieve zoos.' }))
   })
 
-server.route('/zoos')
+server.route('/api/zoos')
   .post((req, res) => {
     const zoo = req.body
     db.insert(zoo)
