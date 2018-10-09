@@ -99,6 +99,22 @@ server.get('/api/bears/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// POST ENDPOINT FOR BEAR'S
+
+server.post('/api/bears', (req, res) => {
+  const bears = req.body;
+  if (!bears) {
+    res.status(500).json({ error: 'Please include a body.' });
+  } else {
+    db.insert(bears)
+      .into('bears')
+      .then(ids => {
+        res.status(201).json(ids[0]);
+      })
+      .catch(err => res.status(500).json(err));
+  }
+});
+
 const port = 6000;
 
 server.listen(port, () => {
