@@ -47,4 +47,21 @@ router.post("/", (req, res) => {
     });
 });
 
+// update zoo
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  zoos
+    .update(id, changes)
+    .then(zoo => {
+      if (!zoo || zoo < 1) {
+        res.status(404).json({ message: "No zoo found to update" });
+      } else {
+        res.status(200).json(zoo);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
