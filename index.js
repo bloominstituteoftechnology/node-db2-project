@@ -64,6 +64,21 @@ server.put('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// DELETE ENDPOINT FOR ZOO'S
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(() =>
+      res.status(500).json({ error: 'There are no records to delete.' })
+    );
+});
+
 const port = 6000;
 
 server.listen(port, () => {
