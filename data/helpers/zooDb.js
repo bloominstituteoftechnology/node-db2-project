@@ -25,4 +25,11 @@ module.exports = {
 			.where('z.id', id)
 			.update(name);
 	},
+
+	delete: function(id) {
+		let query = db('zoos as z');
+		return query
+			.where('id', id)
+			.del();
+	},
 };
