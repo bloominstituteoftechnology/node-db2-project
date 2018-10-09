@@ -30,7 +30,7 @@ server.get('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// POST ENDPOINTS FOR ZOO'S
+// POST ENDPOINT FOR ZOO'S
 
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
@@ -44,6 +44,24 @@ server.post('/api/zoos', (req, res) => {
       })
       .catch(err => res.status(500).json(err));
   }
+});
+
+// PUT ENDPOINT FOR ZOO'S
+
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  db('zoos')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      if (!count || count < 1) {
+        res.status(401).json({ message: 'No zoo records found to update.' });
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 const port = 6000;
