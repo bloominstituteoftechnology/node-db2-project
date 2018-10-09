@@ -4,7 +4,7 @@ const zoos = require("./zoosModel.js");
 
 const router = express.Router();
 
-//=============== ENDPOINTS =============== //
+//=============== ZOO ENDPOINTS =============== //
 
 // get a list of zoos
 router.get("/", (req, res) => {
