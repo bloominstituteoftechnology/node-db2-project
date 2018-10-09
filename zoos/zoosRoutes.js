@@ -16,6 +16,23 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get a zoo by id
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const zoo = await zoos.findById(id);
+
+    if (zoo) {
+      res.status(200).json(zoo);
+    } else {
+      res.status(404).json({ message: "Zoo not found" });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // create a zoo
 router.post("/", (req, res) => {
   const zoo = req.body;
