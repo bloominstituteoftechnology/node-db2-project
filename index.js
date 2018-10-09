@@ -19,8 +19,14 @@ server.get('/', (request, response) => {
 
 /// --- CREATE New Entry CRUD Endpoint ---
 server.post('/api/:table', (request, response) => {
+
+  // Extract URL Parameters
   const { table } = request.params;
+
+  // Deconstruct Request Body
   const { name } = request.body;
+
+  // Database Promise Functions
   db.insert({ name })
   .into(table)
   .then(ids => {
@@ -33,7 +39,11 @@ server.post('/api/:table', (request, response) => {
 
 /// --- READ All Entries from Table CRUD Endpoint ---
 server.get('/api/:table', (request, response) => {
+
+  // Extract URL Parameters
   const { table } = request.params;
+
+  // Database Promise Functions
   db(table)
   .then(data => {
     if (data.length < 1) {
@@ -47,7 +57,11 @@ server.get('/api/:table', (request, response) => {
 
 /// --- READ Entry with Id CRUD Enpoint ---
 server.get('/api/:table/:id', (request, response) => {
+
+  // Extract URL Parameters
   const { id, table } = request.params;
+
+  // Database Promise Functions
   db(table)
   .where({ id })
   .first()
@@ -62,9 +76,14 @@ server.get('/api/:table/:id', (request, response) => {
 
 /// --- PUT Entry with Id CRUD Enpoint ---
 server.put('/api/:table/:id', (request, response) => {
+
+  // Extract URL Parameters
   const { id, table } = request.params;
+
+  // Deconstruct Request Body
   const { name } = request.body;
 
+  // Database Promise Functions
   db(table)
   .where({ id })
   .update({ name })
@@ -79,8 +98,11 @@ server.put('/api/:table/:id', (request, response) => {
 
 /// --- DELETE Entry with Id CRUD Enpoint ---
 server.delete('/api/:table/:id', (request, response) => {
+
+  // Extract URL Parameters
   const { id, table } = request.params;
 
+  // Database Promise Functions
   db(table)
   .where({ id })
   .del()

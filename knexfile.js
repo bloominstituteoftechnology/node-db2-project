@@ -2,6 +2,7 @@
 
 module.exports = {
 
+  // Development instance using sqlite3.
   development: {
     client: 'sqlite3',
     connection: {
