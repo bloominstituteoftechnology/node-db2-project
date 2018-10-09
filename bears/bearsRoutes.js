@@ -53,4 +53,21 @@ router.post("/", (req, res) => {
     });
 });
 
+// update a bear
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  bears
+    .update(id, changes)
+    .then(bear => {
+      if (!bear || bear < 1) {
+        res.status(404).json({ message: "No bear found to update" });
+      } else {
+        res.status(200).json(bear);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
