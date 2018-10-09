@@ -35,9 +35,32 @@ server.post('/api/zoos', (request, response) => {
 
 server.get('/api/zoos', (request, response) => {
   db('zoos')
-  .then(zoos => response.status(200).send(zoos))
+  .then(zoos => {
+    if (zoos.length < 1) {
+      return response.status(404).send({errorMessage:"No Zoos were Found"})
+    }
+    response.status(200).send(zoos)
+  })
   .catch(error => response.status(500).send(error))
 })
+
+
+/// --- READ Zoo By Id CRUD Enpoint ---
+
+server.get('/api/zoos/:id', (request, response) => {
+  const { id } = request.params;
+  db('zoos')
+  .where({ id })
+  .first()
+  .then(zoo => {
+    if(!zoo) {
+    return response.status(404).send({errorMessage:"Unable to find a Zoo with the provided id."})
+    }
+    response.status(200).send(zoo)
+})
+  .catch(error => response.status(500).send(error))
+})
+
 
 
 
