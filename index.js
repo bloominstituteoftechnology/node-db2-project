@@ -16,9 +16,9 @@ server.use(helmet());
 
   - POST /api/zoos --> ##
 
-  - DELETE /api/zoos/:id
+  - DELETE /api/zoos/:id --> ##
 
-  - PUT /api/zoos/:id
+  - PUT /api/zoos/:id --> ##
 */
 
 server.get('/', (req, res) => {
