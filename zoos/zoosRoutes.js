@@ -64,4 +64,20 @@ router.put("/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// delete a zoo
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  zoos
+    .remove(id)
+    .then(zoo => {
+      if (!zoo || zoo < 1) {
+        res.status(404).json({ message: "No zoos found to delete" });
+      } else {
+        res.status(200).json(zoo);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
