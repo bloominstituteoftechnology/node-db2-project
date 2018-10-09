@@ -7,6 +7,9 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.get('/', (requestAnimationFrame, res)=>{
+  res.send("'It's Alive'");
+})
 
 const port = 3300;
 server.listen(port, function() {
