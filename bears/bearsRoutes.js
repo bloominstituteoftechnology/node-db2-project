@@ -70,4 +70,20 @@ router.put("/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// delete a bear
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  bears
+    .remove(id)
+    .then(bear => {
+      if (!bear || bear < 1) {
+        res.status(404).json({ message: "No bears found to delete" });
+      } else {
+        res.status(200).json(bear);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
