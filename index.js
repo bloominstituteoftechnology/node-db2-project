@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const knex = require("knex");
 
 const server = express();
-const ZooRoutes = require("./Routes/ZooRoutes.js");
+const ZooRoutes = require("./routers/ZooRoutes.js");
 
 server.use(express.json());
 server.use(helmet());
