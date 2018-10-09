@@ -66,6 +66,24 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+/*########################################### PUT ###########################################*/
+
+/************************ PUT Zoo's ************************/
+
+server.put('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  const name = req.body;
+  db('zoos')
+    .where({id})
+    .update(name)
+    .then( zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
+});
+
 const port = 9001;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on power (port) level ${port} ===\n`);
