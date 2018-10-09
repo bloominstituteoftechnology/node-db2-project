@@ -32,15 +32,16 @@ server.get('/api/zoos', (request, response) => {
 server.get('/api/zoos/:id', (request, response) => {
   const id = request.params.id;
 
+  if (!{ id }) {
+    return response
+      .status(404)
+      .json({ Error: "Could not find zoo." })
+  } 
+
   zooDb('zoos')
     .where({ id })
     .then(zoo => {
-      console.log(zoo);
-      if (!zoo) {
-        return response
-          .status(404)
-          .json({ Error: "Could not find zoo." })
-      } else return response
+      return response
         .status(200)
         .json(zoo);
     })
@@ -81,7 +82,7 @@ server.put('/api/zoos/:id', (request, response) => {
   const name = request.body.name;
   const updatedZoo = { name };
 
-  if (!id) {
+  if (!zooDb('zoos').where('id', '=', id)) {
     return response
       .status(404)
       .send({ Error: `Zoo with the following ID does not exist: ${id}` });
