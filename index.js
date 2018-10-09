@@ -12,7 +12,7 @@ server.use(express.json());
 server.use(helmet());
 server.use(morgan('combined'));
 
-// ENDPOINTS
+// ZOOS ENDPOINTS
 
 //GET ALL
 server.get('/api/zoos', (req, res)=> {
@@ -98,6 +98,26 @@ server.delete('/api/zoos/:id', (req, res)=> {
       .catch(err=> {
           res.status(500).json({error: "The information could not be removed from the database"});
       })
+});
+
+//BEARS ENDPOINTS
+
+server.get('/api/bears', (req, res)=> {
+  db('bears')
+    .then(bears=> {
+      if (bears === 0) {
+        res.status(404).json({message: "There is no information to display"});
+      } else {
+        res.status(200).json(bears);
+      }
+    })
+    .catch(err=> {
+      res.status(500).json({error: "This information could not be retrieved from the database"});
+    })
+});
+
+server.post('/api/bears', (req, res)=> {
+  
 });
 
 
