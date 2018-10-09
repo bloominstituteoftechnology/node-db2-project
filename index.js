@@ -68,14 +68,31 @@ server.post('/api/zoos', (req, res) => {
 //Add DELETE ROUTE HANDLER to delete a zoo
 server.delete('/api/zoos/:id', async (req, res) => {
   const { id } = req.params;
-  // const changes = req.body;
 
   db('zoos')
     .where ({ id })
     .del()
     .then(count => {
       if (!count || count < 1) {
-        res.status(404).json({ message: 'No records found to delete'});
+        res.status(404).json({ message: 'No records found to delete.'});
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+  });
+
+//Add PUT ROUTE HANDLER to update a zoo's name
+server.put('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db('zoos')
+    .where ({ id })
+    .update(changes)
+    .then(count => {
+      if (!count || count < 1) {
+        res.status(404).json({ message: "No records found to update."});
       } else {
         res.status(200).json(count);
       }
