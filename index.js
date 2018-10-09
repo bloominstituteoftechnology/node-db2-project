@@ -33,9 +33,9 @@ server.get("/api/zoos/:id", (req, res) => {
 });
 
 // post new zoo
-server.post("api/zoos/", (req, res) => {
+server.post("/api/zoos", (req, res) => {
   const zoo = req.body;
-  if (!zoos) {
+  if (!zoo) {
     res.status(400).json({ message: "provide a zoo name" });
   }
   db.insert(zoo)
