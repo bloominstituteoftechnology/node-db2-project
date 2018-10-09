@@ -16,6 +16,23 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get a bear by id
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const bear = await bears.findById(id);
+
+    if (bear) {
+      res.status(200).json(bear);
+    } else {
+      res.status(404).json({ message: "Bear not found" });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // Add a bear
 router.post("/", (req, res) => {
   const { name } = req.body;
