@@ -79,6 +79,26 @@ server.delete('/api/zoos/:id', (req, res) => {
     );
 });
 
+// GET ENDPOINTS FOR BEAR'S
+
+server.get('/api/bears', (req, res) => {
+  db('bears')
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.get('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+  db('bears')
+    .where({ id })
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 const port = 6000;
 
 server.listen(port, () => {
