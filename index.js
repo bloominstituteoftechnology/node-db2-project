@@ -9,7 +9,7 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
+// endpoints here //
 
 // GET //
 server.get("/api/zoos", (req, res) => {
@@ -29,7 +29,7 @@ server.get("/api/zoos/:id", (req, res) => {
 		})
 		.catch(err => res.status(500).json(err));
 });
-////
+/////////
 
 // POST //
 server.post('/api/zoos', (req, res) => {
@@ -44,7 +44,7 @@ server.post('/api/zoos', (req, res) => {
       res.status(500).json(err);
     });
 });
-/////
+/////////
 
 // DELETE //
 server.delete('/api/zoos/:id', (req, res) => {
@@ -54,16 +54,39 @@ server.delete('/api/zoos/:id', (req, res) => {
     .where({ id })
     .del()
     .then(count => {
-      // count === number of records deleted
-      res.status(200).json(count);
+      if (!count || count < 1) {
+				res.status(401).json({ message: "zoo item not found" });
+			} else {
+				res.status(200).json(count);
+			}
     })
     .catch(err => {
       res.status(500).json(err);
     });
 });
-////
+/////////
 
-/////
+// PUT //
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db('zoos')
+    .where('id', '=', id)
+    .update(changes)
+    .then(count => {
+      if (!count || count < 1) {
+				res.status(401).json({ message: "zoo item not found" });
+			} else {
+				res.status(200).json(count);
+			}
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+/////////
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
