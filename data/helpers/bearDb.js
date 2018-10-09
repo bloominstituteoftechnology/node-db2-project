@@ -2,34 +2,34 @@ const db = require('../dbConfig.js');
 
 module.exports = {
 	get: function(id) {
-		let query = db('zoos as z');
+		let query = db('bears as b');
 		if (id) {
 			return query
 				.select('id', 'name')
-				.where('z.id', id);
+				.where('b.id', id);
 		}
 		return query;
 	},
 
 	insert: function(name) {
-		let query = db('zoos as z');
+		let query = db('bears as b');
 		return query
 			.insert(name)
 			.then(id => ({ id: id }));
 	},
 
 	update: function(id, name) {
-		let query = db('zoos as z');
+		let query = db('bears as b');
 		return query
 			.select('id', 'name')
-			.where('z.id', id)
+			.where('b.id', id)
 			.update(name);
 	},
 
 	delete: function(id) {
-		let query = db('zoos as z');
+		let query = db('bears as b');
 		return query
-			.where('z.id', id)
+			.where('b.id', id)
 			.del();
 	},
 };

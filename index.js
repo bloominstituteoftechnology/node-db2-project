@@ -1,6 +1,6 @@
 const express = require('express');
 const applyGlobalMiddleware = require('./config/middleware/global.js');
-const zooRoutes = require('./routes/zoos/index.js');
+const { bearRoutes ,zooRoutes } = require('./routes');
 
 const server = express();
 
@@ -8,6 +8,7 @@ const server = express();
 applyGlobalMiddleware(server);
 
 // endpoints
+server.use('/api/bears', bearRoutes);
 server.use('/api/zoos', zooRoutes);
 
 const port = 3300;

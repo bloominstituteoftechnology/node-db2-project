@@ -1,5 +1,5 @@
 const express = require('express');
-const zooDb = require('../../data/helpers/zooDb');
+const { zooDb } = require('../../data/helpers');
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
 	const name = req.body;
 	zooDb
 		.insert(name)
-		.then(id => res.status(201).json(`Successfully created new zoo with ID ${ id.id[0] }`))
+		.then(id => res.status(201).json(id.id[0]))
 		.catch(err => res.status(500).json({ error: `There was an error while inserting new zoo into the database: ${ err }` }));
 });
 
