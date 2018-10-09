@@ -34,31 +34,21 @@ server.post('/api/zoos', (req, res) => {
   const newZoo = { name };
   console.log(newZoo);
   zoos
-  .insert(newZoo)
+  .insert(newZoo).into("zoos")
   .then(zooId => {
       const { id } = zooId;
-      console.log("id", typeof(id));
-      zoos
-      .get( id )
-      .then(zoo => {
-          console.log("zoo", zoo);
-          if(!zoo) {
-              return res
-              .status(422)
-              .send({ Error: `ID ${id} duplicated`});
-          }
-      res.status(201).json(zoo);
-      });
-  })
-  .catch(err => console.log(err))
-});
+      res.status(201).json(zooId);
+      })
+      .catch(err => res.status(500).json(err))
+  });
+  
+
 
 server.get('/api/zoos', (req, res) => {
-  zoos
-  .get()
+  zoos("zoos")
   .then(zoos => {
-      console.log(`\n** zoos **`, zoos);
   res
+  .status(200)
   .json(zoos)
   })
   .catch(err => res.send(err))
