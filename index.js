@@ -35,14 +35,18 @@ server.get("/api/zoos/:id", (req, res) => {
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
 
-  db.insert(zoo)
-    .into('zoos')
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+  if (!zoo) {
+		res.status(500).json({ error: "Make sure zoo name is included" });
+	} else {
+		db.insert(zoo)
+			.into("zoos")
+			.then(ids => {
+				res.status(201).json(ids[0]);
+			})
+			.catch(err => {
+				res.status(500).json(err);
+			});
+	}
 });
 /////////
 
