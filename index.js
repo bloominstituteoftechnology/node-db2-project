@@ -12,7 +12,9 @@ server.use(express.json());
 server.use(helmet());
 server.use(morgan('combined'));
 
-// endpoints here
+// ENDPOINTS
+
+//GET ALL
 server.get('/api/zoos', (req, res)=> {
   db('zoos')
       .then(zoos=> {
@@ -27,6 +29,7 @@ server.get('/api/zoos', (req, res)=> {
       })
 });
 
+//GET BY ID
 server.get('/api/zoos/:id', async (req, res)=> {
   try {
       const {id} = req.params;
@@ -43,6 +46,7 @@ server.get('/api/zoos/:id', async (req, res)=> {
   }
 });
 
+//ADD 
 server.post('/api/zoos', (req, res)=> {
   const zoo = req.body;
   db.insert(zoo)
@@ -59,6 +63,7 @@ server.post('/api/zoos', (req, res)=> {
       })
 });
 
+//UPDATE EXISTING
 server.put('/api/zoos/:id', (req, res)=> {
   const {id} = req.params;
   const changes = req.body;
@@ -77,6 +82,7 @@ server.put('/api/zoos/:id', (req, res)=> {
       })
 });
 
+//DELETE
 server.delete('/api/zoos/:id', (req, res)=> {
   const {id} = req.params;
   db('zoos')
