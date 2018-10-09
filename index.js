@@ -36,7 +36,7 @@ server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
 
   if (!zoo) {
-		res.status(500).json({ error: "Make sure zoo name is included" });
+		res.status(500).json({ error: "Make sure zoo name is included and not a duplicate" });
 	} else {
 		db.insert(zoo)
 			.into("zoos")
