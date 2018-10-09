@@ -17,9 +17,7 @@ server.get('/', (request, response) => {
   response.send('Working');
 })
 
-//// --- Zoos Table Enpoints ---
-
-/// --- CREATE New Zoo CRUD Endpoint ---
+/// --- CREATE New Entry CRUD Endpoint ---
 server.post('/api/:table', (request, response) => {
   const { table } = request.params;
   const { name } = request.body;
@@ -33,7 +31,7 @@ server.post('/api/:table', (request, response) => {
   })
 })
 
-/// --- READ All Zoos CRUD Endpoint ---
+/// --- READ All Entries from Table CRUD Endpoint ---
 server.get('/api/:table', (request, response) => {
   const { table } = request.params;
   db(table)
@@ -47,7 +45,7 @@ server.get('/api/:table', (request, response) => {
 })
 
 
-/// --- READ Zoo with Id CRUD Enpoint ---
+/// --- READ Entry with Id CRUD Enpoint ---
 server.get('/api/:table/:id', (request, response) => {
   const { id, table } = request.params;
   db(table)
@@ -62,7 +60,7 @@ server.get('/api/:table/:id', (request, response) => {
   .catch(error => response.status(500).send(error))
 })
 
-/// --- PUT Zoo with Id CRUD Enpoint ---
+/// --- PUT Entry with Id CRUD Enpoint ---
 server.put('/api/:table/:id', (request, response) => {
   const { id, table } = request.params;
   const { name } = request.body;
@@ -79,7 +77,7 @@ server.put('/api/:table/:id', (request, response) => {
   .catch(error => response.status(500).send(error))
 })
 
-/// --- DELETE Zoo with Id CRUD Enpoint ---
+/// --- DELETE Entry with Id CRUD Enpoint ---
 server.delete('/api/:table/:id', (request, response) => {
   const { id, table } = request.params;
 
