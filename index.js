@@ -46,7 +46,7 @@ server.get('/api/zoos/:id', async (req, res)=> {
   }
 });
 
-//ADD 
+//ADD NEW
 server.post('/api/zoos', (req, res)=> {
   const zoo = req.body;
   db.insert(zoo)
@@ -102,6 +102,7 @@ server.delete('/api/zoos/:id', (req, res)=> {
 
 //BEARS ENDPOINTS
 
+//GET ALL
 server.get('/api/bears', (req, res)=> {
   db('bears')
     .then(bears=> {
@@ -116,10 +117,78 @@ server.get('/api/bears', (req, res)=> {
     })
 });
 
-server.post('/api/bears', (req, res)=> {
-  
+//GET BY ID
+server.get('/api/bears/:id', async (req, res)=> {
+  try {
+      const {id} = req.params;
+      const bear = await db('bears')
+      .where({id})
+      .first()
+      if (!bear) {
+          res.status(404).json({message: "The information you've requested does not exist"});
+      } else {
+          res.status(200).json(bear);
+      }
+  } catch (error) {
+      res.status(500).json({message: "The information you've requested cannot be retrieved from the database"});
+  }
 });
 
+
+//ADD NEW
+server.post('/api/bears', (req, res)=> {
+  const bear = req.body;
+  db.insert(bear)
+      .into('bears')
+      .then(ids=> {
+          if (!bear) {
+            res.status(400).json({message: "Please include the requested information"})
+          } else {
+            res.status(201).json(ids);
+          }
+      })
+      .catch(err=> {
+          res.status(500).json({error: "This information could not be added to the database"});
+      })
+});
+
+//UPDATE EXISTING
+server.put('/api/bears/:id', (req, res)=> {
+  const {id} = req.params;
+  const changes = req.body;
+  db('bears')
+      .where({id})
+      .update(changes)
+      .then(count => {
+          if (! count || count < 1) {
+              res.status(404).json({message: "The information you've requested does not exist"});
+          } else {
+              res.status(200).json(count);
+          }
+      })
+      .catch(err=> {
+          res.status(500).json({error: "This information could not be saved to the database"});
+      })
+});
+
+
+//DELETE
+server.delete('/api/bears/:id', (req, res)=> {
+  const {id} = req.params;
+  db('bears')
+      .where({id})
+      .del()
+      .then(count=> { 
+          if (!count || count < 1) {
+            res.status(404).json({message: "The information you've requested does not exist"});
+          } else {
+            res.status(200).json(count);
+          }
+      })
+      .catch(err=> {
+          res.status(500).json({error: "The information could not be removed from the database"});
+      })
+});
 
 const port = 3300;
 server.listen(port, function() {
