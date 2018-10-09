@@ -16,10 +16,14 @@ server.use(morgan('combined'));
 server.get('/api/zoos', (req, res)=> {
   db('zoos')
       .then(zoos=> {
-          res.status(200).json(zoos);
+          if (zoos === 0) {
+            res.status(404).json({message: "The information you've requested does not exist"});
+          } else { 
+            res.status(200).json(zoos);
+          }
       })
       .catch(err=> {
-          res.status(500).json(err);
+          res.status(500).json({error: "The information you've requested cannot be retrieved from the database"});
       })
 });
 
@@ -30,12 +34,12 @@ server.get('/api/zoos/:id', async (req, res)=> {
       .where({id})
       .first()
       if (!zoo) {
-          res.status(404).json({message: "Zoo not found"});
+          res.status(404).json({message: "The information you've requested does not exist"});
       } else {
           res.status(200).json(zoo);
       }
   } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({message: "The information you've requested cannot be retrieved from the database"});
   }
 });
 
@@ -44,10 +48,14 @@ server.post('/api/zoos', (req, res)=> {
   db.insert(zoo)
       .into('zoos')
       .then(ids=> {
-          res.status(201).json(ids);
+          if (!zoo) {
+            res.status(400).json({message: "Please include the requested information"})
+          } else {
+            res.status(201).json(ids);
+          }
       })
       .catch(err=> {
-          res.status(500).json(err);
+          res.status(500).json({error: "This information could not be added to the database"});
       })
 });
 
@@ -59,13 +67,13 @@ server.put('/api/zoos/:id', (req, res)=> {
       .update(changes)
       .then(count => {
           if (! count || count < 1) {
-              res.status(404).json({message: "Zoo not found"});
+              res.status(404).json({message: "The information you've requested does not exist"});
           } else {
               res.status(200).json(count);
           }
       })
       .catch(err=> {
-          res.status(500).json(err);
+          res.status(500).json({error: "This information could not be saved to the database"});
       })
 });
 
@@ -75,10 +83,14 @@ server.delete('/api/zoos/:id', (req, res)=> {
       .where({id})
       .del()
       .then(count=> { 
-          res.status(200).json(count);
+          if (!count || count < 1) {
+            res.status(404).json({message: "The information you've requested does not exist"});
+          } else {
+            res.status(200).json(count);
+          }
       })
       .catch(err=> {
-          res.status(500).json(err);
+          res.status(500).json({error: "The information could not be removed from the database"});
       })
 });
 
