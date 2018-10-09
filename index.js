@@ -53,9 +53,11 @@ server.get('/api/zoos/:id', (req, res) => {
       res.status(500).json({ error: 'I could not get zoo by ID' }));
 
 });
+
+
 server.delete('/api/zoos/:id', (req, res) => {
   const id= req.params.id;
-  db('zoo')
+  db('zoos')
   .where('id', id)
   .del()
     .then(zoos => {
