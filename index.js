@@ -115,6 +115,24 @@ server.post('/api/bears', (req, res) => {
   }
 });
 
+// PUT ENDPOINT FOR BEAR'S
+
+server.put('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  db('bears')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      if (!count || count < 1) {
+        res.status(401).json({ message: 'No bear records found to update.' });
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 const port = 6000;
 
 server.listen(port, () => {
