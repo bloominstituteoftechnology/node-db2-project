@@ -2,9 +2,10 @@ const express = require('express')
 const helmet = require('helmet')
 const knex = require('knex')
 const knexConfig = require('./knexfile.js')
+const port = 8000
+
 const server = express()
 const db = knex(knexConfig.development)
-
 server.use(helmet())
 server.use(express.json())
 
@@ -20,11 +21,10 @@ server.route('/zoos')
     const zoo = req.body
     db.insert(zoo)
       .into('zoos')
-      .then(zoos => res.status(201).json(zoos))
-      .catch(err => res.status(500).json(err))
+      .then(zoo => res.status(201).json(zoo))
+      .catch(err => res.status(500).json({ error: 'The zoo could not be added.' }))
   })
 
-const port = 8000
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`)
 })
