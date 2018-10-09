@@ -37,6 +37,17 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+/************************ GET Zoo's By ID ************************/
+server.get('/api/zoos/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .first()
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 const port = 9001;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on power (port) level ${port} ===\n`);
