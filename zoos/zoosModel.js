@@ -8,7 +8,7 @@ module.exports = {
     findById,
     add,
     update,
-    remove
+    remove,
 };
 
 function find() {
@@ -16,7 +16,7 @@ function find() {
 }
 
 function findById(id) {
-    return db('courses')
+    return db('zoos')
     .where({ id })
     .first();
 }
