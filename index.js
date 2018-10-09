@@ -77,6 +77,26 @@ server.post('/api/zoos', (req, res) => {
 
 
 
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos').where({ id }).del()
+    .then(countOfRecordsChanged => {
+
+
+      if (countOfRecordsChanged < 1 || !countOfRecordsChanged) {
+        res.status(404).json({ missingError: 'Could Not Find Given ID' });
+      } else {
+        res.status(200).json(countOfRecordsChanged);
+      }
+
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+
+
 const port = 4401;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
