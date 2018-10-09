@@ -46,6 +46,25 @@ server.post("api/zoos/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// put (edit zoo at id)
+server.put("api/zoos/:id", (req, res) => {
+  const zoo = req.body;
+  console.log(zoo);
+  db("zoos")
+    .where({ id: req.params.id })
+    .update(zoo)
+    .then(zoo => {
+      if (zoo) {
+        res.status(200).json({ message: "update completed success" });
+      } else {
+        res.status(404).json({ message: "there is no zoo with this ID" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "update failiure" });
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
