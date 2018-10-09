@@ -12,7 +12,47 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.get('/', (req, res) => {
+  res.send("Yup... it works.");
+});
 
+server.post('/api/zoos', (req, res) => {
+  const name = req.body;
+
+  db.insert(name)
+  .into('zoos')
+  .then(ids => {
+    res.status(201).json(ids[0])
+  })
+  .catch(err => {
+    res.status(500).json(err);
+  });
+});
+
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+  .then(zoos => {
+    res.status(200).json(zoos);
+  })
+  .catch(err => res.status(500).json(err));
+});
+
+server.get('/api/zoos/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const zoo = await db('zoos')
+    .where({ id })
+    .first();
+
+    if (zoo) {
+      res.status(200).json(zoo);
+    } else {
+      res.status(404).json({ message: 'Zoo not found' })
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 
 const port = 3300;
