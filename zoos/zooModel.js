@@ -22,3 +22,13 @@ router.get("/", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// get by id endpoint
+router.get("/:id", (req, res) => {
+  db("zoos")
+    .where({ id: req.params.id })
+    .then(zoo => {
+      res.status(200).json(zoo);
+    })
+    .catch(err => res.status(500).json(err));
+});
