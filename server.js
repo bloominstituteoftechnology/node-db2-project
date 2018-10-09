@@ -4,6 +4,7 @@ const helmet = require('helmet');
 
 // ROUTES
 const zooRoutes = require('./zoos/zooRoutes.js');
+const bearRoutes = require('./bears/bearRoutes.js');
 
 // SERVER
 const server = express();
@@ -14,6 +15,7 @@ server.use(helmet());
 
 // ENDPOINTS
 server.use('/api/zoos', zooRoutes);
+server.use('/api/bears', bearRoutes);
 
 // PORT
 const port = 3300;
