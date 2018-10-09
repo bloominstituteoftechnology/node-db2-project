@@ -2,8 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 
-const zoosRoutes = require('./zoos/zoosRoutes.js');
-const bearsRoutes = require('./bears/bearsRoutes.js');
+const zoosRoutes = require('./routes/zoosRoutes.js');
+const bearsRoutes = require('./routes/bearsRoutes.js');
 
 const knexConfig = require('./knexfile.js');
 
