@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 
-const zoosRoutes = require("./courses/zoosRoutes.js");
+const zoosRoutes = require("./zoos/zoosRoutes.js");
 
 const server = express();
 

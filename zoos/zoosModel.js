@@ -21,9 +21,9 @@ function findById(id) {
     .first();
 }
 
-function add(course) {
+function add(zoo) {
   return db("zoos")
-    .insert(course)
+    .insert(zoo)
     .into("zoos");
 }
 
