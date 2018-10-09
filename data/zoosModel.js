@@ -5,7 +5,9 @@ const db = knex(knexConfig.development);
 
 const find = (id) => {
     if(id) {
-        return db('zoos').where({id}).first();
+        return db('zoos')
+            .where({id})
+            .first();
     } else {
         return db('zoos');
     }

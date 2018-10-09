@@ -12,7 +12,7 @@ server.use('/api/bears', BearsRoutes);
 server.use('/api/zoos', ZoosRoutes);
 
 server.use((req, res) => {
-  res.status(404).json({"error": `The path '${req.url}' doesn't exist.`});
+  res.status(404).json({"error": `The requested path '${req.url}' doesn't exist.`});
 });
 
 const port = 3300;
