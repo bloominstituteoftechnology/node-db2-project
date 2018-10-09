@@ -18,7 +18,6 @@ server.get('/', (request, response) => {
 })
 
 /// --- CREATE New Zoo CRUD Endpoint ---
-
 server.post('/api/zoos', (request, response) => {
   const { name } = request.body;
   db.insert({ name })
@@ -32,7 +31,6 @@ server.post('/api/zoos', (request, response) => {
 })
 
 /// --- READ All Zoos CRUD Endpoint ---
-
 server.get('/api/zoos', (request, response) => {
   db('zoos')
   .then(zoos => {
@@ -46,7 +44,6 @@ server.get('/api/zoos', (request, response) => {
 
 
 /// --- READ Zoo with Id CRUD Enpoint ---
-
 server.get('/api/zoos/:id', (request, response) => {
   const { id } = request.params;
   db('zoos')
@@ -62,8 +59,6 @@ server.get('/api/zoos/:id', (request, response) => {
 })
 
 /// --- PUT Zoo with Id CRUD Enpoint ---
-
-
 server.put('/api/zoos/:id', (request, response) => {
   const { id } = request.params;
   const { name } = request.body;
@@ -76,6 +71,22 @@ server.put('/api/zoos/:id', (request, response) => {
     return response.status(400).send({errorMessage:"Unable to update the Zoo with the provided id."})
     }
     response.status(200).json(updated)
+})
+  .catch(error => response.status(500).send(error))
+})
+
+/// --- DELETE Zoo with Id CRUD Enpoint ---
+server.delete('/api/zoos/:id', (request, response) => {
+  const { id } = request.params;
+
+  db('zoos')
+  .where({ id })
+  .del()
+  .then(deleted => {
+    if(!deleted || deleted < 1) {
+    return response.status(400).send({errorMessage:"Unable to delete the Zoo with the provided id."})
+    }
+    response.status(200).json(deleted)
 })
   .catch(error => response.status(500).send(error))
 })
