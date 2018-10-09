@@ -35,6 +35,7 @@ server.get('/api/zoos/:id', (request, response) => {
   zooDb('zoos')
     .where({ id })
     .then(zoo => {
+      console.log(zoo);
       if (!zoo) {
         return response
           .status(404)
@@ -51,7 +52,6 @@ server.get('/api/zoos/:id', (request, response) => {
 });
 
 server.post('/api/zoos', (request, response) => {
-  console.log(request.body);
   const name = request.body.name;
   const newZoo = { name };
 
@@ -107,13 +107,13 @@ server.put('/api/zoos/:id', (request, response) => {
 });
 
 server.delete('/api/zoos/:id', (request, response) => {
-  const { id } = request.params.id;
+  const id = request.params.id;
 
-  // if (!id) {
-  //   return response
-  //     .status(404)
-  //     .json({ Error: `There is no zoo with the following ID: ${id}` })
-  // }
+  if (!{ id }) {
+    return response
+      .status(404)
+      .json({ Error: `There is no zoo with the following ID: ${id}` })
+  }
 
   zooDb('zoos')
     .where({ id })
