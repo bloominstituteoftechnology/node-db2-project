@@ -14,7 +14,7 @@ server.use(helmet());
   - GET /api/zoos/:id --> ##
   - GET /api/zoos --> ##
 
-  - POST /api/zoos
+  - POST /api/zoos --> ##
 
   - DELETE /api/zoos/:id
 
@@ -57,6 +57,22 @@ server.get('/api/zoos/:id', (req, res) => {
 
     })
     .catch(err => res.status(500).json(err));
+});
+
+
+
+
+server.post('/api/zoos', (req, res) => {
+  const { name } = req.body;
+
+  db.insert({ name })
+    .into('zoos')
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 
