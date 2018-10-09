@@ -1,11 +1,11 @@
 const express = require('express');
 
-const db = ('./zoosModel.js');
+const zoos = ('./zoosModel.js');
 
-const router = express.Router;
+const router = express.Router();
 
 router.get('/', (req, res) => {
-    db
+    zoos
         .find()
         .then(zoos => {
             res.status(200).json(zoos);
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    db
+    zoos
         findByid(id)
         .then(zoo => {
             if (zoo) {
@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const zoo = req.body;
   
-    db
+    zoos
         .add(zoo)
         .then(ids => {
             res.status(201).json(ids);
@@ -48,7 +48,7 @@ router.put('/:id', (req, res) => {
     const { id } = req.params;
     const zoo = req.body;
 
-    db
+    zoos
         .update(id, zoo)
         .then(count => {
             if (count > 0) {
@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
 const { id } = req.params;
 
-    db
+    zoos
         .remove(id)
         .then(count => {
             if (count) {
