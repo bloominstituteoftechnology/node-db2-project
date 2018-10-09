@@ -9,7 +9,7 @@ router.route('/')
   .get((req, res) => {
     db('zoos')
       .then(zoos => res.status(200).json(zoos))
-      .catch(err => res.status(500).json({ error: 'Could not retrieve zoos.' }))
+      .catch(err => res.status(500).json({ error: 'Could not retrieve any zoos.' }))
   })
   .post((req, res) => {
     const zoo = req.body
@@ -51,7 +51,7 @@ router.route('/:id')
         if (!deletedZoo || deletedZoo < 1) return res.status(404).json({ error: 'The specified zoo could not be found.' })
         return res.status(202).json(deletedZoo)
       })
-      .catch(err => res.status(500).json({ error: 'The specifid zoo could not be deleted.' }))
+      .catch(err => res.status(500).json({ error: 'The specified zoo could not be deleted.' }))
   })
 
 module.exports = router
