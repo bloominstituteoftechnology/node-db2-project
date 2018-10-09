@@ -65,3 +65,18 @@ router.put("/:id", (req, res) => {
       res.status(500).json({ message: "update Faiure" });
     });
 });
+
+// delete endpoint route
+router.delete("/:id", (req, res) => {
+  db("zoos")
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if (count) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "there is no zoo with this ID" });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
