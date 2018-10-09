@@ -1,13 +1,13 @@
 const express = require("express");
 
 const router = express.Router();
-const db = require("../data/ZooDb.js");
-const bearsDb = require("../data/BearDb.js");
+
+const db = require("../data/BearDb.js");
 
 //GET all records in DB
 router.get("/", (req, res) => {
   db.find()
-    .then(zoos => res.status(200).json(zoos))
+    .then(bears => res.status(200).json(bears))
     .catch(err => res.status(500).json(err));
 });
 
@@ -18,13 +18,13 @@ router.get("/:id", (req, res) => {
     res.status(400).json({ error: "There was an error with the request" });
   }
   db.findById(id)
-    .then(zoo => {
-      if (zoo === undefined) {
+    .then(bear => {
+      if (bear === undefined) {
         res
           .status(500)
           .json({ error: "There was an error retrieving the record" });
       }
-      res.status(200).json(zoo);
+      res.status(200).json(bear);
     })
     .catch(err =>
       res
@@ -35,11 +35,11 @@ router.get("/:id", (req, res) => {
 
 //POST new record
 router.post("/", (req, res) => {
-  const newZoo = req.body;
-  if (!newZoo) {
+  const newBear = req.body;
+  if (!newBear) {
     res.status(400).json({ error: "There was an error with the request" });
   }
-  db.insert(newZoo)
+  db.insert(newBear)
     .then(count => {
       if (!count || count === 0) {
         res.status(400).json({ error: "There was an error adding the record" });
@@ -54,11 +54,11 @@ router.post("/", (req, res) => {
 //Update existing record
 router.put("/:id", (req, res) => {
   const id = req.params.id;
-  const zoo = req.body;
-  if (!zoo || !id) {
+  const bear = req.body;
+  if (!bear || !id) {
     res.status(400).json({ error: "There was an error with the request" });
   }
-  db.update(id, zoo)
+  db.update(id, bear)
     .then(count => res.status(200).json({ message: "Record was updated" }))
     .catch(err =>
       res.status(500).json({ error: "There was an error updating the record" })
@@ -84,15 +84,6 @@ router.delete("/:id", (req, res) => {
     .catch(err =>
       res.status(500).json({ error: "There was an error removing the record" })
     );
-});
-
-//GET all bears in zoo
-router.get("/:id/bears", (req, res) => {
-  const id = req.params.id;
-  bearsDb
-    .getAllBearsInZoo(id)
-    .then(bears => res.status(200).json(bears))
-    .catch(err => res.status(500).json(err));
 });
 
 module.exports = router;

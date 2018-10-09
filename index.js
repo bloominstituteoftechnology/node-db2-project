@@ -4,10 +4,12 @@ const knex = require("knex");
 
 const server = express();
 const ZooRoutes = require("./routers/ZooRoutes.js");
+const BearRoutes = require("./routers/BearRoutes.js");
 
 server.use(express.json());
 server.use(helmet());
 server.use("/api/zoos/", ZooRoutes);
+server.use("/api/bears", BearRoutes);
 
 // endpoints here
 // server.get("/api/zoo", (req, res) => {
