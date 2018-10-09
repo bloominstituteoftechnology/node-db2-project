@@ -5,8 +5,8 @@ module.exports = {
 		let query = db('zoos as z');
 		if (id) {
 			return query
-				.select('name')
-				.where('z.id', id)
+				.select('id', 'name')
+				.where('z.id', id);
 		}
 
 		return query;
