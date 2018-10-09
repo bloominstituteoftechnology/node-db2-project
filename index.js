@@ -1,12 +1,18 @@
 const express = require('express');
 
+const knex = require('knex');
+
+const knexConfig = require('./knexfile');
+
+const zoos = knex(knexConfig.development);
+
 const cors = require('cors');
 
 const helmet = require('helmet');
 
 const logger = require('morgan');
 
-const zoos = require('./data/lambda.sqlite3');
+// const zoos = require('./data/lambda.sqlite3');
 
 const server = express();
 
@@ -16,12 +22,47 @@ const server = express();
 server.use(
   express.json(),
   cors(),
-  loggger(":method :url :status :response-time ms"),
+  logger(":method :url :status :response-time ms"),
   helmet()
   );
 
 
-// endpoints here
+////////////+++zoo Routes++++/////////////////////////////
+
+server.post('/api/zoos', (req, res) => {
+  const { name } = req.body;
+  const newZoo = { name };
+  console.log(newZoo);
+  zoos
+  .insert(newZoo)
+  .then(zooId => {
+      const { id } = zooId;
+      console.log("id", typeof(id));
+      zoos
+      .get( id )
+      .then(zoo => {
+          console.log("zoo", zoo);
+          if(!zoo) {
+              return res
+              .status(422)
+              .send({ Error: `ID ${id} duplicated`});
+          }
+      res.status(201).json(zoo);
+      });
+  })
+  .catch(err => console.log(err))
+});
+
+server.get('/api/zoos', (req, res) => {
+  zoos
+  .get()
+  .then(zoos => {
+      console.log(`\n** zoos **`, zoos);
+  res
+  .json(zoos)
+  })
+  .catch(err => res.send(err))
+});
 
 const port = 3300;
 server.listen(port, function() {
