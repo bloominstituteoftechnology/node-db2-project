@@ -8,8 +8,6 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
-
 server.use("/api/zoos", zoosRoutes);
 
 const port = 3300;
