@@ -1,6 +1,5 @@
 const errorHandler = (err, req, res, next) => {
     // err = [errorId, supplied message for errorOutput]
-    if(!errors.hasOwnProperty(err[1])) throw `Uncaught Exception! Please review:\n${err}`;
     const errors = {
         h400: {
             "httpStatus": 400,
@@ -24,6 +23,8 @@ const errorHandler = (err, req, res, next) => {
             "errorOutput": err[1]
         }
     };
+    
+    if(!errors.hasOwnProperty(err[1])) throw `Uncaught Exception! Please review:\n${err}`;
 
     console.error('\x1b[31m%s\x1b[0m', 'Error:\n', err[1]);
 
