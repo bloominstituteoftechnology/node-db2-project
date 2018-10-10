@@ -28,9 +28,13 @@ server.get('/api/zoos/:id', (req, res) =>  {
   const {id} = req.params;
   db('zoos')
     .select("*").where("id", "=", id)
-    .update(updatedZoo)
-    .into('zoos')
-})
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+});
 
 server.post('/api/zoos', (req, res) => {
   const newZoo = req.body;
