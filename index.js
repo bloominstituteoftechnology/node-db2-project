@@ -14,7 +14,7 @@ server.use(helmet());
 // endpoints here:
 server.get('/api/zoos', (req, res) => {
   db
-      .select()
+      .select('name').from('zoos')
       .then(response => {
           res.status(200).json(response);
       })
@@ -22,6 +22,22 @@ server.get('/api/zoos', (req, res) => {
           res.status(500).json(err)
       })
 });
+
+server.post('/api/zoos', (req, res) => {
+  const newZoo = req.body;
+
+  db
+      .insert(newZoo)
+      .into('zoos')
+      .then(response => {
+          res.status(200).json(response);
+      })
+      .catch(err => {
+          res.status(500).json(err);
+      })
+}); 
+
+
 
 
 // Server Listen:
