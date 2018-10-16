@@ -62,8 +62,42 @@ server.post('/api/zoos', (req, res) => {
     })
 });
 // update
+server.get('/api/zoos/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const changes = req.body;
 
+      const updatedZoo = await db('zoos')
+        .where({ id })
+        .update(changes)
+        if(updatedZoo) {
+          res.status(200).json({ message: `${updatedZoo}(s) were modified`});
+        } else {
+          res.status(404).json({ message: `Zoo ID ${id} does not exhist`})
+        }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 // delete
+server.delete('/api/zoos/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      const zoo = await db('zoos')
+        // when using where, the api returns a collection
+        // meaning an array with nested object returns
+        .where({ id })
+        .delete()
+        if(zoo) {
+          res.status(200).json(zoo);
+        } else {
+          res.status(404).json({ message: `Zoo ID ${id} does not exhist`})
+        }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 const port = 3300;
 server.listen(port, function() {
