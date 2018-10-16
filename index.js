@@ -17,7 +17,8 @@ server.use(helmet());
 // testing server
 server.get('/', (req, res) => {
   res.json("Yahoo was good for Japanese Market place")
-})
+});
+
 // get
 server.get('/api/zoos', (req, res) => {
   db('zoos')
@@ -27,7 +28,28 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => {
       res.status(500).json(err);
     })
-})
+});
+
+// get by id 
+server.get('/api/zoos/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      const zoo = await db('zoos')
+        // when using where, the api returns a collection
+        // meaning an array with nested object returns
+        .where({ id })
+        .first() // or { id[0] }
+        if(zoo) {
+          res.status(200).json(zoo);
+        } else {
+          res.status(404).json({ message: `Zoo ID ${id} does not exhist`})
+        }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // create 
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
@@ -38,7 +60,7 @@ server.post('/api/zoos', (req, res) => {
     .catch(err => {
       res.status(500).json(err);
     })
-})
+});
 // update
 
 // delete
