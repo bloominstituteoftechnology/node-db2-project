@@ -30,8 +30,21 @@ server.get('/api/zoos/', (req, res) => {
     })
 })
 
+server.get('/api/zoos/:id', (req, res) => {
+  const id = req.params.id
+  db('zoos')
+    .where({ id })
+    .then(zoo => {
+      res.status(200).json(zoo)
+    })
+    .catch(e => {
+      res.status(500).json(e)
+    })
+
+})
+
 server.post('/api/zoos/', (req, res) => {
-  const newZoo = req.body;
+  const newZoo = req.body
   db('zoos')
     .insert(newZoo)
     .into('zoos')
@@ -44,7 +57,28 @@ server.post('/api/zoos/', (req, res) => {
 })
 
 server.put('/api/zoos/:id', (req, res) => {
-  const editZoo = req.body;
+  const editZoo = req.body
+  const id = req.params.id
   db('zoos')
-    .update()
+    .where({ id })
+    .update(editZoo)
+    .then(zoo => {
+      res.status(200).json(zoo)
+    })
+    .catch(e => {
+      res.status(500).json(e)
+    })
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const id = req.params.id
+  db('zoos')
+    .where({ id })
+    .del()
+    .then(zoo => {
+      res.status(200).json(`${zoo} has been deleted!`)
+    })
+    .catch(e => {
+      res.status(500).json(e)
+    })
 })
