@@ -8,6 +8,9 @@
   },
   "author": "Lambda School",
   "license": "ISC",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "helmet": "^3.13.0",
