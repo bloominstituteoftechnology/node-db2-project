@@ -16,6 +16,7 @@ server.get('/', (req, res) => {
   res.send('It is working!');
 });
 
+// read zoos
 server.get('/api/zoos', (req, res) => {
   db('zoos')
     .then(zoos => {
@@ -24,6 +25,20 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => {
       res.status(500).json(err);
     })
+});
+
+// read zoos by id
+server.get('/api/zoos/:id', (req,res) => {
+  const id = req.params.id;
+  db('zoos').where({id})
+    .then(zoo=>{
+      if (zoo){
+        res.status(200).json(zoo[0]);
+      } else {
+        res.status(404).json({ message: 'zoo not found'});
+      }
+    })
+    .catch(err=>res.status(500).json(err));
 });
 
 // server.get('/api/zoos/:id', async (req, res) => {
@@ -44,19 +59,7 @@ server.get('/api/zoos', (req, res) => {
 //   }
 //  });
 
-server.get('/api/zoos/:id', (req,res) => {
-  const id = req.params.id;
-  db('zoos').where({id})
-    .then(zoo=>{
-      if (zoo){
-        res.status(200).json(zoo[0]);
-      } else {
-        res.status(404).json({ message: 'zoo not found'});
-      }
-    })
-    .catch(err=>res.status(500).json(err));
-})
-
+// create zoos
 server.post('/api/zoos', (req, res) => {
   // grab data from body
   const zoo = req.body;
@@ -73,6 +76,7 @@ server.post('/api/zoos', (req, res) => {
     })
 });
 
+// update zoos
 server.put('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
   const newZoo = req.body;
@@ -92,6 +96,7 @@ server.put('/api/zoos/:id', (req, res) => {
     })
 });
 
+// delete zoos
 server.delete('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
 
