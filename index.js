@@ -19,3 +19,32 @@ server.listen(port, function() {
 server.get('/', (req, res) => {
   res.json('We got it active');
 })
+
+server.get('/api/zoos/', (req, res) => {
+  db('zoos')
+    .then(zoo => {
+      res.status(200).json(zoo)
+    })
+    .catch(e => {
+      res.status(500).json(e)
+    })
+})
+
+server.post('/api/zoos/', (req, res) => {
+  const newZoo = req.body;
+  db('zoos')
+    .insert(newZoo)
+    .into('zoos')
+    .then(zoo => {
+      res.status(200).json(zoo)
+    })
+    .catch(e => {
+      res.status(500).json(e)
+    })
+})
+
+server.put('/api/zoos/:id', (req, res) => {
+  const editZoo = req.body;
+  db('zoos')
+    .update()
+})
