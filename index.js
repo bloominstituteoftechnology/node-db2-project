@@ -73,7 +73,24 @@ server.post('/api/zoos', (req, res) => {
     })
 });
 
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const newZoo = req.body;
 
+  db('zoos')
+    .where({ id })
+    .update(newZoo)
+    .then(zoo => {
+      if (!zoo || zoo < 1) {
+        res.status(404).json({ message: 'No records found to update'});
+      } else {
+        res.status(200).json(zoo);
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
 
 const port = 3300;
 server.listen(port, function() {
