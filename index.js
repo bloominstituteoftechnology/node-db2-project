@@ -8,8 +8,6 @@ server.use(helmet());
 
 const zoosRoutes = require('./routes/zooRoutes.js');
 
-// endpoints here
-// sanity check endpoint
 server.get('/', (req, res)=>{
   res.send("It's Alive");
 });
