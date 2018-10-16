@@ -26,6 +26,24 @@ server.get('/api/zoos', (req, res) => {
     })
 });
 
+// server.get('/api/zoos/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     const zoo = await db('zoos')
+//       .where({ id })
+//       .first();
+
+//     if (zoo) {
+//       res.status(200).json(zoo);
+//     } else {
+//       res.status(404).json({ message: 'zoo not found' });
+//     }
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+//  });
+
 server.get('/api/zoos/:id', (req,res) => {
   const id = req.params.id;
   db('zoos').where({id})
@@ -54,6 +72,8 @@ server.post('/api/zoos', (req, res) => {
       res.status(500).json(err);
     })
 });
+
+
 
 const port = 3300;
 server.listen(port, function() {
