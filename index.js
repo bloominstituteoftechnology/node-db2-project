@@ -62,7 +62,7 @@ server.post('/api/zoos', (req, res) => {
     })
 });
 // update
-server.get('/api/zoos/:id', async (req, res) => {
+server.put('/api/zoos/:id', async (req, res) => {
   try {
       const { id } = req.params;
       const changes = req.body;
@@ -70,10 +70,10 @@ server.get('/api/zoos/:id', async (req, res) => {
       const updatedZoo = await db('zoos')
         .where({ id })
         .update(changes)
-        if(updatedZoo) {
-          res.status(200).json({ message: `${updatedZoo}(s) were modified`});
+        if(!updatedZoo || updatedZoo < 1) {
+          res.status(404).json({ message: `Record with ID ${id} does not exhist`})
         } else {
-          res.status(404).json({ message: `Zoo ID ${id} does not exhist`})
+          res.status(200).json({ message: `${updatedZoo} Zoo was modified`});
         }
   } catch (error) {
     res.status(500).json(error);
