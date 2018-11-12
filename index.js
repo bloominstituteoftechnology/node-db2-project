@@ -22,11 +22,23 @@ server.get('/api/animals', (req, res) => {
     res.status(200).json(names)
   })
   .catch(err => {
-    console.log(err)
-    res.status(500).json('Error')
+    res.status(500).json(err)
   });
 });
 
+
+server.post('/api/animals', (req, res) => {
+  const name = req.body;
+   db
+   .insert(name)
+   .into('zoos')
+  .then(name => {
+    res.status(200).json(name)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  });
+})
 
 const port = 3300;
 server.listen(port, function() {
