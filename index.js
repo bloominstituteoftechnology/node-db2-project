@@ -14,6 +14,18 @@ server.get('/', (req, res) => {
   res.json('Home');
 });
 
+server.get('/api/animals', (req, res) => {
+  db('zoos')
+  .select('name')
+  .then(names => {
+    console.log(names)
+    res.status(200).json(names)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json('Error')
+  });
+});
 
 
 const port = 3300;
