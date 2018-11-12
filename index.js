@@ -32,7 +32,8 @@ server.get('/api/animals/:id', (req, res) => {
     .then(zoos => {
       res.status(200).json(zoos);
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => 
+    res.status(500).json(err));
 });
 
 server.post('/api/animals', (req, res) => {
@@ -47,6 +48,37 @@ server.post('/api/animals', (req, res) => {
     res.status(500).json(err)
   });
 })
+
+server.put('/api/animals/:id', (req, res) => {
+  const zoo = req.body;
+  db('zoos')
+    .where({ id: req.params.id })
+    .update(zoo)
+    .then(zoo => {
+      if (zoo) {
+        res.status(200).json({ message: "Successfully Updated." });
+      } else {
+        res.status(404).json({ message: "No Zoo associated with this ID" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Sorry, we could not update this zoo." });
+    });
+});
+
+server.delete('/api/animals/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if (count) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "No Zoo associated with this ID" });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
 
 
 
