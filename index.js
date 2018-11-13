@@ -43,6 +43,21 @@ server.get('/api/zoos/:id', (req, res) => {
     })
 })
 
+// POST new zoo to api
+server.post('/api/zoos', (req, res) => {
+  db('zoos')
+    .insert(req.body)
+    .then(id => {
+      return db('zoos').where({ id: id[0] });
+    })
+    .then(zoo => {
+      res.status(201).json(zoo);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Error creating zoo', error: err });
+    });
+});
+
 const port = 3300;
 server.listen(port, function () {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
