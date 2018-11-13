@@ -16,6 +16,16 @@ server.get('/', (req, res) => {
   res.json({ api: 'tis running properly' });
 });
 
+server.get('/api/zoos', (req,res) => {
+  db('zoos')
+    .then(zoo => {
+      res.status(200).json(zoo)
+    })
+    .catch(error => {
+      res.status(500).json({err : error})
+    })
+})
+
 server.post('/api/zoos', (req, res) => {
   const newZoo = req.body;
   db('zoos')
