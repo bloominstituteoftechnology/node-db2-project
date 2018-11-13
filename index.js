@@ -33,6 +33,13 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.get('/api/zoos/:id', (req, res) => {
+  db('zoos')
+  .where({ id: req.params.id })
+    .then(zoos => res.status(200).json(zoos))
+    .catch(err => res.status(500).json(err));
+});
+
 server.get('/', (req, res) => {
   res.json({ api: 'running' });
 });
