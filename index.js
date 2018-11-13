@@ -68,7 +68,18 @@ server.delete('/api/zoos/:id', async (req, res) => {
   }
 });
 
-
+server.put('/api/zoos/:id', async (req, res) => {
+  const updates = req.body;
+  const id = req.params.id;
+  try {
+    const count = await db('zoos').where({ id: id }).update(updates);
+    const updatedZoo = await db('zoos').where({ id: id });
+    const zooObj = updatedZoo[0];
+    res.status(201).json({zooObj});
+  } catch(err) {
+    res.status(501).json({ message: err });
+  }
+});
 
 const port = 3300;
 server.listen(port, function() {
