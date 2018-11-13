@@ -16,10 +16,18 @@ server.get("/", (req, res) => {
   res.json({ api: "up" });
 });
 
-server.get("/api/students", (req, res) => {
-  db("students")
-    .then(students => res.status(200).json(students))
-    .catch(err => res.status(500).json(err));
+server.get("/api/zoos", (req, res) => {
+  db("zoos")
+    .then(zoos => res.status(200).json(zoos))
+    .catch(err => res.status(500).json({ error: err }));
+});
+
+server.get("/api/zoos/:id", (req, res) => {
+  const { zooId } = req.params;
+  db("zoos")
+    .where({ id: zooId })
+    .then(zooInfo => res.status(200).json(zooInfo))
+    .catch(err => res.status(500).json({ error: err }));
 });
 
 server.post("/api/students", (req, res) => {
