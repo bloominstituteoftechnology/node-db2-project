@@ -15,7 +15,31 @@ server.get('/api/zoos', async (req, res) => {
 		let zoo = await db.select('*').from('zoos')
 		res.status(200).json(zoo)
 	} catch (e) {
-		res.status(500).json(e)
+		res.status(500).json({ error: 'The posts could not be accessed from the database.' })
+	}
+})
+
+server.get('/api/zoos/:id', async (req, res) => {
+	const { id } = req.params
+	try {
+		let zoo = await db.select('*').from('zoos').where('id', id)
+		zoo.length !== 0 ? res.status(200).json(zoo) : res.status(404).json({ message: 'ID not found.' })
+	} catch (e) {
+		res.status(500).json({ error: 'There was an error accessing the post from teh database.' })
+	}
+})
+
+server.post('/api/zoos', async (req, res) => {
+	const { name } = req.body
+	if (!name) {
+		res.status(400).json({ errorMessage: 'A name must be provided.' })
+	}
+
+	try {
+		let id = await db.insert(req.body).into('zoos')
+		res.status(201).json(id)
+	} catch (e) {
+		res.status(500).json({ error: 'The post could not be saved to the database.' })
 	}
 })
 
