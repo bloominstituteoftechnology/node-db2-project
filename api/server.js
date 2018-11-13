@@ -8,6 +8,7 @@ const server = express();
 
 // middleware
 configureMiddleware(server);
+
 server.get('/', (req, res) => {
   res.status(200).json({message: 'server up'})
 })
