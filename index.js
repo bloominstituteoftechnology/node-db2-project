@@ -51,12 +51,33 @@ server.post('/api/zoos', (req, res) => {
       return db('zoos').where({ id: id[0] });
     })
     .then(zoo => {
-      res.status(201).json(zoo);
+      if (zoo.length) {
+        res.status(201).json(zoo);
+      } else {
+        res.status(404).json({ errorMessage: 'Error creating zoo. Zoo at specified index does not exist' })
+      }
     })
     .catch(err => {
       res.status(500).json({ errorMessage: 'Error creating zoo', error: err });
     });
 });
+
+// DELETE zoo from api
+server.delete('/api/zoos/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if(count){
+        res.status(200).json( { successMessage: 'Successfully deleted zoo at specified index', count });
+      } else {
+        res.status(400).json( { errorMessage: 'Error deleting zoo, index may not exist'})
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Error deleting zoo', error: err })
+    })
+})
 
 const port = 3300;
 server.listen(port, function () {
