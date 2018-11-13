@@ -65,6 +65,62 @@ server.put("/api/zoos/:id", (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// endpoints for new bears
+
+server.post("/api/bears", (req, res) => {
+  const zoo = req.body;
+  console.log(req.body);
+
+  db("bears")
+    .insert(zoo)
+    .returning("id")
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Error inserting bear", err });
+    });
+});
+
+server.get("/api/bears", (req, res) => {
+  db("bears")
+    .then(students => res.status(200).json(students))
+    .catch(err => res.status(500).json(err));
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db("bears")
+    .where({ id: id })
+    .then(name => res.status(200).json(name))
+    .catch(err => res.status(500).json({ error: err }));
+});
+
+server.delete("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("bears")
+    .where({ id: id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json({ error: err }));
+});
+
+server.put("/api/bears/:id", (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db("bears")
+    .where({ id: id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json({ error: err }));
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
