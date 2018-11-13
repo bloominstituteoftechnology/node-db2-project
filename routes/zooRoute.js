@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  if (!req.body) {
+  if (!req.body.name) {
     res.status(400).json({ message: 'The request is missing required information: name of zoo' })
   } else {
       db('zoos')
