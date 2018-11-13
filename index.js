@@ -20,9 +20,9 @@ server.get('/api/zoos', (req, res) => {
 });
 
 server.get('/api/zoos/:id', (req, res) => {
-  const { zooId } = req.params;
+  const { id } = req.params;
   db('zoos')
-    .where({ id: zooId })
+    .where({ id })
     .then(zoo => {
       res.status(200).json(zoo)
     })
@@ -31,13 +31,13 @@ server.get('/api/zoos/:id', (req, res) => {
     })
 });
 
-server.put('/api/zoos/:id', (req, res) =>{
+server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
   const { id } = req.params;
   db('zoos')
-    .where({id })
+    .where({ id })
     .update(changes)
-    .then(count =>{
+    .then(count => {
       res.status(200).json(count)
     })
     .catch(err => {
@@ -47,7 +47,6 @@ server.put('/api/zoos/:id', (req, res) =>{
 
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
-
   db('zoos')
     .insert(zoo)
     // .returning('id')
@@ -55,7 +54,20 @@ server.post('/api/zoos', (req, res) => {
       res.status(201).json(ids)
     })
     .catch(err => {
-      res.status(500).json({Message: 'Error inserting', err})
+      res.status(500).json({ Message: 'Error inserting', err })
+    })
+});
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json(count)
+    })
+    .catch(err => {
+      res.status(500).json({ Message: 'Error deleting', err })
     })
 });
 
