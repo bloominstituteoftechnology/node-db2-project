@@ -27,7 +27,6 @@ const {id} = req.params;
 
 server.post("/api/zoos", (req, res) => {
   const changes = req.body;
-  console.log(changes.name)
 
   if (changes.name === "" || changes.name === undefined) {
     return res.status(400).json({error: "Please make sure the zoo name is indexed."})
@@ -35,7 +34,22 @@ server.post("/api/zoos", (req, res) => {
 
   db("zoos")
     .insert(changes)
-    .then(id => res.status(200).json(id))
+    .then(id => res.status(201).json(id))
+    .catch(err => res.status(500).json({errorMessage: err}))
+})
+
+server.put("/api/zoos/:id", (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+
+  if (changes.name === "" || changes.name === undefined) {
+    return res.status(400).json({error: "Please make sure the zoo name is indexed."})
+  }
+
+  db("zoos")
+    .where({id})
+    .update(changes)
+    .then(id => res.status(201).json(id))
     .catch(err => res.status(500).json({errorMessage: err}))
 })
 
