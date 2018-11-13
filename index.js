@@ -19,7 +19,7 @@ server.post("/api/zoos", (req, res) => {
   const zoo = req.body;
 
   if (zoo.name === "") {
-    res.status(400).json({ message: "Please Include a name" });
+    res.status(400).json({ message: "Please include a name" });
   } else {
     db("zoos")
       .insert(zoo)
@@ -62,6 +62,33 @@ server.get("/api/zoos/:id", (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "There was an error getting the data" });
     });
+});
+
+server.put("/api/zoos/:id", (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  if (changes.name === "") {
+    res.status(400).json({ message: "Please include a name" });
+  } else {
+    db("zoos")
+      .where({ id })
+      .update(changes)
+      .then(count => {
+        if (!changes.length) {
+          res
+            .status(404)
+            .json({ message: "Could not find zoo with specified id" });
+        } else {
+          res.status(200).json({ count });
+        }
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ message: "There was an error updating the zoo" });
+      });
+  }
 });
 
 const port = 3300;
