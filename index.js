@@ -43,13 +43,22 @@ server.get('/api/zoos/:id', (req, res) => {
       }
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          message: 'The zoo information could not be retrieved.',
-          error: err
-        });
+      res.status(500).json({
+        message: 'The zoo information could not be retrieved.',
+        error: err
+      });
     });
+});
+
+//POST zoo
+server.post('/api/zoos', (req, res) => {
+  db.insert(req.body)
+    .then(success => res.status(201).json(success))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your zoo could not be added.', error: err })
+    );
 });
 
 const port = 3300;
