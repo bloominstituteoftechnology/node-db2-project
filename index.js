@@ -26,18 +26,17 @@ server.get('/api/zoos', (req,res) => {
     })
 })
 //Currently Not working Going to figure it out later
-server.get('/api/zoos/:zooId',(req,res) => {
-
-  const { ID } = Number(req.params.zooId);
-  
-  db('zoos')
-    .where({ id: ID})
-    .then(zoos => {
-        res.status(200).json(zoos);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    })
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+    db('zoos')
+      .where({id})
+      .then(zoo => {
+        if (!zoo.length) {
+          res.status(404).json({message: `zoo with id : ${id} not found `})
+        }
+        res.status(200).json({zoo})
+      })
+    .catch(error => res.status(500).json({message: 'error getting zoo by id', error}))
 })// Not working
 
 server.post('/api/zoos', (req, res) => {
