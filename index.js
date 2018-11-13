@@ -12,16 +12,24 @@ server.use(helmet());
 // endpoints here
 
 server.get('/', (req, res) => {
-  res.json({ api: 'up' });
+  res.json({ api: 'api running' });
 });
 
-server.get('/api/animals', (req, res) => {
-  db('zoos')
+server.get('/api/zoos', (req, res) => {
+  db('zoos').get(req.params.id)
   .then(zoos => res.status(200).json(zoos))
   .catch(error => res.status(500).json({message: 'error getting names'}))
 })
 
-server.post('/api/animals', (req, res) => {
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+  .where({ id: id })
+  .then(zoos => res.status(200).json(zoos))
+  .catch(error => res.status(500).json({message: 'error getting names'}))
+})
+
+server.post('/api/zoos', (req, res) => {
   const name = req.body;
   db('zoos')
   .insert(name)
@@ -31,7 +39,18 @@ server.post('/api/animals', (req, res) => {
   .catch(err => res.status(500).json({message: 'Error adding name'}))
 })
 
-
+server.put('/api/zoos/:id', (req, res) => {
+  db('zoos')
+  const changes = req.body;
+  const { id } = req.params;
+  db('zoos')
+  .where({ id: id })
+  .update(changes)
+  .then(count => {
+    res.status(200).json({ count })
+  })
+  .catch(error => res.status(500).json({ message: 'Error updating name'}))
+})
 
 
 const port = 3300;
