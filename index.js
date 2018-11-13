@@ -59,7 +59,9 @@ server.delete("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({id})
     .del()
-    .then(count => res.status(200).json(count))
+    .then(count => count === 0 ? 
+      res.status(400).json({error: "Please enter a valid id"}) :
+      res.status(200).json(count))
     .catch(err => res.status(500).json({errorMessage: err}))
 })
 
