@@ -65,22 +65,21 @@ server.post('/api/zoos', (req, res) => {
 });
 
 //PUT zoo
-server.put('/api/zoos/:id'),
-  (req, res) => {
-    const changes = req.body;
-    const { id } = req.params;
-    db('zoos')
-      .where({ id })
-      .update(changes)
-      .then(count => {
-        res.status(200).json({ count });
-      })
-      .catch(err =>
-        res
-          .status(500)
-          .json({ message: 'Your zoo could not be udpated.', error: err })
-      );
-  };
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'Your zoo could not be udpated.', error: err })
+    );
+});
 
 //DELETE zoo
 server.delete('/api/zoos/:id', (req, res) => {
