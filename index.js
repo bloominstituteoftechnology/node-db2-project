@@ -52,10 +52,10 @@ server.put('/api/zoos/:id', (req, res) => {
 // ___________ DELETE _______________
 
 server.delete('/api/zoos/:id', (req, res) => {
-  const { studentid } = req.params;
+  const { id } = req.params;
 
   db('zoos')
-    .where({ id: studentid })
+    .where({ id:id })
     .del()
     .then(count => {
       res.status(200).json({ count });
