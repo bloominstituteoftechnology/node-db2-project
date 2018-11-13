@@ -30,7 +30,7 @@ server.post('/api/zoos', (req,res) => {
       res.status(201).json(id)
     })
     .catch(error => {
-      res.status(500).json(error)
+      res.status(500).json({message: "Zoo could not be added"})
     })
   }
 })
@@ -94,4 +94,30 @@ server.put('/api/zoos/:zooID', (req,res) => {
       res.status(500).json({message: "Zoo could not be updated"})
     })
   }
+})
+
+server.post('/api/bears', (req,res) => {
+  const bear = req.body;
+  if(bear.name === undefined) {
+    res.status(400).json({message: "Please provide a bear name"})
+  } else if (bear.name.length = 0) {
+    res.status(400).json({message: "Bear name too short"})
+  } else {
+    db('bears')
+    .insert(bear)
+    .then(id => {
+      res.status(201).json(id)
+    })
+    .catch(error => {
+      res.status(500).json({message: "Bear could not be added"})
+    })
+  }
+})
+
+server.get('/api/bears', (req,res) => {
+  db('bears')
+  .then(bears =>  
+    res.status(200).json(bears))
+  .catch(err => 
+    res.status(500).json({message: "Bears could not be accessed"}))
 })
