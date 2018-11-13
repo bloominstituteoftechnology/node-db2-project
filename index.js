@@ -16,10 +16,27 @@ server.get('/', (req, res) => {
 
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
+    if(zoo || zoo.length) {
+    db('zoos')
+      .insert(zoo)
+      .then(id => res.status(201).json(id))
+      .catch(err => res.status(500).json({message: "there was a problem creating the zoo"}))
+    } else {
+      res.status(500).json({message: 'The data was invalid'})
+    }
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  console.log(req.params)
+  const {zooId} = req.params;
   db('zoos')
-    .insert(zoo)
-    // .returning('id')
-    .then(id => res.status(201).json(id))
+    .where({id: zooId})
+    .del()
+    .then(count => {
+      res.status(200).json({count})
+     
+    })
+    .catch(err => res.status(500).json(err))
 })
 
 // endpoints here
