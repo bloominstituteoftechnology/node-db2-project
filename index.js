@@ -16,7 +16,74 @@ server.use(helmet());
 
 // endpoints here
 
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.params.name;
+  db('zoos')
+    .insert(zoo)
+    .returning('id')
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting new zoo, call the governer' });
+    });
+});
 
+server.get('/', (req, res) => {
+  res.json('you forgot to add the /api/zoos or whatever URL you should have put in');
+});
+
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(zoos => res.status(200).json(zoos))
+    .catch(err => res.status(500).json({ error: 'The zoos could not be retrieved' }));
+});
+
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .get(id)
+    .then(zoo => {
+      if (!zoo) {
+        res.status(404).json({ message: 'a zoo with that ID cannot be found. I guess PETA won this battle' })
+      }
+      escape.status(200).json(zoo)
+    })
+    .catch(err => res.status(500).json({ error: 'That zoo could not be retrieved' }))
+});
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .del()
+    .then(count => {
+      if (count === 0) {
+        res.status(404).json({ message: 'A zoo with that ID could be found for deletion, look harder' })
+      }
+      res.status(200).json({ count })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'there was an error deleting this zoo' })
+    })
+});
+
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .update(changes)
+    .then(count => {
+      if (count === 0) {
+        res.status(404).json({ message: 'A zoo with that ID could be found for updating, look harder' })
+      }
+      res.status(200).json({ count })
+    })
+    .catch(err => res.status(500).json(err));
+})
+
+//calling the port for this API
 const port = 3300;
 server.listen(port, function () {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
