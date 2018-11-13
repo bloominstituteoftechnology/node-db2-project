@@ -22,7 +22,11 @@ server.get("/api/zoos/:id", (req, res) => {
   const {id} = req.params;
   db("zoos")
     .where({id})
-    .then(zoo => res.status(200).json(zoo))
+    .then(zoo => {
+      zoo.length > 0
+        ? res.status(200).json(zoo)
+        : res.status(404).json({error: "zoo doesn't exist"});
+    })
     .catch(err => res.status(500).json(err));
 });
 
@@ -32,6 +36,38 @@ server.post("/api/zoos", (req, res) => {
   db("zoos")
     .insert(zoo)
     .then(id => res.status(201).json(id))
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete("/api/zoos/:id", (req, res) => {
+  const {id} = req.params;
+
+  db("zoos")
+    .where({id})
+    .del()
+    .then(count => {
+      count > 0
+        ? res.status(200).json({success: `${count} zoo deleted`})
+        : res
+            .status(404)
+            .json({error: "zoo doesn't exist or has been deleted"});
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.put("/api/zoos/:id", (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+  db("zoos")
+    .where({id})
+    .update(changes)
+    .then(count => {
+      count > 0
+        ? res.status(201).json({success: `${count} zoo updated`})
+        : res
+            .status(404)
+            .json({error: "zoo doesn't exist or has been deleted"});
+    })
     .catch(err => res.status(500).json(err));
 });
 
