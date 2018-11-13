@@ -71,6 +71,61 @@ server.put("/api/zoos/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// STRETCH
+
+server.get("/api/bears", (req, res) => {
+  db("bears")
+    .then(bears => res.status(200).json(bears))
+    .catch(err => res.status(500).json(err));
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const {id} = req.params;
+  db("bears")
+    .where({id})
+    .then(bear => {
+      bear.length > 0
+        ? res.status(200).json(bear)
+        : res.status(404).json({error: "Bear not found"});
+    });
+});
+
+server.post("/api/bears", (req, res) => {
+  const bear = req.body;
+  db("bears")
+    .insert(bear)
+    .then(id => res.status(200).json(id))
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete("/api/bears/:id", (req, res) => {
+  const {id} = req.params;
+  db("bears")
+    .where({id})
+    .del()
+    .then(count => {
+      count > 0
+        ? res.status(200).json({success: `${count} bear deleted`})
+        : res.status(404).json({error: "Bear not found"});
+    })
+    .catch(err => res.status(500).json({error: "idk what went wrong"}));
+});
+
+server.put("/api/bears/:id", (req, res) => {
+  const {id} = req.params;
+  const change = req.body;
+
+  db("bears")
+    .where({id})
+    .update(change)
+    .then(count => {
+      count > 0
+        ? res.status(201).json({success: `${count} bear updated`})
+        : res.status(404).json({error: "Bear not found"});
+    })
+    .catch(err => res.status(500).json({error: "something went wrong"}));
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
