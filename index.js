@@ -9,7 +9,7 @@ const db = knex(knexConfig.development);
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
+// Zoos ---------------------------------------------------------------------------------------------------------------------------
 server.get('/', (req,res) => res.send({"Zoo API": "live"}));
 
 server.get('/api/zoos', (req, res) => {
@@ -77,6 +77,77 @@ server.delete('/api/zoos/:id', (req, res) => {
             res.status(200).json(count)
         } else {
             res.status(404).json({message: "The zoo with the provided ID does not exist"})
+        }
+      })
+      .catch(err => res.status(500).json(err));
+});
+
+// Bears ---------------------------------------------------------------------------------------------------------------------------
+server.get('/api/bears', (req, res) => {
+    db('bears')
+      .then(bears => res.status(200).json(bears))
+      .catch(err => res.status(500).json({message: "The bears information could not be retrieved", err}));
+});
+
+server.get('/api/bears/:id', (req, res) => {
+    const {id} = req.params;
+    db('bears').where('id', Number(id)).first()
+    .then(bear => {
+        if (bear) {
+            res.status(200).json(bear)
+        } else {
+            res.status(404).json({message: "The bear with the provided ID does not exist"})
+        }
+    })
+    .catch(err => res.status(500).json({message: "The bear information could not be retrieved", err}));
+});
+
+server.post('/api/bears', (req, res) => {
+    const {name} = req.body;
+    if (!name) {
+        res.status(400).json({message: "Please provide a name for the bear"});
+    } else {
+        db('bears')
+        .insert(req.body)
+        .returning('id')
+        .then(ids => {
+          res.status(201).json(ids);
+        })
+        .catch(err => {
+          res.status(500).json({ message: 'Error inserting', err });
+        });
+    }
+});
+
+server.put('/api/bears/:id', (req, res) => {
+    const {name} = req.body;
+    if (!name) {
+        res.status(400).json({message: "Please provide a name for the bear"});
+    } else {
+        db('bears')
+        .where({ id: req.params.id })
+        .update(req.body)
+        .then(count => {
+            if (count) {
+                res.status(200).json(count);
+            } else {
+                res.status(404).json({message: "The bear with the specified ID does not exist."});
+            }
+        })
+        .catch(err => res.status(500).json({message: "The bear could not be updated", err}));
+    }
+});
+
+server.delete('/api/bears/:id', (req, res) => {
+    const {id} = req.params;
+    db('bears')
+      .where({ id: id })
+      .del()
+      .then(count => {
+        if (count) {
+            res.status(200).json(count)
+        } else {
+            res.status(404).json({message: "The bear with the provided ID does not exist"})
         }
       })
       .catch(err => res.status(500).json(err));
