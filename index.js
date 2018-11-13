@@ -1,83 +1,20 @@
 const express = require('express');
-const knex = require('knex');
 const helmet = require('helmet');
 
 const server = express();
-const knexConfig = require('./knexfile');
-const db = knex(knexConfig.development);
-
 server.use(express.json());
 server.use(helmet());
 
+const zooRoute = require('./routes/zooRoute');
+const bearRoute = require('./routes/bearRoute');
+
+server.use('/api/zoos', zooRoute);
+server.use('/api/bears', bearRoute);
 // endpoints here
 //starter endpoint to check that it's running
 server.get('', (req, res) => {
   res.status(200).json({message: 'it lives!'})
 })
-
-server.get('/api/zoos', (req, res) => {
-  db('zoos')
-  .then(zoos => res.status(200).json(zoos))
-  .catch(err => res.status(500).json({message: 'There was an error retrieving the Zoos information'}))
-})
-
-server.get('/api/zoos/:id', (req, res) => {
-  db('zoos')
-  .where({ id: req.params.id })
-  .first()
-  .then(zoo => {
-    if (zoo) {
-      res.status(200).json(zoo)
-    } else {
-      res.status(404).json({ message: 'A zoo with that ID could not be found' })
-    }
-  })
-  .catch(err => res.status(500).json({ message: 'There was an error retrieving the information for that Zoo' }))
-})
-
-server.post('/api/zoos', (req, res) => {
-  if (!req.body) {
-    res.status(400).json({ message: 'The request is missing required information: name of zoo' })
-  } else {
-      db('zoos')
-      .insert(req.body)
-      .into('zoos')
-      .then(id => {
-        res.status(201).json(id)
-    })
-    .catch(err => res.status(500).json({ message: 'The zoo record could not be created.'}))
-  }
-
-})
-
-server.delete('/api/zoos/:id', (req, res) => {
-  db('zoos')
-    .where({ id: req.params.id })
-    .del()
-    .then(count => {
-      if (count) {
-        res.status(200).json({ message: `${count} records deleted` })
-      } else {
-        res.status(404).json({ message: 'A zoo with that ID could not be found' })
-      }
-    })
-    .catch(err => res.status(500).json({ message: 'There was an error accessing the server' }))
-})
-
-server.put('/api/zoos/:id', (req, res) => {
-  db('zoos')
-  .where({ id: req.params.id })
-  .update(req.body)
-  .then(count => {
-    if (count) {
-      res.status(200).json({ message: 'The zoo information has been updated' })
-    } else {
-      res.status(404).json({ message: 'A zoo with that ID could not be found' })
-    }
-  })
-  .catch(err => res.status(500).json({ message: 'There was an error accessing the record' }))
-})
-
 
 const port = 3300;
 server.listen(port, function() {
