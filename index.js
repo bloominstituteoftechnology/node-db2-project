@@ -23,39 +23,60 @@ server.get("/api/zoos", (req, res) => {
 });
 
 server.get("/api/zoos/:id", (req, res) => {
-  const { zooId } = req.params;
+  const zooId = req.params.id;
   db("zoos")
     .where({ id: zooId })
     .then(zooInfo => res.status(200).json(zooInfo))
     .catch(err => res.status(500).json({ error: err }));
 });
 
-server.post("/api/students", (req, res) => {
-  const student = req.body;
+server.post("/api/zoos", (req, res) => {
+  const zoo = req.body;
+  if (zoo.name) {
+    db("zoos")
+      .insert(zoo)
+      .then(ids => {
+        res.status(201).json(ids);
+      })
+      .catch(err => {
+        res.status(500).json({ error: err })
+      });
+  } else {
+    res.status(400).json({ error: "Please provide a valid name of the zoo." });
+  }
+});
 
-  db("students")
-    .insert(student)
-    .then(ids => {
-      res.status(201).json(ids);
+server.put("/api/zoos/:id", (req, res) => {
+  const changes = req.body;
+  const zooId = req.params.id;
+  db("zoos")
+    .where({ id: zooId })
+    .update(changes)
+    .then(count => {
+      if (count) {
+        res.status(200).json(count);
+      } else {
+        res.status(404).json({ error: "The zoo with the provided ID was not found." });
+      }
     })
     .catch(err => {
-      res.status(500).json({ message: err })
+      res.status(500).json({ error: err });
     });
 });
 
-server.put("/api/students/:id", (req, res) => {
-  const changes = req.body;
-  const { studentId } = req.params;
-
-  db("students")
-    .where({ id: studentId })
-    .update(changes)
+server.delete('/api/zoos/:id', (req, res) => {
+  const zooId = req.params.id;
+  db("zoos")
+    .where({ id: zooId })
+    .del()
     .then(count => {
-      res.status(200).json(count);
+      if (count) {
+        res.status(200).json({ count });
+      } else {
+        res.status(404).json({ error: "The zoo with the provided ID was not found." });
+      }
     })
-    .catch(err => {
-      res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json({ error: err }));
 });
 
 const port = 9000;
