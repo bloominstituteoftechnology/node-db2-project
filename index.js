@@ -21,13 +21,35 @@ server.get('/api/zoos', (req, res) => {
   db('zoos')
     .then(zoos => res.status(200).json(zoos))
     .catch(err =>
+      res.status(500).json({
+        message: 'The requested zoo could not be retrieved',
+        error: err
+      })
+    );
+});
+
+//GET zoos by id
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .get(id)
+    .then(zoo => {
+      if (zoo) {
+        res.status(200).json(zoo);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'The zoo with the specified ID does noot exist.' });
+      }
+    })
+    .catch(err => {
       res
         .status(500)
         .json({
-          message: 'The requested zoo could not be retrieved',
+          message: 'The zoo information could not be retrieved.',
           error: err
-        })
-    );
+        });
+    });
 });
 
 const port = 3300;
