@@ -53,6 +53,16 @@ server.put("/api/zoos/:id", (req, res) => {
     .catch(err => res.status(500).json({errorMessage: err}))
 })
 
+server.delete("/api/zoos/:id", (req, res) => {
+  const {id} = req.params;
+
+  db("zoos")
+    .where({id})
+    .del()
+    .then(count => res.status(200).json(count))
+    .catch(err => res.status(500).json({errorMessage: err}))
+})
+
 const port = 9001;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
