@@ -13,23 +13,55 @@ server.use(helmet());
 
 // endpoints here
 
+// POST Request
+
 server.post("/api/zoos", (req, res) => {
   const zoo = req.body;
 
+  if (zoo.name === "") {
+    res.status(400).json({ message: "Please Include a name" });
+  } else {
+    db("zoos")
+      .insert(zoo)
+      .then(id => {
+        res.status(201).json(id);
+      })
+      .catch(err => {
+        res.status(500).json({ message: "There was an error posting to zoos" });
+      });
+  }
+});
+
+// GET request for all zoos
+
+server.get("/api/zoos", (req, res) => {
   db("zoos")
-    .insert(zoo)
-    .then(id => {
-      res.status(201).json(id);
+    .then(zoos => {
+      res.status(200).json(zoos);
     })
     .catch(err => {
-      res.status(500).json({ message: "There was an error posting to zoos" });
+      res.status(500).json({ message: "There was an error getting the data" });
     });
 });
 
-server.get("/api/zoos", (req, res) => {
-  db("zoos").then(zoos => {
-    res.status(200).json(zoos);
-  });
+// GET request for individual zoos
+
+server.get("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where("id", id)
+    .then(zoos => {
+      if (!zoos.length) {
+        res
+          .status(404)
+          .json({ message: "Could not find zoo with specified id" });
+      } else {
+        res.status(200).json(zoos);
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "There was an error getting the data" });
+    });
 });
 
 const port = 3300;
