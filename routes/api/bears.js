@@ -6,7 +6,7 @@ const db = knex(knexConfig.development);
 
 const router = express.Router();
 
-// POST a new zoo
+// POST a new bear
 router.post('/', (req, res) => {
   const name = req.body;
   db.insert(name)
@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// GET Zoos
+// GET bears
 router.get('/', (req, res) => {
   db.select('*')
     .from('bears')
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET ALL Zoos
+// GET a Bear
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -46,7 +46,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// UPDATE Zoo Name
+// UPDATE Bear Name
 router.put('/:id', (req, res) => {
   const changes = req.body;
   const { id } = req.params;
@@ -62,7 +62,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// DELETE Zoo
+// DELETE Bear
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
