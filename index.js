@@ -16,7 +16,7 @@ server.get('/', (req, res) => {
 });
 
 server.get('/api/zoos', (req, res) => {
-  db('zoos').get(req.params.id)
+  db('zoos')
   .then(zoos => res.status(200).json(zoos))
   .catch(error => res.status(500).json({message: 'error getting names'}))
 })
@@ -50,6 +50,17 @@ server.put('/api/zoos/:id', (req, res) => {
     res.status(200).json({ count })
   })
   .catch(error => res.status(500).json({ message: 'Error updating name'}))
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+  .where({ id: id })
+  .del()
+  .then(count => res.status(200).json(count))
+  .catch(err => {
+    res.status(400).json({ message: 'failed to delete zoo' })
+  })
 })
 
 
