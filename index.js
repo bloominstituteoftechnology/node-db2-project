@@ -51,7 +51,7 @@ server.put('/api/zoos/:zooid', (req, res) => {
   const changes = req.body;
   const { zooid } = req.params;
 
-  db('students')
+  db('zoos')
     .where({ id: zooid })
     .update(changes)
     .then(count => {
@@ -59,6 +59,7 @@ server.put('/api/zoos/:zooid', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
 
 server.delete('/api/zoos/:zooid', (req, res) => {
   const { zooid } = req.params;
