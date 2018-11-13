@@ -1,14 +1,25 @@
-const express = require('express');
-const helmet = require('helmet');
+const express = require('express')
+const helmet = require('helmet')
+const knex = require('knex')
+const knexConfig = require('./knexfile')
 
-const server = express();
+const db = knex(knexConfig.development)
 
-server.use(express.json());
-server.use(helmet());
+const server = express()
 
-// endpoints here
+server.use(express.json())
+server.use(helmet())
 
-const port = 3300;
+server.get('/api/zoos', async (req, res) => {
+	try {
+		let zoo = await db.select('*').from('zoos')
+		res.status(200).json(zoo)
+	} catch (e) {
+		res.status(500).json(e)
+	}
+})
+
+const port = 3300
 server.listen(port, function() {
-  console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
-});
+	console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`)
+})
