@@ -10,6 +10,9 @@ server.use(helmet());
 // endpoints here
 server.post('/api/zoos', (req, res) => {
   animal = req.body
+  if(!animal.name || animal.name.length === 0) {
+    res.status(404).json({ message: 'please provide a name' })
+  } else {
     db('zoos').insert(animal)
       .then(id => {
         res.status(201).json({ id: id, animal })
@@ -17,6 +20,7 @@ server.post('/api/zoos', (req, res) => {
       .catch(err => {
         res.status(500).json({ message: 'error adding to database' })
       })
+    }
 })
 
 server.get('/api/zoos', (req, res) => {
@@ -25,8 +29,42 @@ server.get('/api/zoos', (req, res) => {
       res.status(200).json(animals)
     })
     .catch(err => {
-      res.status(500).json({ message: 'error adding to database' })
+      res.status(500).json({ message: 'error loading your request' })
     })
+})
+
+server.get('/api/zoos/:id', (req, res) => {
+  const id  = req.params
+      db('zoos')
+        .where(id)
+        .then(animal => {
+          if(animal.length === 0) {
+            res.status(404).json({ message: 'animal by id not found'})
+          } else {
+            res.status(200).json(animal)
+          }
+        })
+        .catch(err => {
+          res.status(500).json({ message: 'error loading your request' })
+        })
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const id = req.params
+
+    db('zoos')
+      .where(id)
+      .del()
+      .then(count => {
+        if(count === 0) {
+          res.status(404).json({ message: 'animal by id not found' })
+        } else {
+          res.status(200).json(count)
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'error completing your request'})
+      })
 })
 
 const port = 3300;
