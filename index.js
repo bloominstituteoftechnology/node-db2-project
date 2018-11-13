@@ -67,6 +67,24 @@ server.delete('/api/zoos/:id', (req, res) => {
       })
 })
 
+server.put('/api/zoos/:id', (req, res) => {
+  const id = req.params
+
+  db('zoos')
+    .where(id)
+    .update(req.body)
+    .then(count => {
+      if(count === 0) {
+        res.status(404).json({ message: 'animal by id can not be updated' })
+      } else {
+        res.status(200).json(req.body)
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'error completing your request'})
+    })
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
