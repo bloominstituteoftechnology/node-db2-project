@@ -34,14 +34,30 @@ server.post('/api/zoos', (req, res) => {
 
 // GET
 server.get('/api/zoos', (req, res) => {
-	db('zoos')
-	.then(zoos => {
-	  res.status(200).json(zoos);
-	})
-	.catch(error => {
-    res.status(500).json({message: 'There was an error getting the zoos.', error})
-	})
-})
+  db('zoos')
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({message: 'There was an error getting the zoos.', error});
+    });
+});
+
+// GET ID
+server.get('/api/zoos/:id', (req, res) => {
+  const id = req.params.id;
+
+  db('zoos')
+    .where({id})
+    .then(zoo => {
+      res.status(200).json(zoo);
+    })
+    .catch(error => {
+      res.status.json({message: 'There was an error getting the zoo.', error});
+    });
+});
 
 const port = 3300;
 server.listen(port, function() {
