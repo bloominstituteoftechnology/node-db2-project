@@ -10,7 +10,7 @@ const server = express();
 server.use(express.json());
 
 
-// ___________ POST _______________
+// ___________ POST ZOOS_______________
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
   db('zoos')
@@ -26,7 +26,7 @@ server.post('/api/zoos', (req, res) => {
 });
 
 
-// ___________ GET _______________
+// ___________ GET ZOOS_______________
 
 server.get('/api/zoos', (req, res) => {
   db('zoos')
@@ -41,7 +41,7 @@ server.get('/api/zoos/:id', (req, res) => {
   .then(zoos => res.status(200).json(zoos))
   .catch(err => res.status(500).json(err));
 });
-// ___________ PUT ______________
+// ___________ PUT ZOOS______________
 
 server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
@@ -70,7 +70,39 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// ************** BBBEEEARRRSSSS ****************
 
+
+// ___________ POST BEARS_______________
+server.post('/api/bears', (req, res) => {
+  const bear = req.body;
+  db('bears')
+    .insert(bear)
+    //.returning('id')
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting', err });
+    });
+});
+
+// ___________ GET BEARS_______________
+
+server.get('/api/bears', (req, res) => {
+  db('bears')
+    .then(bears => res.status(200).json(bears))
+    .catch(err => res.status(500).json(err));
+});
+
+server.get('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+  db('bears')
+  .where({ id:id })
+  .then(bears => res.status(200).json(bears))
+  .catch(err => res.status(500).json(err));
+});
 
 const port = 3300;
 server.listen(port, function() {
