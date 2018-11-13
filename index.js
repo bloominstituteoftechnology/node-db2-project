@@ -68,9 +68,9 @@ server.post('/api/zoos', (req, res) => {
 server.put('/api/zoos/:id'),
   (req, res) => {
     const changes = req.body;
-    const { id } = req.params;
+    const { zooId } = req.params;
     db('zoos')
-      .where({ id: id })
+      .where({ id: zooId })
       .update(changes)
       .then(count => {
         res.status(200).json({ count });
@@ -81,6 +81,22 @@ server.put('/api/zoos/:id'),
           .json({ message: 'Your zoo could not be udpated.', error: err })
       );
   };
+
+//DELETE zoo
+server.delete('/api/zoos/:id', (req, res) => {
+  const { zooId } = req.params;
+  db('zoos')
+    .where({ id: zooId })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'Your zoo could not be deleted.', error: err })
+    );
+});
 
 const port = 3300;
 server.listen(port, function() {
