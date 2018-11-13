@@ -20,7 +20,22 @@ server.get('/api/zoos', async (req, res) => {
     const zoos = await db('zoos');
     res.status(200).json(zoos);
   } catch(err) {
-    res.status(404).json({ message: 'The request failed.' })
+    res.status(404).json({ message: err })
+  }
+});
+
+server.get('/api/zoos/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const zoo = await db('zoos').where({ id: id });
+    // if zoo doesn't exist, reject
+    if (zoo.length === 0) {
+      res.status(501).json({ message: 'A zoo with that id does not exist.'});
+    } else {
+      res.status(200).json(zoo);
+    }
+  } catch(err) {
+    res.status(404).json({ message: err })
   }
 });
 
@@ -38,6 +53,22 @@ server.post('/api/zoos', async (req, res) => {
     res.status(501).json({ message: 'The request failed.' })
   }
 });
+
+server.delete('/api/zoos/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const count = await db('zoos').where({ id: id }).del();
+    if (count === 0) {
+      res.status(501).json({ message: "A zoo with that id does not exist."})
+    } else {
+      res.status(201).json({ message: `Zoo deleted.` })
+    }
+  } catch(err) {
+    res.status(501).json({ message: error})
+  }
+});
+
+
 
 const port = 3300;
 server.listen(port, function() {
