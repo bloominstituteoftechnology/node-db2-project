@@ -1,18 +1,29 @@
 {
-  "name": "relationapimini",
+  "name": "db-zoos",
   "version": "1.0.0",
-  "description": "RDBMS API Mini Sprint",
+  "description": "Topics:",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lambda School",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codypeak/db-zoos.git"
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codypeak/db-zoos/issues"
+  },
+  "homepage": "https://github.com/codypeak/db-zoos#readme",
   "dependencies": {
-    "express": "^4.16.3",
-    "helmet": "^3.13.0"
+    "express": "^4.16.4",
+    "global": "^4.3.2",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.6"
   }
 }
