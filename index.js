@@ -64,6 +64,24 @@ server.post('/api/zoos', (req, res) => {
     );
 });
 
+//PUT zoo
+server.put('/api/zoos/:id'),
+  (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+    db('zoos')
+      .where({ id: id })
+      .update(changes)
+      .then(count => {
+        res.status(200).json({ count });
+      })
+      .catch(err =>
+        res
+          .status(500)
+          .json({ message: 'Your zoo could not be udpated.', error: err })
+      );
+  };
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
