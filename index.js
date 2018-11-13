@@ -32,14 +32,14 @@ server.get('/api/zoos', (req, res) => {
 server.get('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
   db('zoos')
-    .get(id)
+    .where({ id })
     .then(zoo => {
       if (zoo) {
         res.status(200).json(zoo);
       } else {
         res
           .status(404)
-          .json({ message: 'The zoo with the specified ID does noot exist.' });
+          .json({ message: 'The zoo with the specified ID does not exist.' });
       }
     })
     .catch(err => {
@@ -56,7 +56,7 @@ server.post('/api/zoos', (req, res) => {
   db('zoos')
     .insert(zoo)
     .returning('id')
-    .then(ids => res.status(201).json(ids))
+    .then(id => res.status(201).json(id))
     .catch(err =>
       res
         .status(500)
@@ -68,9 +68,9 @@ server.post('/api/zoos', (req, res) => {
 server.put('/api/zoos/:id'),
   (req, res) => {
     const changes = req.body;
-    const { zooId } = req.params;
+    const { id } = req.params;
     db('zoos')
-      .where({ id: zooId })
+      .where({ id })
       .update(changes)
       .then(count => {
         res.status(200).json({ count });
@@ -84,9 +84,9 @@ server.put('/api/zoos/:id'),
 
 //DELETE zoo
 server.delete('/api/zoos/:id', (req, res) => {
-  const { zooId } = req.params;
+  const { id } = req.params;
   db('zoos')
-    .where({ id: zooId })
+    .where({ id })
     .del()
     .then(count => {
       res.status(200).json({ count });
