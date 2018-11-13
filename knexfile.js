@@ -1,8 +1,13 @@
+// Update with your config settings.
+
 module.exports = {
-    development: {
-        connection: {
-            filename: './zoo.sqlite3'
-        },
-        useNullAsDefault: true,
-    }
-}
+
+  development: {
+    client: 'sqlite3',
+    connection: {
+      filename: './zoo.sqlite3'
+    },
+    useNullAsDefault: true,
+  },
+
+};
