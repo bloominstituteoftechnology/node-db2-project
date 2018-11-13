@@ -1,5 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
+const knexConfig = require('./knexfile');
+const db = kmex(knexConfig.development);
 
 const server = express();
 
