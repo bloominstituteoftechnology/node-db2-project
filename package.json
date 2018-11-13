@@ -9,10 +9,10 @@
   "author": "Lambda School",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3",
-    "helmet": "^3.13.0"
+    "express": "^4.16.4",
+    "helmet": "^3.15.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.6"
   }
 }
