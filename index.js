@@ -17,16 +17,17 @@ server.use(helmet());
 // endpoints here
 
 server.post('/api/zoos', (req, res) => {
-  const zoo = req.params.name;
-  db('zoos')
-    .insert(zoo)
-    .returning('id')
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Error inserting new zoo, call the governer' });
-    });
+  if (!req.body) {
+    res.status(400).json({ message: 'the request is missing necessary info: Name of the zoo' })
+  } else {
+    db('zoos')
+      .insert(req.body)
+      .into('zoos')
+      .then(id => {
+        res.status(201).json(id)
+      })
+      .catch(err => res.status(500).json({ message: 'the zoo could not be created. call the governor!' }))
+  }
 });
 
 server.get('/', (req, res) => {
@@ -47,7 +48,7 @@ server.get('/api/zoos/:id', (req, res) => {
       if (!zoo) {
         res.status(404).json({ message: 'a zoo with that ID cannot be found. I guess PETA won this battle' })
       }
-      escape.status(200).json(zoo)
+      res.status(200).json(zoo)
     })
     .catch(err => res.status(500).json({ error: 'That zoo could not be retrieved' }))
 });
