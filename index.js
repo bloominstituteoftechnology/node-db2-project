@@ -104,6 +104,35 @@ server.get('/api/bears/:id', (req, res) => {
   .catch(err => res.status(500).json(err));
 });
 
+// ___________ PUT BEARS______________
+
+server.put('/api/bears/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+  
+  db('bears')
+    .where({ id:id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+// ___________ DELETE _______________
+
+server.delete('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('bears')
+    .where({ id:id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
