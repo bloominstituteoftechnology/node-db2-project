@@ -1,40 +1,40 @@
 const express = require('express');
-const helmet = require('helmet');
 const knex = require('knex');
+
 const knexConfig = require('./knexfile.js');
+
 const db = knex(knexConfig.development);
+
 const server = express();
 
 server.use(express.json());
-server.use(helmet());
 
-server.get('/', (req, res) => {
-  res.json({ api: 'up' });
+
+// ___________ POST _______________
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.body;
+  db('zoos')
+    .insert(zoo)
+    //.returning('id')
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting', err });
+    });
 });
+
 
 // ___________ GET _______________
 
 server.get('/api/zoos', (req, res) => {
   db('zoos')
-    .then(students => res.status(200).json(students))
+    .then(zoos => res.status(200).json(zoos))
     .catch(err => res.status(500).json(err));
 });
 
 /*
-// ___________ POST _______________
-server.post('/api/zoos', (req, res) => {
-  const student = req.body;
-
-  db('zoos')
-    .insert(student)
-    .returning('id')
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Error inserting', err });
-    });
-});
 
 // ___________ PUT ______________
 
