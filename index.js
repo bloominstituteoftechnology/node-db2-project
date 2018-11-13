@@ -52,11 +52,14 @@ server.get('/api/zoos/:id', (req, res) => {
 
 //POST zoo
 server.post('/api/zoos', (req, res) => {
-  db.insert(req.body)
-    .then(success => res.status(201).json(success))
+  const zoo = req.body;
+  db('zoos')
+    .insert(zoo)
+    .returning('id')
+    .then(ids => res.status(201).json(ids))
     .catch(err =>
       res
-        .status(400)
+        .status(500)
         .json({ message: 'Your zoo could not be added.', error: err })
     );
 });
