@@ -4,6 +4,6 @@ module.exports = {
     connection: {
       filename: './data/lambda.sqlite3',
     },
-    useNullAsDefualt: true,
+    useNullAsDefault: true,
   },
 };

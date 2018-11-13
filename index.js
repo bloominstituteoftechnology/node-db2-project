@@ -1,5 +1,10 @@
 const express = require('express');
 const helmet = require('helmet');
+const knex = require('knex');
+
+const knexConfig = require('./knexfile');
+
+const db = knex(knexConfig.development);
 
 const server = express();
 
@@ -7,6 +12,42 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.body;
+  db('zoos')
+    .insert(zoo)
+    .returning('id')
+    .then((ids) => {
+      res.status(201).json(ids);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'Error adding a zoo', err });
+    });
+});
+
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then((zoos) => {
+      res.status(200).json(zoos);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'Could not get zoos', err });
+    });
+});
+
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .then((zoos) => {
+      res.status(200).json(zoos);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'Could not find zoo with that id', err });
+    });
+});
+
+
 
 const port = 3300;
 server.listen(port, function() {
