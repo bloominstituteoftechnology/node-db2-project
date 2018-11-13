@@ -30,14 +30,35 @@ server.post('/api/zoos', (req, res) => {
 server.get('/api/zoos', (req, res) => {
   db('zoos')
     .then(zoos => res.status(200).json(zoos))
-    .catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json({ message: 'could not get zoos', err }));
 });
 
 server.get('/api/zoos/:id', (req, res) => {
   db('zoos')
-  .where({ id: req.params.id })
+    .where({ id: req.params.id })
     .then(zoos => res.status(200).json(zoos))
-    .catch(err => res.status(500).json(err));
+    .catch(err => res.status(500).json({ message: 'could not get zoo', err }));
+});
+
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  db('zoos')
+    .where({ id: req.params.id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json({ message: 'could not update zoo', err }));
+});
+
+server.delete('/api/zoos/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json({ message: 'could not delete zoo', err }));
 });
 
 server.get('/', (req, res) => {
