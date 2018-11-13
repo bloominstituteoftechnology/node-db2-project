@@ -6,10 +6,14 @@ const knexConfig = require('./knexfile.js');
 
 const db = knex(knexConfig.development);
 
+const bearRouter = require('./routers/bearRouter.js');
+
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
+
+server.use('/api/bears', bearRouter);
 
 // endpoints here
 
@@ -18,7 +22,6 @@ server.post('/api/zoos', (req, res) => {
 
   db('zoos')
     .insert(zoo)
-    .returning('id')
     .then(ids => {
       res.status(201).json(ids);
     })
@@ -42,6 +45,11 @@ server.get('/api/zoos/:id', (req, res) => {
 
 server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
+  /* This will work as well
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+  */
   db('zoos')
     .where({ id: req.params.id })
     .update(changes)
@@ -52,6 +60,11 @@ server.put('/api/zoos/:id', (req, res) => {
 });
 
 server.delete('/api/zoos/:id', (req, res) => {
+  /* This will work as well
+  const { id } = req.params;
+  db('zoos')
+    .where({ id })
+  */
   db('zoos')
     .where({ id: req.params.id })
     .del()
