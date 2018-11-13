@@ -13,10 +13,63 @@ server.use(helmet());
 
 // endpoints here
 
-server.get('/api/students', (req, res) => {
-  db('students')
-    .then(students => res.status(200).json(students))
+server.post('/api/zoos', (req, res) => {
+  const zoo = req.body;
+
+  db('zoos')
+    .insert(zoo)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting', err });
+    });
+});
+
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(zoos => res.status(200).json(zoos))
     .catch(err => res.status(500).json(err));
+});
+
+server.get('/api/zoos/:zooId', (req, res) => {
+  const { zooId } = req.params;
+
+  db('zoos')
+    .where({ id: zooId })
+    .then(zoo => {
+      res.status(200).json({ zoo });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete('/api/zoos/:zooId', (req, res) => {
+  const { zooId } = req.params;
+
+  db('zoos')
+    .where({ id: zooId })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.put('/api/zoos/:zooId', (req, res) => {
+  const changes = req.body;
+  const { zooId } = req.params;
+
+  db('zoos')
+    .where({ id: zooId })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.get('/', (req, res) => {
+  res.json({ api: 'up' });
 });
 
 const port = 3300;
