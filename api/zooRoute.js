@@ -14,6 +14,17 @@ router.get('/', (req, res) => {
 
 })
 
+/* ---- GET ZOO BY ID ----  */
+router.get('/:id', (req, res) => {
+  const { id } = req.params
+
+  db('zoos')
+    .where({ id: id })
+    .then(zoos => res.status(200).json(zoos))
+    .catch(err => res.status(500).json(err))
+
+})
+
 /* ---- ADD NEW ZOO ----  */
 router.post('/', (req, res) => {
   const zoo = req.body
@@ -32,19 +43,39 @@ router.post('/', (req, res) => {
 })
 
 /* ---- EDIT ZOO ----  */
-router.post('/:id', (req, res) => {
-  const id = req.params.id
+router.put('/:id', (req, res) => {
+  const changes = req.body
+  const { id } = req.params
+
   db('zoos')
-    .insert(zoo)
-    .returning('id')
-    .then(ids => {
-      res.status(201).json(ids)
+    .where({ id: id })
+    .update(changes)
+    .then(count => {
+      res.status(201).json(count)
     })
     .catch(err => {
       res.status(500).json({
-        message: 'Error inserting',
-        err
+        message: 'Error inserting', err
       })
     })
 })
+
+/* ---- DELETE ZOO ----  */
+router.delete('/:id', (req, res) => {
+  const { id } = req.params
+
+  db('zoos')
+    .where({ id: id })
+    .del()
+    .then(count => {
+      res.status(201).json(count)
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error deleting', err
+      })
+    })
+})
+
+
 module.exports = router;
