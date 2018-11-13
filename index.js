@@ -19,6 +19,10 @@ server.get('/', (req, res) => {
 // POST
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
+	const { name } = req.body;
+	if (!name) {
+	  res.status(400).json({message: 'Missing information.'})
+	}
 
   db('zoos')
     .insert(zoo)
