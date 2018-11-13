@@ -21,7 +21,9 @@ const {id} = req.params;
 
   db("zoos")
     .where({id})
-    .then(zoos => res.status(200).json(zoos))
+    .then(zoo => zoo[0] === undefined ? 
+      res.status(400).json({error: "Please enter a valid id"}) : 
+      res.status(200).json(zoo))
     .catch(err => res.status(500).json({error: err}))
 })
 
@@ -49,7 +51,9 @@ server.put("/api/zoos/:id", (req, res) => {
   db("zoos")
     .where({id})
     .update(changes)
-    .then(id => res.status(201).json(id))
+    .then(count => count === 0 ? 
+      res.status(400).json({error: "Please enter a valid id"}) :
+      res.status(201).json(count))
     .catch(err => res.status(500).json({errorMessage: err}))
 })
 
