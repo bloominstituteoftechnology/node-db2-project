@@ -15,41 +15,95 @@ server.use(helmet());
   db('zoos').select().then(r => res.status(200).json(r)).catch(err => res.status(500).json({message: 'An error occurred while retrieving the data.'}))
 });
 
- /*  server.get('/api/zoos/:id', async (req, res){
+  server.get('/api/zoos/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+      
+    const zoo = await db('zoos').select().where({id});
+    
+    if(zoo.length){
+     
+      res.status(200).json(zoo);
+    }
+    else{
+      res.status(404).json({message: 'ID not found.'})
+    }
+    
+    }
 
-}); */
+    catch(err){
+      res.status(500).json({message: 'An error occurred while retrieving the data.'})
+    }
+    
+    
+}); 
 
  server.post('/api/zoos', (req, res) => {
    const zoo = req.body;
   db('zoos').insert(zoo).then(zoo => res.status(200).json(zoo))
   .catch(err => res.status(500).json({message: 'An error occurred while retrieving the data.'}))
 });
-/*
- server.put('/api/zoos/:id', (req, res) => {
+
+ server.put('/api/zoos/:id',  async (req, res) => {
   const changes = req.body;
   const {id} = req.params;
+  
+  
+  try{
+    
+    const zoo = await db('zoos').select().where({id});
+    
+    if(zoo.length){
+      let count = db('zoos')
+      .where({id})  // or where({id: id})
+      .update(changes);
 
-  db('zoos')
-  .where({id})  // or where({id: id})
-  .update(changes)
-  .then(count => {
-    res.status(200).json({count})
-  })
-  .catch(err => res.staus(500).json(err));
+res.status(200).json({count});
+    }
+    else{
+      res.status(404).json({message: 'ID not found.'})
+    }
+    
+  }
+
+  catch(err){
+    res.status(500).json(err)
+  }
+
+  
+  
+    
+ 
 });
 
- server.delete('/api/zoos/:id', (req, res) => {
+
+
+ server.delete('/api/zoos/:id', async (req, res) => {
 
   const {id} = req.params;
+  try{
+    
+    const zoo = await db('zoos').select().where({id});
+    
+    if(zoo.length){
+      let deleted = db('zoos')
+      .where({id})  // or where({id: id})
+      .del();
 
-  db('zoos')
-  .where({id})  // or where({id: id})
-  .del()
-  .then(count => {
-    res.status(200).json({count})
-  })
-  .catch(err => res.staus(500).json(err));
-}); */
+      res.status(200).json({message: 'Delete successful!'});
+    }
+    else{
+      res.status(404).json({message: 'ID not found.'})
+    }
+    
+  }
+
+  catch(err){
+    res.status(500).json(err)
+  }
+
+  
+}); 
 
 
 
