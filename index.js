@@ -147,6 +147,23 @@ server.delete('/api/zoos/:id', (req, res) => {
     })
 })
 
+// DELETE bear from api
+server.delete('/api/bears/:id', (req, res) => {
+  db('bears')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if (count) {
+        res.status(200).json({ successMessage: 'Successfully deleted bear at specified index', count });
+      } else {
+        res.status(400).json({ errorMessage: 'Error deleting bear, index may not exist' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Error deleting zoo', error: err });
+    });
+});
+
 // PUT update zoo
 server.put('/api/zoos/:id', (req, res) => {
   db('zoos')
@@ -165,6 +182,35 @@ server.put('/api/zoos/:id', (req, res) => {
     .catch(err => {
       res.status(500).json({ errorMessage: 'Error deleting zoo', error: err })
     })
+});
+
+// PUT update bear
+server.put('/api/bears/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.body.zoo })
+    .then(zoo => {
+      if (!zoo.length) {
+        res.status(404).json({ errorMessage: 'Zoo id does not exist', error: err });
+        return null;
+      } else {
+        return db('bears').where({id : req.params.id}).update(req.body);
+      }
+    })
+    .then(count => {
+      if (count) {
+        return db('bears').where({ id: req.params.id });
+      } else {
+        return null;
+      }
+    })
+    .then(bear => {
+      if (bear.length) {
+        res.status(201).json(bear);
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Error creating bear. Zoo index and/or bear index may not exist.' });
+    });
 });
 
 const port = 3300;
