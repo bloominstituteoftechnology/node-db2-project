@@ -34,19 +34,17 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-/*
-
 // ___________ PUT ______________
 
 server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
-  const { studentid } = req.params;
-
+  const { id } = req.params;
+  
   db('zoos')
-    .where({ id: studentid })
+    .where({ id:id })
     .update(changes)
     .then(count => {
-      res.status(200).json({ count });
+      res.status(200).json(count);
     })
     .catch(err => res.status(500).json(err));
 });
@@ -65,7 +63,7 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-*/
+
 
 const port = 3300;
 server.listen(port, function() {
