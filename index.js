@@ -51,6 +51,42 @@ db('zoos')
 .catch(err => res.status(500).json({error: "An error occurred while retrieving this zoo."}))
 })
 
+server.put('/api/zoos/:id', (req, res) => {
+  const changes = req.body;
+  const zooId = req.params.id;
+if (!changes.name) {
+  res.status(400).json({message: "Please include the updated zoo's name."})
+} else {
+  db('zoos')
+  .where({id: zooId})
+  .update(changes)
+  .then(count => {
+    if (count){
+    res.status(200).json(count)
+    } else {
+      res.status(404).json({message: "The zoo with that ID does not exits."})
+    }
+  })
+  .catch(err => res.status(500).json({error: "An error occurred while updating this zoo."}))
+}
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const zooId = req.params.id;
+
+  db('zoos')
+  .where({id: zooId})
+  .del()
+  .then(count => {
+    if (count) {
+      res.status(200).json({count})
+    } else {
+      res.status(404).json({message: "The zoo with that ID does not exist."})
+    }
+  })
+  .catch(err=>res.status(500).json({error: "An error occurred while deleting this zoo."}))
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
