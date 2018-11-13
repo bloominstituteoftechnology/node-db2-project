@@ -34,3 +34,5 @@ Connecting form Node.
 - yarn add nodemon -D
 - npx knex init > generated the knexfile.js
  - or install knex globally -> yarn global add knex or npm i -g knex and then do knex init
+- update knexfile to point to the right file
+- add 'useNullAsDefault: true' to the development key inside knexfile.js
