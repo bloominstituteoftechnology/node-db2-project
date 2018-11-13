@@ -1,12 +1,17 @@
 const express = require('express');
 const helmet = require('helmet');
+const morgan = require('morgan')
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
+server.use(morgan('dev'))
 
 // endpoints here
+server.get('/', (req, res) => {
+  res.status(200).json({message: 'server up'})
+})
 
 const port = 3300;
 server.listen(port, function() {
