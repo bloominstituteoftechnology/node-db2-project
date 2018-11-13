@@ -12,6 +12,12 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+
+server.get('/', (req, res) => {
+  res.json({ api: 'up' });
+});
+
+
 //====POST====
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
