@@ -43,6 +43,18 @@ server.post('/api/zoos', async (req, res) => {
 	}
 })
 
+server.delete('/api/zoos/:id', (req, res) => {
+	db('zoos')
+		.where('id', req.params.id)
+		.del()
+		.then(count => {
+			count > 0 ? res.status(200).json(count) : res.status(404).json({ message: 'ID not found' })
+		})
+		.catch(e => {
+			res.status(500).json({ error: 'The post could not be deleted.' })
+		})
+})
+
 const port = 3300
 server.listen(port, function() {
 	console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`)
