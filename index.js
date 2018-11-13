@@ -65,6 +65,19 @@ server.delete('/api/zoos/:zooid', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.put('/api/zoos/:zooid', (req, res) => {
+  const changes = req.body;
+  const { zooid } = req.params;
+
+  db('zoos')
+    .where({ id: zooid })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 
 
 const port = 3300;
