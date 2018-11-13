@@ -79,6 +79,26 @@ server.delete('/api/zoos/:id', (req, res) => {
     })
 })
 
+// PUT update zoo
+server.put('/api/zoos/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .update( req.body )
+    .then(count => {
+      if(!count){
+        res.status(400).json( { errorMessage: 'Error updating zoo, index does not exist'});
+      } else {
+        return db('zoos').where({ id: req.params.id });
+      }
+    })
+    .then(zoo => {
+      res.status(200).json(zoo);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Error deleting zoo', error: err })
+    })
+});
+
 const port = 3300;
 server.listen(port, function () {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
