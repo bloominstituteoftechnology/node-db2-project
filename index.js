@@ -13,34 +13,38 @@ server.use(helmet());
 
 // endpoints here
 
-server.post('/api/zoos', (req, res) => {
-  const zoo = req.body;
-
-  db('zoos')
-    .insert(zoo)
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Error inserting', err });
-    });
+server.get('/api/zoos', async (req, res) => {
+  try {
+    const zoos = await db('zoos');
+    res.status(200).json(zoos);
+  } catch (error) {
+    res.status(500).json({ message: " error: 'The zoos could not be retrieved'", error: error });
+  }
 });
 
-server.get('/api/zoos', (req, res) => {
-  db('zoos')
-    .then(zoos => res.status(200).json(zoos))
-    .catch(err => res.status(500).json(err));
-});
-
-server.get('/api/zoos/:zooId', (req, res) => {
+server.get('/api/zoos/:zooId', async (req, res) => {
   const { zooId } = req.params;
 
   db('zoos')
     .where({ id: zooId })
     .then(zoo => {
-      res.status(200).json({ zoo });
+      zoo[0] ? res.status(200).json({ zoo }) : res.status(404).json({ error: 'The zoo with that ID does not exist.' });
     })
     .catch(err => res.status(500).json(err));
+});
+
+server.post('/api/zoos', async (req, res) => {
+  const zooData = req.body;
+  if (!zooData.name) {
+    res.status(400).json({ errorMessage: 'Please provide a name for your zoo' });
+  } else {
+    try {
+      const newZooId = await db('zoos').insert(zooData);
+      res.status(201).json(newZooId);
+    } catch (error) {
+      res.status(500).json({ message: 'Error inserting', error });
+    }
+  }
 });
 
 server.delete('/api/zoos/:zooId', (req, res) => {
@@ -50,7 +54,9 @@ server.delete('/api/zoos/:zooId', (req, res) => {
     .where({ id: zooId })
     .del()
     .then(count => {
-      res.status(200).json({ count });
+      count === 0
+        ? res.status(404).json({ message: 'The zoo with the specified ID does not exist.' })
+        : console.log(count) && res.status(200).json({ count });
     })
     .catch(err => res.status(500).json(err));
 });
@@ -59,11 +65,17 @@ server.put('/api/zoos/:zooId', (req, res) => {
   const changes = req.body;
   const { zooId } = req.params;
 
+  if (!changes.name) {
+    res.status(400).json({ errorMessage: 'Please provide a name for the zoo.' });
+  }
+
   db('zoos')
     .where({ id: zooId })
     .update(changes)
     .then(count => {
-      res.status(200).json({ count });
+      count === 0
+        ? res.status(404).json({ message: 'The zoo with the specified ID does not exist.' })
+        : res.status(200).json({ count });
     })
     .catch(err => res.status(500).json(err));
 });
