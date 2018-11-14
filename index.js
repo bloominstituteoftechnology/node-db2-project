@@ -6,7 +6,6 @@ const helmet = require('helmet');
 // FILE IMPORTS, CONSTANTS
 // ==============================================
 const zooRouter = require('./routes/zooRoutes');
-// const bearRouter = require('./routes/bearRoutes');
 const port = 3300;
 
 const server = express();
@@ -19,7 +18,6 @@ server.use(helmet());
 // ROUTES
 // ==============================================
 server.use('/api/zoos', zooRouter);
-// server.use('/api/bears', bearRouter);
 
 // START THE SERVER
 // ==============================================
