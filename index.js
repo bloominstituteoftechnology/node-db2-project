@@ -31,6 +31,17 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json(err));
 })
 
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos')
+    .where({ id: id })
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => res.status(500).json(err));
+})
+
 server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
   const { id } = req.params;
