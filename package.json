@@ -14,5 +14,14 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusufnafey/db-zoos.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/yusufnafey/db-zoos/issues"
+  },
+  "homepage": "https://github.com/yusufnafey/db-zoos#readme"
 }
