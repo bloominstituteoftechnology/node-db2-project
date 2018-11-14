@@ -55,6 +55,7 @@ server.get('/api/zoos/:id', (req, res) => {
 })
 
 server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params
   db('zoos')
     .where({ id: id })
     .del()
