@@ -25,7 +25,7 @@ server.post('/api/zoos', nameCheck, (req, res) => {
 
   db('zoos')
     .insert(zoo)
-    // .returning('id')
+    // .returning('*') // other databases allow other items to be returned
     .then(ids => {
       res.status(201).json({ id: ids[0]});
     })
@@ -34,10 +34,11 @@ server.post('/api/zoos', nameCheck, (req, res) => {
     })
 })
 
-// GET 
+// GET (assumes .select())
 server.get('/api/zoos', (req, res) => {
 
   db('zoos')
+  //.select()
     .then(zoos => res.status(200).json(zoos))
     .catch(err => res.status(500).json({ err }));
 });
@@ -139,6 +140,19 @@ server.delete('/api/bears/:id', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+
+// JOIN
+server.get('/api/zoos', (req, res) => {
+  return db('zoos')
+    .join('bears', 'zoos.name', '=', 'bears.zoo')
+    // .select('zoos.name', 'bears.name', 'zoos.bear')
+    .select('*')
+    .then(response => {
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(err));
+})
 
 
 server.get('/', (req, res) => {
