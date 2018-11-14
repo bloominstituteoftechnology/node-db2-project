@@ -7,6 +7,7 @@ const express = require('express');
 
 //-- Configuration -------------------------------
 module.exports = function(database, options){
+    if(!options){ options = {};}
     const validator = validateSchema(options.schemaValidator);
     const API = express.Router();
     if(!options.skipGetAll ){ API.get   ('/'   , getAll.bind    (database))}
@@ -21,9 +22,14 @@ module.exports = function(database, options){
 //== Schema Validator Middleware ===============================================
 
 function validateSchema(validator){
-    return async function (request, response, next){
+    return async function (request, response, next) {
         try{
-            let validSchema = await validator(request.body);
+            let validSchema;
+            if(validator){
+                validSchema = await validator(request.body);
+            } else{
+                validSchema = Object.assign({}, request.body);
+            }
             request.body.entryData = validSchema;
             next();
         }
@@ -99,6 +105,7 @@ async function create(request, response, next) {
     let itemData = request.body.entryData;
     // Insert new item into database
     try{
+        console.log(itemData)
         const result = await this.insert(itemData);
         const newItemId = result[0];
         response.status(201);
