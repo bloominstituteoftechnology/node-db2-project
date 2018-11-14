@@ -18,6 +18,8 @@ server.use(express.json());
 
 // endpoints here
 
+// ZOOS
+// POST: .insert() .into
 server.post('/api/zoos', nameCheck, (req, res) => {
   const zoo = req.body;
 
@@ -32,6 +34,7 @@ server.post('/api/zoos', nameCheck, (req, res) => {
     })
 })
 
+// GET 
 server.get('/api/zoos', (req, res) => {
 
   db('zoos')
@@ -39,6 +42,7 @@ server.get('/api/zoos', (req, res) => {
     .catch(err => res.status(500).json({ err }));
 });
 
+// GET BY ID
 server.get('/api/zoos/:id', (req, res) => {
 
   db('zoos')
@@ -46,12 +50,13 @@ server.get('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json({ err }));
 });
 
+// PUT .where() .update()
 server.put('/api/zoos/:id', (req, res) => {
   const changes = req.body;
   const { id } = req.params;
 
   db('zoos')
-    .where({ id: id })
+    .where({ id: id }) // 
     .update(changes)
     .then(count => {
       res.status(200).json({ count });
@@ -59,10 +64,74 @@ server.put('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// DELETE .where() .del()
+// Calling .del() without first filtering the records will result on the removal of all the records in the table, be careful!
+
 server.delete('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
 
   db('zoos')
+    .where({ id: id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+// BEARS
+// POST: .insert() .into
+server.post('/api/bears', nameCheck, (req, res) => {
+  const bear = req.body;
+
+  db('bears')
+    .insert(bear)
+    // .returning('id')
+    .then(ids => {
+      res.status(201).json({ id: ids[0]});
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting', err })
+    })
+})
+
+// GET 
+server.get('/api/bears', (req, res) => {
+
+  db('bears')
+    .then(bears => res.status(200).json(bears))
+    .catch(err => res.status(500).json({ err }));
+});
+
+// GET BY ID
+server.get('/api/bears/:id', (req, res) => {
+
+  db('bears')
+    .then(bears => res.status(200).json(bears[0]))
+    .catch(err => res.status(500).json({ err }));
+});
+
+// PUT .where() .update()
+server.put('/api/bears/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db('bears')
+    .where({ id: id }) // 
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+// DELETE .where() .del()
+// Calling .del() without first filtering the records will result on the removal of all the records in the table, be careful!
+
+server.delete('/api/bears/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('bears')
     .where({ id: id })
     .del()
     .then(count => {
