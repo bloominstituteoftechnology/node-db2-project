@@ -39,4 +39,15 @@ router.post('/', async (req, res) => {
   } else res.status(400).json({ error: 'Please provide a name for the zoo.' });
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const count = await zooDb.remove(req.params.id);
+    count
+      ? res.status(200).json({ message: 'Successfully deleted zoo.' })
+      : res.status(404).json({ error: 'The zoo with the specified ID does not exist.' });
+  } catch {
+    res.status(500).json({ error: 'There was an error deleting the zoo to the database.' });
+  }
+});
+
 module.exports = router;
