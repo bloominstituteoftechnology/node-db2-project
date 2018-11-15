@@ -41,38 +41,33 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
 	const { id } = req.params
-	db('zoos')
-		.where('id', id)
-		.del()
-		.then(count => {
-			count > 0 ? res.status(200).json(count) : res.status(404).json({ message: 'ID not found' })
-		})
-		.catch(e => {
-			console.log(e)
-			res.status(500).json({ error: 'The post could not be deleted.' })
-		})
+	try {
+		let count = await db('zoos').where('id', id).del()
+
+		count > 0 ? res.status(200).json(count) : res.status(404).json({ message: 'ID not found' })
+	} catch (e) {
+		console.log(e)
+		res.status(500).json({ error: 'The post could not be deleted.' })
+	}
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
 	const changes = req.body
 	const { id } = req.params
 
 	if (!changes.name) {
 		res.status(404).json({ message: 'Please provide a name.' })
 	}
+	try {
+		let count = await db('zoos').where('id', id).update(changes)
 
-	db('zoos')
-		.where('id', id)
-		.update(changes)
-		.then(count => {
-			count > 0 ? res.status(200).json(count) : res.status(404).json({ errorMessage: 'ID not found' })
-		})
-		.catch(e => {
-			console.log(e)
-			res.status(500).json({ error: 'The post could not be updated.' })
-		})
+		count > 0 ? res.status(200).json(count) : res.status(404).json({ errorMessage: 'ID not found' })
+	} catch (e) {
+		console.log(e)
+		res.status(500).json({ error: 'The post could not be updated.' })
+	}
 })
 
 module.exports = router
