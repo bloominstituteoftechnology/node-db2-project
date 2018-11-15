@@ -12,9 +12,10 @@ server.use(helmet());
 server.get('/api/zoos', (req, res) => {
   db('zoos')
   .then(zoos => {
-    res.status(200).json(zoos).catch(err => {
-      res.status(500).json(err)
-    })
+    res.status(200).json(zoos)
+  })
+  .catch(err => {
+    res.status(500).json(err)
   })
 })
 
@@ -24,9 +25,10 @@ server.get('/api/zoos/:id', (req, res) => {
   db('zoos')
   .where({id})
   .then(zoos => {
-    res.status(200).json(zoos).catch(err => {
-      res.status(500).json(err)
-    })
+    res.status(200).json(zoos)
+  })
+  .catch(err => {
+    res.status(500).json(err)
   })
 })
 
@@ -45,9 +47,10 @@ server.delete('/api/zoos/:id', (req, res) => {
   .where({id})
   .del()
   .then(count => {
-    res.status(200).json({count}).catch(err => {
-      res.status(500).json(err)
-    })
+    res.status(200).json({count})
+  })
+  .catch(err => {
+    res.status(500).json(err)
   })
 })
 

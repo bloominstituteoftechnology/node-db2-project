@@ -3,8 +3,14 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './zoos.sqlite3'
+      filename: './data/zoos.sqlite3'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    migrations: {
+      directory: './data/migrations'
+    },
+    seeds: {
+      directory: './data/seeds'
+    }
   }
 };
