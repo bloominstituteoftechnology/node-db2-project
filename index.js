@@ -28,7 +28,12 @@ server.get('/api/zoos/:id', (req, res) => {
 });
 
 server.post('/api/zoos', (req, res) => {
-  
+  const animal = req.body
+  db('zoos').insert(animal)
+    .then(ids => {
+      res.status(201).json(ids)
+    })
+    .catch(error => res.status(500).json({ message: `What is this ${animal} thing?`, error }))
 });
 
 server.put('/api/zoos/:id', (req, res) => {
