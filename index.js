@@ -3,10 +3,34 @@ const helmet = require('helmet');
 
 const server = express();
 
+const knex = require('knex');
+
+const knexConfig = require('./knexfile')
+
+const db = knex(knexConfig.development);
+
 server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+
+server.post("/api/zoos", (req, res) => {
+  const zoo = req.body
+
+  db("zoos")
+   .insert(zoo)
+   .returning("id")
+   .then(ids => {
+     res.status(201).json(ids)
+   })
+   .catch(err => {
+     res.status(500).json({ error: "Error inserting the zoo", err })
+   })
+})
+
+
+
+console.log('\ntesting')
 
 const port = 3300;
 server.listen(port, function() {
