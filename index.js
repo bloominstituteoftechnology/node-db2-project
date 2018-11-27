@@ -1,5 +1,6 @@
 const express = require('express');
 const knex = require('knex');
+
 const knexConfig = require('./knexfile');
 const db = knex(knexConfig.development)
 
@@ -46,6 +47,17 @@ server.put('api/zoos/:id', (req, res) => {
   db('zoos')
     .where({ id: id })
     .update(change)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+})
+
+server.delete('api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .del()
     .then(count => {
       res.status(200).json({ count });
     })
