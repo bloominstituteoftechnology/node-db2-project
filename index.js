@@ -40,6 +40,18 @@ server.get('api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 })
 
+server.put('api/zoos/:id', (req, res) => {
+  const change = req.body;
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .update(change)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+})
+
 
 const port = 3300;
 server.listen(port, function() {
