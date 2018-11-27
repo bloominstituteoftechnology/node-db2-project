@@ -7,6 +7,9 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.get('/', (req, res) => {
+  res.json({ api : 'running!' })
+})
 
 const port = 3300;
 server.listen(port, function() {
