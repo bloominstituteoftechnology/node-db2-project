@@ -22,6 +22,24 @@ server.post('api/zoos', (req, res) => {
     })
 })
 
+server.get('api/zoos', (req, res) => {
+  db('zoos')
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => res.status(500).json(err))
+})
+
+server.get('api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos')
+    .where({ id: id })
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => res.status(500).json(err));
+})
+
 
 const port = 3300;
 server.listen(port, function() {
