@@ -16,7 +16,7 @@ server.use(helmet());
 // endpoints here
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
-  
+
   db('zoos')
     .insert(zoo)
     .then(ids => {
@@ -27,17 +27,44 @@ server.post('/api/zoos', (req, res) => {
     });
 });
 
-/* server.post('/api/zoos', (req, res) => {
-  
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(zoos => {
+      res.status(200).json(zoos)
+    })
+    .catch(error => {
+      res.status(500).json({message: 'Error fetching', error});
+    });
 })
 
-server.post('/api/zoos', (req, res) => {
-  
+server.delete('/api/zoos/:zooId', (req, res) => {
+  const { zooId } = req.params
+
+  db('zoos')
+    .where({ id: zooId })
+    .del()
+    .then(count => {
+      res.status(200).json(count)
+    })
+    .catch(error => {
+      res.status(500).json({message: 'Error adding zoo', error});
+    });
 })
 
-server.post('/api/zoos', (req, res) => {
-  
-}) */
+server.put('/api/zoos/:zooId', (req, res) => {
+  const changes = req.body
+  const { zooId } = req.params
+
+  db('zoos')
+    .where({ id: zooId })
+    .update(changes)
+    .then(count => {
+      res.status(200).json(count)
+    })
+    .catch(error => {
+      res.status(500).json({message: 'Error adding zoo', error});
+    });
+})
 
 server.get('/', (req, res) => {
   res.json({ api : 'running!' })
