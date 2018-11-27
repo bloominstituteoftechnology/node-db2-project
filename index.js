@@ -37,7 +37,13 @@ server.post('/api/zoos', (req, res) => {
 });
 
 server.put('/api/zoos/:id', (req, res) => {
-  
+  const changes = req.body;
+  const { id } = req.params;
+  db('zoos')
+    .then(count => {
+      res.status(200).json( { count } )
+    })
+    .catch(error => res.status(500).json({ message: 'No Changes could be made', error }))
 });
 
 server.delete('/api/zoos/:id', (req, res) => {
