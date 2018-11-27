@@ -25,7 +25,7 @@ server.post("/api/zoos", (req, res) => {
      res.status(201).json(ids)
    })
    .catch(err => {
-     res.status(500).json({ error: "Error inserting the zoo", err })
+     res.status(500).json({ error: "Error posting the zoo", err })
    })
 })
 
@@ -41,10 +41,15 @@ server.get("/api/zoos/", (req, res) => {
    })
 })
 
+// GET BY ID
+
 server.get("/api/zoos/:id", (req, res) => {
+const {id} = req.params
+
   db("zoos")
-   .then(zoos => {
-     res.status(200).json(zoos)
+   .where({id:id})
+   .then(name => {
+     res.status(200).json(name)
    })
    .catch(err => {
      res.status(500).json({ error: "Error getting the zoos", err })
@@ -54,8 +59,7 @@ server.get("/api/zoos/:id", (req, res) => {
 // // DELETE
 
 server.delete("/api/zoos/:id", (req, res) => {
-  const changes = req.body
-  const id = req.params
+  const {id} = req.params
 
   db("zoos")
    .where(id)
@@ -70,15 +74,15 @@ server.delete("/api/zoos/:id", (req, res) => {
 
 // // PUT
 
-server.post("/api/zoos/:id", (req, res) => {
+server.put("/api/zoos/:id", (req, res) => {
   const changes = req.body
-  const id = req.params
+  const {id} = req.params
 
   db("zoos")
-   .where(id)
+   .where({id:id})
    .update(changes)
-   .then(ids => {
-     res.status(200).json(ids)
+   .then(count => {
+     res.status(200).json({count})
    })
    .catch(err => {
      res.status(500).json({ error: "Error updating the zoo", err })
