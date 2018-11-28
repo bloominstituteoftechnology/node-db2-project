@@ -1,4 +1,4 @@
-# Building an API using a Relational Database Mini //jaklundun
+# Building an API using a Relational Database Mini //jaklundun//
 
 Topics:
 
