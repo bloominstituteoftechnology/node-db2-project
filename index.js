@@ -8,7 +8,8 @@ server.use(helmet());
 
 // endpoints here
 
-const port = 3300;
-server.listen(port, function() {
-  console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
+server.get('/', (req, res) => {
+  res.send("It's Alive");
 });
+
+server.listen(9000), () => console.log('\nAPI running on 9k\n')
