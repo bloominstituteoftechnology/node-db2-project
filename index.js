@@ -79,6 +79,19 @@ server.put("/api/zoos/:id", (req, res) => {
   // ### PUT /api/zoos/:id
   // When the client makes a `PUT` request to this endpoint passing an object with the
   // changes, the _zoo_ with the provided `id` should be updated with the new information.
+
+  const updates = req.body;
+  const { id } = req.params;
+
+  db("zoos")
+    .where("id", "=", id)
+    .update(updates)
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 server.delete("/api/zoos/:id", (req, res) => {
