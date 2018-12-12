@@ -56,6 +56,23 @@ server.get("/api/zoos/:id", (req, res) => {
   // ### `GET /api/zoos/:id`
   // When the client makes a `GET` request to `/api/zoos/:id`, find the _zoo_ associated
   // with the given `id`. Remember to handle errors and send the correct status code.
+  const zooId = req.params.id;
+
+  db("zoos")
+    .where("id", zooId)
+    .select()
+    .then(zoo => {
+      if (zoo.length) {
+        res.status(200).json(zoo);
+      } else {
+        res
+          .status(404)
+          .json({ message: `Could not find zoo with id ${zooId}` });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Could not get any zoos." });
+    });
 });
 
 server.put("/api/zoos/:id", (req, res) => {
