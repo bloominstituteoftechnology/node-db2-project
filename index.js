@@ -83,6 +83,27 @@ server.put('/api/zoos/:id', (req, res) =>{
   })
 })
 
+// Delete a zoo
+
+server.delete('/api/zoos/:id', (req, res) =>{
+  const { id } = req.params
+
+  db('zoos').where({ id })
+    .del()
+    .then(count => {
+
+      if (!count || count < 1) {
+        res.status(404).json({ message: 'No records found to delete' })
+
+      } else {
+        res.status(200).json(count)
+
+      }
+
+    }).catch(err => {
+      res.status(500).json(err)
+    })
+})
 
 
 const port = 3300;
