@@ -98,6 +98,18 @@ server.delete("/api/zoos/:id", (req, res) => {
   // ### DELETE /api/zoos/:id
   // When the client makes a `DELETE` request to this endpoint, the _zoo_ that has the
   // provided `id` should be removed from the database.
+
+  const { id } = req.params;
+
+  db("zoos")
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 const port = 3300;
