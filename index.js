@@ -24,12 +24,32 @@ server.post("/api/zoos", (req, res) => {
   // If there's an error, respond with an appropriate status code, and send
   // a JSON response of the form `{ error: "Some useful error message" }`.
   // Return the `id` of the inserted zoo and a 201 status code.
+
+  const name = req.body;
+
+  db.insert(name)
+    .into("zoos")
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 server.get("/api/zoos", (req, res) => {
   // ### `GET /api/zoos`
   // When the client makes a `GET` request to this endpoint, return a list of all the _zoos_
   // in the database. Remember to handle any errors and return the correct status code.
+
+  db("zoos")
+    .select()
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 server.get("/api/zoos/:id", (req, res) => {
