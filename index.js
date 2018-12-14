@@ -121,7 +121,7 @@ server.post('/bears', (req, res) => {
     })
     .catch(err => {
       // console.log(err);
-      res.status(500).json({ err: "Failed to insert bera" });
+      res.status(500).json({ err: "Failed to insert bear" });
     });
   } else {
     res.status(400).json({ message: "Please provide bear name" });
