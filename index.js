@@ -10,6 +10,27 @@ server.use(helmet());
 
 
 const PORT = 4444;
-server.listen(port, function() {
+
+server.put('/api/zoos', (req,res) => {
+
+})
+
+server.put('/api/zoos:id', (req,res) => {
+  
+})
+
+server.post('/api/zoos', (req,res) => {
+  
+})
+
+server.put('/api/zoos:id', (req,res) => {
+  
+})
+
+server.delete('/api/zoos:id', (req,res) => {
+  
+})
+
+server.listen(PORT, function() {
   console.log(`\n=== Web API Listening on http://localhost:${PORT} ===\n`);
 });
