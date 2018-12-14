@@ -128,7 +128,7 @@ server.post('/bears', (req, res) => {
   }
 });
 
-// SELECT * FROM zoos;
+// SELECT * FROM bears;
 server.get('/bears', (req, res) => {
   db('bears')
   .then(rows => {
@@ -140,7 +140,7 @@ server.get('/bears', (req, res) => {
   })
 })
 
-// SELECT * FROM zoos WHERE id = 1
+// SELECT * FROM bears WHERE id = 1
 server.get('/bears/:id', (req, res) => {
   const id = req.params.id;
   db('bears').where('id', id)
@@ -156,7 +156,7 @@ server.get('/bears/:id', (req, res) => {
   });
 });
 
-// UPDATE zoos SET name = 'something to update' WHERE id = 1
+// UPDATE bears SET name = 'something to update' WHERE id = 1
 server.put('/bears/:id', (req, res) => {
   const {id} = req.params;
   const bear = req.body;
@@ -179,7 +179,7 @@ server.put('/bears/:id', (req, res) => {
   }
 });
 
-// DELETE FROM crayons WHERE id = 1;
+// DELETE FROM bears WHERE id = 1;
 server.delete('/bears/:id', (req, res) => {
   const {id} = req.params;
 
