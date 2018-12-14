@@ -32,10 +32,29 @@ server.post('/api/zoos', (req, res) => {
 });
 
 // SELECT * FROM zoos;
-server.get('/api/zoos', (req, res) => {});
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then( (rows) => {
+      res.json(rows);
+    })
+    .catch( err => {
+      res.status(500).json({ error: "Could not get list of zoos."});
+    });
+});
 
 // SELECT * FROM zoos WHERE id={:id};
-server.get('/api/zoos/:id', (req, res) => {});
+server.get('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+
+  db('zoos').where('id', id)
+    .then( (rows) => {
+      res.json(rows);
+    })
+    .catch( err => {
+      res.status(500).json({ error: "Could not get zoo."});
+    });
+  // db
+});
 
 // DELETE FROM zoos WHERE id={:id};
 server.delete('/api/zoos/:id', (req, res) => {});
