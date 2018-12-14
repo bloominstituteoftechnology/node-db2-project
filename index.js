@@ -24,6 +24,7 @@ server.get('/zoos', (req, res) => {
     res.json(rows);
   })
   .catch(err => {
+    // console.log(err);
     res.status(500).json({ err: "Failed to find zoos" });
   })
 })
