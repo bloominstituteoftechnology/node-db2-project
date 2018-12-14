@@ -16,26 +16,26 @@ server.use(helmet());
 server.get('/', (req, res) => {
   db.get()
     .then(zoos => {
-      console.log('get response', zoos);
       res.json(zoos)
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({ message: "Could not fetch Zoos" })
     })
 })
 
-// server.get('/', (req, res) => {
-//   db('zoos')
-//     .then(response => {
-//       console.log('get response', response);
-//       res.json(response)
-//     })
-//     .catch(err => {
-//       console.log('error:', err);
-//       res.status(500).json({ message: "Could not fetch Zoos" })
-//     })
-// })
+server.get('/:id', (req, res) => {
+  const {id} = req.params;
+  db.get(id)
+    .then(zoo => {
+      console.log('get zoo', zoo);
+      res.json(zoo)
+    })
+    .catch(err => {
+      console.log('zoo error', err)
+      res.status(500).json({ message: "Could not find that Zoo" })
+    })
+})
+
 
 const port = 3300;
 server.listen(port, function() {
