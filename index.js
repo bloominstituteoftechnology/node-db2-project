@@ -3,7 +3,6 @@ const helmet = require('helmet');
 const knex = require('knex');
 const dbConfig = require('./knexfile');
 
-
 const server = express();
 const db = knex(dbConfig.development);
 
@@ -22,15 +21,19 @@ server.get('/', (req, res) => {
 server.post('/zoos', (req, res) => {
   const zoo =req.body;
 
-  db('zoos')
-  .insert(zoo)
-  .then((ids) => {
-    res.status(201).json(ids);
-  })
-  .catch(err => {
-    // console.log(err);
-    res.status(500).json({ err: "Failed to insert zoo" });
-  });
+  if (zoo.name) {
+    db('zoos')
+    .insert(zoo)
+    .then((ids) => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      // console.log(err);
+      res.status(500).json({ err: "Failed to insert zoo" });
+    });
+  } else {
+    res.status(400).json({ message: "Please provide zoo name" });
+  }
 });
 
 // SELECT * FROM zoos;
@@ -45,12 +48,16 @@ server.get('/zoos', (req, res) => {
   })
 })
 
-// SELECT * FROM crayons WHERE id = 1
+// SELECT * FROM zoos WHERE id = 1
 server.get('/zoos/:id', (req, res) => {
   const id = req.params.id;
   db('zoos').where('id', id)
   .then(row => {
-    res.json(row);
+    if (row.length > 0) {
+      res.json(row);
+    } else {
+      res.status(404).json({ err: "The zoo with the specified ID does not exist." })
+    }
   })
   .catch(err => {
     res.status(500).json({ err: "Failed to find zoo" });
@@ -62,14 +69,22 @@ server.put('/zoos/:id', (req, res) => {
   const {id} = req.params;
   const zoo = req.body;
 
-  db('zoos').where('id', id)
-  .update(zoo)
-  .then(rowCount => {
-    res.json(rowCount);
-  })
-  .catch(err => {
-    res.status(500).json({ err: "Failed to update zoo" });
-  });
+  if (zoo.name) {
+    db('zoos').where('id', id)
+    .update(zoo)
+    .then(rowCount => {
+      if (rowCount) {
+        res.json(rowCount);
+      } else {
+        res.status(404).json({ message: "The zoo with the specified ID does not exist" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err: "Failed to update zoo" });
+    });
+  } else {
+    res.status(400).json({ message: "Please provide zoo name" });
+  }
 });
 
 // DELETE FROM crayons WHERE id = 1;
@@ -79,13 +94,16 @@ server.delete('/zoos/:id', (req, res) => {
   db('zoos').where('id', id)
   .del()
   .then(rowCount => {
-    res.status(201).json(rowCount);
+    if (rowCount) {
+      res.status(201).json(rowCount);
+    } else {
+      res.status(404).json({ message: "The zoo with the specified ID does not exist." })
+    }
   })
   .catch(err => {
     res.status(500).json({ err: "Failed to delete zoo" });
   });
 });
-
 
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
