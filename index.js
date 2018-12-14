@@ -31,6 +31,60 @@ server.post('/api/zoos', (req , res) => {
   })
 })
 
+// GET /api/zoos
+// SELECT * FROM zoos
+server.get('/api/zoos', (req , res) => {
+  db('zoos') 
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: "Fail to find zoo"});
+  })
+})
+
+// GET /api/zoos/:id
+// SELECT * FROM zoos WHERE id = '2'
+server.get('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  db('zoos').where('id', id)
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: 'Failed to find specific zoo'});
+  })
+})
+
+// DELETE /api/zoos/:id
+// DELETE FROM zoos WHERE id = 2;
+server.delete('/api/zoos/:id', (req , res) => {
+  const {id} = req.params;
+  db('zoos').where('id', id).del()
+  .then(rowCount => {
+    res.status(201).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500).json({err: "Failed to delete zoo"})
+  });
+})
+
+// PUT /api/zoos/:id
+// UPDATE zoos SET name = 'NEW ZOO'
+server.put('/api/zoos/:id', (req , res) => {
+  const {id} = req.params;
+  const zoo = req.body;
+
+  db('zoos').where('id', id).update(zoo)
+  .then(rowCount => {
+    res.status(200).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500).json({err: 'Failed to update zoo'});
+  })
+})
 
 const port = 3300;
 server.listen(port, function() {
