@@ -17,6 +17,8 @@ server.get('/', (req, res) => {
   res.json({message: "Server up and running!!"})
 });
 
+// Zoo Stuff here
+
 // INSERT INTO zoos (name) VALUES ('Hoogle Zoo');
 server.post('/zoos', (req, res) => {
   const zoo =req.body;
@@ -64,7 +66,7 @@ server.get('/zoos/:id', (req, res) => {
   });
 });
 
-// UPDATE zoos SET name = 'something to update" WHERE id = 1
+// UPDATE zoos SET name = 'something to update' WHERE id = 1
 server.put('/zoos/:id', (req, res) => {
   const {id} = req.params;
   const zoo = req.body;
@@ -104,6 +106,98 @@ server.delete('/zoos/:id', (req, res) => {
     res.status(500).json({ err: "Failed to delete zoo" });
   });
 });
+
+// Bears stuff here:
+
+// INSERT INTO bears (name) VALUES ('Polar Bear');
+server.post('/bears', (req, res) => {
+  const bear =req.body;
+
+  if (bear.name) {
+    db('bears')
+    .insert(bear)
+    .then((ids) => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      // console.log(err);
+      res.status(500).json({ err: "Failed to insert bera" });
+    });
+  } else {
+    res.status(400).json({ message: "Please provide bear name" });
+  }
+});
+
+// SELECT * FROM zoos;
+server.get('/bears', (req, res) => {
+  db('bears')
+  .then(rows => {
+    res.json(rows);
+  })
+  .catch(err => {
+    // console.log(err);
+    res.status(500).json({ err: "Failed to find bears" });
+  })
+})
+
+// SELECT * FROM zoos WHERE id = 1
+server.get('/bears/:id', (req, res) => {
+  const id = req.params.id;
+  db('bears').where('id', id)
+  .then(row => {
+    if (row.length > 0) {
+      res.json(row);
+    } else {
+      res.status(404).json({ err: "The bear with the specified ID does not exist." })
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ err: "Failed to find bear" });
+  });
+});
+
+// UPDATE zoos SET name = 'something to update' WHERE id = 1
+server.put('/bears/:id', (req, res) => {
+  const {id} = req.params;
+  const bear = req.body;
+
+  if (bear.name) {
+    db('bears').where('id', id)
+    .update(bear)
+    .then(rowCount => {
+      if (rowCount) {
+        res.json(rowCount);
+      } else {
+        res.status(404).json({ message: "The bear with the specified ID does not exist" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ err: "Failed to update bear" });
+    });
+  } else {
+    res.status(400).json({ message: "Please provide bear name" });
+  }
+});
+
+// DELETE FROM crayons WHERE id = 1;
+server.delete('/bears/:id', (req, res) => {
+  const {id} = req.params;
+
+  db('bears').where('id', id)
+  .del()
+  .then(rowCount => {
+    if (rowCount) {
+      res.status(201).json(rowCount);
+    } else {
+      res.status(404).json({ message: "The bear with the specified ID does not exist." })
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ err: "Failed to delete bear" });
+  });
+});
+
+// Always at bottom!
 
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
