@@ -21,20 +21,25 @@ server.get('/', (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "Could not fetch Zoos" })
     })
-})
+});
+
 
 server.get('/:id', (req, res) => {
   const {id} = req.params;
   db.get(id)
     .then(zoo => {
-      console.log('get zoo', zoo);
-      res.json(zoo)
+      if(Object.keys(zoo).length === 0){
+        res.status(404).json({ message: "Invalid Zoo ID" })
+      } else {
+        res.json(zoo)
+      }
     })
     .catch(err => {
-      console.log('zoo error', err)
       res.status(500).json({ message: "Could not find that Zoo" })
     })
-})
+});
+
+
 
 
 const port = 3300;
