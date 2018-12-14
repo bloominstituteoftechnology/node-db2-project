@@ -77,7 +77,18 @@ server.put('/api/zoos/:id', (req, res) => {
 
 
 // DELETE FROM zoos WHERE id={:id};
-server.delete('/api/zoos/:id', (req, res) => {});
+server.delete('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+
+  db('zoos').where('id', id).del()
+    .then( rowCount => {
+      res.status(201).json(rowCount);
+    })
+    .catch( err => {
+      res.status(500).json({ error: "Could not update zoo."});
+    });
+  // db
+});
 
 
 /* ---------- Listener ---------- */
