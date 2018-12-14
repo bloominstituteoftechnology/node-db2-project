@@ -56,11 +56,28 @@ server.get('/api/zoos/:id', (req, res) => {
   // db
 });
 
+// UPDATE zoos SET name={name} WHERE id={:id};
+server.put('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  const zooData = req.body;
+
+  if( zooData.name ){
+    db('zoos').where('id', id).update(zooData)
+      .then( (rowCount) => {
+        res.json(rowCount);
+      })
+      .catch( err => {
+        res.status(500).json({ error: "Could not update zoo."});
+      });
+    // db
+  } else {
+    res.status(400).json({ error: "Please provide the name of the zoo." });
+  }
+});
+
+
 // DELETE FROM zoos WHERE id={:id};
 server.delete('/api/zoos/:id', (req, res) => {});
-
-// UPDATE zoos SET name={name} WHERE id={:id};
-server.put('/api/zoos/:id', (req, res) => {});
 
 
 /* ---------- Listener ---------- */
