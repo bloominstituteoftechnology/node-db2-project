@@ -144,3 +144,26 @@ server.get("/api/animals/bears", (req, res) => {
         .json({ error: "Please check your connection and try again." });
     });
 });
+
+// ~~~~~ GET BEAR BY ID ~~~~~
+server.get("/api/animals/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db("bears")
+    .where("id", id)
+    .then(bear => {
+      if (bear.length) {
+        res.json({ bear });
+      } else {
+        res
+          .status(404)
+          .json({ error: "Bear does not exist, please create this bear!" });
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({
+          error: "Please check your connect so you can check out this bear."
+        });
+    });
+});
