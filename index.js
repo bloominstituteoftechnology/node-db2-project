@@ -19,7 +19,7 @@ server.post('/api/zoos', (req, res) => {
   if (animal.name) {
     db('zoos').insert(animal)
       .then(animalId => {
-        res.status(201).json(animalId)
+        res.status(200).json(animalId)
       })
       .catch(err => {
         res.status(500).json({ message: 'Could not insert animal' })
@@ -32,7 +32,7 @@ server.post('/api/zoos', (req, res) => {
 server.get('/api/zoos', (req, res) => {
   db('zoos')
     .then(animals => {
-      res.status(201).json(animals)
+      res.status(200).json(animals)
     })
     .catch(err => {
       res.status(500).json({ message: 'Could not get animals' })
@@ -45,7 +45,7 @@ server.get('/api/zoos/:id', (req, res) => {
 
   db('zoos').where('id', id)
     .then(animal => {
-      res.status(201).json(animal)
+      res.status(200).json(animal)
     })
     .catch(err => {
       res.status(500).json({ message: 'Cout not get animal' })
@@ -60,7 +60,8 @@ server.put('/api/zoos/:id', (req, res) => {
   if (animal.name) {
     db('zoos').where('id', id).update(animal)
       .then(animalCount => {
-        res.status(200).json(animalCount)
+        console.log(animalCount)
+        res.status(200).json('Animal has been updated')
       })
       .catch(err => {
         res.status(500).json({ message: 'Could not update animal' })
@@ -76,7 +77,7 @@ server.delete('/api/zoos/:id', (req, res) => {
 
   db('zoos').where('id', id).del()
     .then(animalCount => {
-      res.status(201).json(animalCount)
+      res.status(201).json('Animal has been deleted')
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to delete animal' })
