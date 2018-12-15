@@ -20,7 +20,12 @@ router.get('/:id', (req, res) => {
     const {id} = req.params;
     db('bears').where('id', id).select()
     .then((bear) => {
-        res.status(200).json(bear);
+        if (bear.length) {
+            res.status(200).json(bear);
+        }
+        else {
+            res.status(404).json({message: `Could not find bear with id ${id}`})
+        }
     })
     .catch((error) => {
         res.status(500).json({error: `Server had an error of ${error} trying to get the bear id of ${id}`});

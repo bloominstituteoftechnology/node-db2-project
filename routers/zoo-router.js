@@ -20,7 +20,12 @@ router.get('/:id', (req, res) => {
     const {id} = req.params;
     db('zoos').where('id', id).select()
     .then((zoo) => {
-        res.status(200).json(zoo);
+        if (zoo.length) {
+            res.status(200).json(zoo);
+        }
+        else {
+            res.status(404).json({message: `Could not find zoo with id ${id}`})
+        }
     })
     .catch((error) => {
         res.status(500).json({error: `Server had an error of ${error} trying to get the zoo id of ${id}`});
