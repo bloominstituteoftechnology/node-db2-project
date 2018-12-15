@@ -37,9 +37,26 @@ server.post('/api/zoos', (req, res) => {
 
 //GET /api/zoos
 
-
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+  .then(zoos => {
+    res
+    .status(200)
+    .json(zoos)
+  })
+  .catch(err=>{
+    res
+    .status(500)
+    .json({error:"Unable to get zoos"})
+  })
+} )
 
 //GET /api/zoos/:id
+
+server.get('/api/zoos:id', (req, res) =>{
+  const {id}
+})
+
 
 //DELETE  /api/zoos/:id
 
