@@ -22,7 +22,7 @@ server.post('/zoos', (req, res) => {
     });
 });
 
-server.get('/zoos:id', (req, res) => {
+server.get('/zoos/:id', (req, res) => {
   const { id } = req.params;
   db('zoos').where('id', id)
     .then(rows => {
@@ -41,7 +41,7 @@ server.get('/zoos', (req, res) => {
     .catch(err => res.status(500).json({ err: "failed to get zoos" }))
 });
 
-server.delete('/zoos:id', (req, res) => {
+server.delete('/zoos/:id', (req, res) => {
   const { id } = req.params;
   db('zoos').where('id', id).del().then(count => {
     res.json(count)
@@ -51,7 +51,7 @@ server.delete('/zoos:id', (req, res) => {
     })
 })
 
-server.put('/zoos/id', (req, res) => {
+server.put('/zoos/:id', (req, res) => {
   const { id } = req.params;
   const zoo = req.body;
   db('zoos').where('id', id).update(zoo)
