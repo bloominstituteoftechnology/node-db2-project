@@ -17,8 +17,37 @@ server.use(helmet());
 // endpoints here
 
 server.post("/api/zoos", (req, res) => {});
-server.get("/api/zoos", (req, res) => {});
-server.get("/api/zoos", (req, res) => {});
+
+server.get("/", (req, res) => {
+  res.send('The Server is running')
+});
+
+server.get("/api/zoos", (req, res) => {
+  db('zoos')
+  .then(list => {
+    res.status(200).json(list)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+});
+
+server.get("/api/zoos/:id", async (req, res) => {
+  try {
+    const {id} = req.params
+    const zoo = await db('zoos').where({id}).first()
+
+    if(zoo){
+      res.status(200).json(zoo)
+    } else {
+      res.status(404).json({message: 'Zoo not found'})
+    }
+  }catch(err) //the syntax doesn't seem right here, but the .catch throws an error
+  {
+    res.status(500).json(err)
+  } 
+});
+
 server.put("/api/zoos", (req, res) => {});
 server.delete("/api/zoos", (req, res) => {});
 
