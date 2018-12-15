@@ -60,8 +60,39 @@ server.get("/api/zoos/:id", async (req, res) => {
   } 
 });
 
-server.put("/api/zoos", (req, res) => {});
-server.delete("/api/zoos", (req, res) => {});
+server.put("/api/zoos/:id", (req, res) => {
+  const {id} = req.params
+  const changes = req.body
+
+  db('zoos')
+  .where({id})
+  .update(changes)
+  .then(count => {
+    if(!count || count < 1) {
+      res.status(404).json({message: 'Cannot update, zoo not found.'})
+    } else {
+      res.status(200).json(count)
+    }
+  }).catch(err => {
+    res.status(500).json(err)
+  })
+});
+
+server.delete('/api/zoos/:id', (req, res) =>{
+  const { id } = req.params
+
+   db('zoos').where({ id })
+    .del()
+    .then(count => {
+       if (!count || count < 1) {
+        res.status(404).json({ message: 'No records found to delete' })
+       } else {
+        res.status(200).json(count)
+       }
+     }).catch(err => {
+      res.status(500).json(err)
+    })
+})
 
 const port = 3300;
 server.listen(port, function() {
