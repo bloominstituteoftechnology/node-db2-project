@@ -56,6 +56,38 @@ server.get('/api/zoos/:id', (req, res) => {
     });
 });
 
+// DELETE /api/zoos/:id
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where('id', id).del()
+    .then(rowCount => {
+      res
+        .status(201)
+        .json(rowCount);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ err: 'failed to delete zoo' });
+    });
+});
+
+// PUT /api/zoos/:id
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+    .then(rowCount => {
+      res
+        .json(rowCount);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ err: 'failed to update zoo' });
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
