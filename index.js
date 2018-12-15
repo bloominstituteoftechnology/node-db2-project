@@ -34,6 +34,19 @@ server.post('/api/zoos', (req, res) => {
   }
 });
 
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({err: 'The zoos information could not be retrieved at this time.'});
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
