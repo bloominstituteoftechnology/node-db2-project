@@ -51,7 +51,14 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    res.send('delete request');
+    const id = req.params.id;
+    db('zoos').where('id', id).del()
+    .then(rowCount => {
+        res.status(201).json(rowCount);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to delete zoo"});
+    });
 });
 
 module.exports = router;
