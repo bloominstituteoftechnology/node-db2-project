@@ -89,7 +89,7 @@ server.put('/zoos/:id', (req, res) => {
   }
 });
 
-// DELETE FROM crayons WHERE id = 1;
+// DELETE FROM zoos WHERE id = 1;
 server.delete('/zoos/:id', (req, res) => {
   const {id} = req.params;
 
