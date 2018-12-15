@@ -7,6 +7,7 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.post('/')
 
 const port = 3300;
 server.listen(port, function() {
