@@ -12,7 +12,7 @@ server.use(helmet());
 
 
 server.use('/zoos', zooRouter);
-
+server.use('/bears', bearRouter);
 
 
 const port = 3300;

@@ -17,7 +17,7 @@ module.exports = {
         })
     },
 
-    insert: function(zoo){
+    insert: function(bear){
         return db('bears')
         .insert(bear)
         .then( ([id]) => this.get(id) )
