@@ -4,9 +4,10 @@ const knex = require('knex');
 
 const dbConfig = require('./knexfile.js')
 
+// const zoosRouter = require()
 const server = express();
 const db = knex(dbConfig.development);
-const PORT = 3300;
+const PORT = 4500;
 
 server.use(express.json());
 server.use(helmet());
@@ -21,9 +22,10 @@ server.post('/api/zoos', (req, res) => {
       res.status(201).json(ids);
     })
     .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to insert zoo' });
+    });
+});
 
-    })
-})
 // ### `POST /api/zoos`
 
 // When the client makes a `POST` request to 
@@ -39,32 +41,69 @@ server.post('/api/zoos', (req, res) => {
 
 
 // ### `GET /api/zoos`
-
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(rows => {
+      res.status(200).json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to find zoos.' })
+    })
+})
 // When the client makes a `GET` request to this endpoint, 
 // return a list of all the _zoos_ in the database. Remember 
 // to handle any errors and return the correct status code.
 
 
 // ### `GET /api/zoos/:id`
-
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where('id', id)
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to find zoo with that id.' });
+    })
+})
 // When the client makes a `GET` request to `/api/zoos/:id`, 
 // find the _zoo_ associated with the given `id`. Remember 
 // to handle errors and send the correct status code.
 
 
 // ### DELETE /api/zoos/:id
-
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where('id', id).del()
+    .then(rowCount => {
+      res.json(rowCount);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to delete zoo.'});
+    });
+});
 // When the client makes a `DELETE` request to this endpoint, 
 // the _zoo_ that has the provided `id` should be removed from the database.
 
 
 // ### PUT /api/zoos/:id
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+    .then(rowCount => {
+      res.json(rowCount);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to update zoo.' });
+    });
+});
 
 // When the client makes a `PUT` request to this endpoint 
 // passing an object with the changes, the _zoo_ with 
 // the provided `id` should be updated with the new information.
 
 
-server.listen(PORT, function() {
+server.listen(PORT, function () {
   console.log(`\n=== Web API Listening on http://localhost:${PORT} ===\n`);
 });
