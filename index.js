@@ -13,6 +13,7 @@ server.use(helmet());
 // endpoints here
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
+  if (zoo.name) {
   db('zoos').insert(zoo)
   .then(ids => {
     res.status(201).json(ids);
@@ -20,6 +21,9 @@ server.post('/api/zoos', (req, res) => {
   .catch(err => {
     res.status(500).json({ error: 'Failed to insert.'})
   })
+} else {
+  res.status(400).json({ error: "Please provide a zoo name." })
+}
 });
 
 server.get('/api/zoos', (req, res) => {
@@ -84,6 +88,7 @@ server.put('/api/zoos/:id', (req, res) => {
 
 server.post('/api/bears', (req, res) => {
   const bear = req.body;
+  if (bear.name) {
   db('bears').insert(bear)
   .then(ids => {
     res.status(201).json(ids);
@@ -91,6 +96,9 @@ server.post('/api/bears', (req, res) => {
   .catch(err => {
     res.status(500).json({ error: 'Failed to insert.'})
   })
+} else {
+  res.status(400).json({ error: "Please provide a bear name." })
+}
 });
 
 server.get('/api/bears', (req, res) => {
