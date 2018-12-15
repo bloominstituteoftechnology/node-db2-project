@@ -49,7 +49,14 @@ server.delete('/zoos/:id', (req, res) => {
 })
 
 server.put('/zoos/:id', (req, res) => {
-
+  const {id} = req.params;
+  const zoos = req.body; 
+  db('zoos').where('id', id).update(zoos)
+    .then( rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => { res.status(500).json({err: "We've encountered an error"})
+  })
 })
 
 const port = 3300;
