@@ -79,3 +79,29 @@ server.delete("/api/zoos/:id", (req, res) => {
       res.status(500).json({ error: "Delete did not process. Try again." });
     });
 });
+
+// ~~~~~ UPDATE ~~~~~
+server.put("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const { zoo } = req.body;
+
+  db("zoos")
+    .where("id", id)
+    .update(zoo)
+    .then(count => {
+      if (count) {
+        res.json({ count });
+      } else {
+        res
+          .status(400)
+          .json({ error: "Zoo was not updated. Please try again." });
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({
+          error: "Something went wrong. Check connection and try again."
+        });
+    });
+});
