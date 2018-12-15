@@ -9,11 +9,4 @@ module.exports = {
     },
     useNullAsDefault:true
   },
-  development2: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/lambdaBears.db'
-    },
-    useNullAsDefault: true
-  },
 };

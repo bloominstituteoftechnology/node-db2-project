@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const knex = require('knex');
 const dbconfig = require('../knexfile');
-const dbbears = knex(dbconfig.development2);
+const db = knex(dbconfig.development);
 
 router.post('/', (req, res) => {
     const bear = req.body;
@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
             .json({ error: "Please provide complete bear information." })
         return
     }
-    dbbears('bears').insert(bear)
+    db('bears').insert(bear)
         .then(id => {
             res
                 .status(201)
@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
         })
 })
 router.get('/', (req, res) => {
-    dbbears('bears')
+    db('bears')
         .then(bears => {
             res
                 .status(200)
@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 })
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    dbbears('bears').where('id', id)
+    db('bears').where('id', id)
         .then(bear => {
             if (bear.length) {
                 res
@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
             .json({ error: "Please provide bear information and/or ID." })
         return
     }
-    dbbears('bears').where('id', id).update(bear)
+    db('bears').where('id', id).update(bear)
         .then(id => {
             if (id) {
                 res
@@ -87,7 +87,7 @@ router.put('/:id', (req, res) => {
 })
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    dbbears('bears').where('id', id).del()
+    db('bears').where('id', id).del()
         .then((count) => {
             if (count) {
                 res
