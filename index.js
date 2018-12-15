@@ -1,9 +1,12 @@
 const express = require('express');
 const helmet = require('helmet');
+const zooRouter = require('./routers/zooRouter');
 
 const server = express();
 
 server.use(express.json(), helmet());
+
+server.use('/api/zoos', zooRouter);
 
 // endpoints here
 server.get('/', (req, res) => {
