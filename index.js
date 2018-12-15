@@ -19,11 +19,24 @@ server.post("/api/zoos", (req, res) => {
       res.status(201).json({ id });
     })
     .catch(err => {
-      res.status(500).json({ error: "Creation failed, Please try again" });
+      res.status(500).json({ error: "Creation failed, Please try again." });
     });
 });
 
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
+});
+
+// ~~~~~ GET ~~~~
+server.get("/api/zoos", (req, res) => {
+  db("zoos")
+    .then(zoos => {
+      res.json({ zoos });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: "Cannot Fetch Zoos, Check your connection." });
+    });
 });
