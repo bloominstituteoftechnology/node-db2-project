@@ -81,7 +81,7 @@ router.delete('/:id', (req, res) => {
   //     .where({ id })
   //     .del()
   zooDb
-    .delete(id)
+    .remove(id)
     .then(count => {
       if (count) {
         res.json(count);
