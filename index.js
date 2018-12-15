@@ -78,7 +78,26 @@ server.get('/api/zoos/:id', (req, res) =>{
 
 //DELETE  /api/zoos/:id
 
-server.delete('/api/')
+server.delete('/api/zoos/:id', (req, res) =>{
+  const {id} = req.params;
+  db('zoos').where('id', id).del()
+  .then(count => {
+    if(count===1){
+      res
+      .status(200)
+      .json({message: "Specified Zoo deleted"})
+    } else {
+      res
+      .status(404)
+      .json({message: "The post with the specified ID does not exist "})
+    }
+  })
+  .catch(err =>{
+    res
+    .status(500)
+    .json({error: "The zoo could not be removed"})
+  })
+})
 
 //PUT /api/zoos/:id
 
