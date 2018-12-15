@@ -1,99 +1,99 @@
-// //create router
-// const express = require('express');
-// const router = express.Router();
+//create router
+const express = require('express');
+const router = express.Router();
 
-// ////Create db / knex connection
-// const knex = require('knex');
-// const dbConfig = require('./knexfile');
-// const db = knex(dbConfig.development);
+////Create db / knex connection
+const knex = require('knex');
+const dbConfig = require('../knexfile');
+const db = knex(dbConfig.development);
 
-// //custom middleware
-// const verify = require('./middleware')
+//custom middleware
+const verify = require('../middleware')
 
 
-// //ROUTE HANDLERS / ENDPOINTS
-// //SELECT - GET
-// server.get('/api/zoos', (req, res) =>{
-//     db('zoos')
-//     .then(zoos =>{
-//       res.status(200).json(zoos)
-//     })
-//     .catch(err =>{
-//       res.status(500).json({error: "Unable to retrieve zoos"})
-//     })
+//ROUTE HANDLERS / ENDPOINTS
+//SELECT - GET
+router.get('/', (req, res) =>{
+    db('bears')
+    .then(bears =>{
+      res.status(200).json(bears)
+    })
+    .catch(err =>{
+      res.status(500).json({error: "Unable to retrieve bears"})
+    })
 
-// });
+});
 
-// //SELECT W/WHERE - GET BY ID
-// server.get('/api/zoos/:id', (req, res) =>{
-//     const id = req.params.id;
+//SELECT W/WHERE - GET BY ID
+router.get('/:id', (req, res) =>{
+    const id = req.params.id;
 
-//     db('zoos')
-//     .where('id', id)
-//     .then(zoo =>{
-//       if(zoo){
-//         res.status(200).json(zoo);
-//       }else{
-//         res.status(404).json({error: "The specified zoo does not exist"})
-//       }
-//     })
-//     .catch(err =>{
-//       res.status(500).json({error: "Unable to retrieve specified zoo"})
-//     })
-// });
+    db('bears')
+    .where('id', id)
+    .then(bear =>{
+      if(bear[0]){
+        res.status(200).json(bear);
+      }else{
+        res.status(404).json({error: "The specified bear does not exist"})
+      }
+    })
+    .catch(err =>{
+      res.status(500).json({error: "Unable to retrieve specified bear"})
+    })
+});
 
-// //INSERT - POST
-// server.post('/api/zoos', verify.checkName, (req, res) =>{ 
-//     const newZoo = req.body;
+//INSERT - POST
+router.post('/', verify.checkName, (req, res) =>{ 
+    const newBear = req.body;
 
-//     db('zoos')
-//     .insert(newZoo)
-//     .then(id =>{
-//       res.status(201)
-//       res.json(id)
-//     })
-//     .catch(err =>{
-//       res.status(500).json({error: "Unable to add new zoo"})
-//     })
-// });
+    db('bears')
+    .insert(newBear)
+    .then(id =>{
+      res.status(201)
+      res.json(id)
+    })
+    .catch(err =>{
+      res.status(500).json({error: "Unable to add new bear"})
+    })
+});
 
-// //UPDATE - PUT
-// server.put('/api/zoos/:id', verify.checkName, (req, res) =>{
-//     const id = req.params.id;
-//     const updatedZoo = req.body;
+//UPDATE - PUT
+router.put('/:id', verify.checkName, (req, res) =>{
+    const id = req.params.id;
+    const updatedBear = req.body;
 
-//     db('zoos')
-//     .where('id', id)
-//     .update(updatedZoo)
-//     .then(count =>{
-//       if(count){
-//         res.status(200).json(count)
-//       }else{
-//         res.status(404).json({error: "The specified zoo id does not exist"})
-//       }
-//     })
-//     .catch(err =>{
-//         res.status(500).json({error: "Unable to update the specified zoo"})
-//     })
-// });
+    db('bears')
+    .where('id', id)
+    .update(updatedBear)
+    .then(count =>{
+      if(count){
+        res.status(200).json(count)
+      }else{
+        res.status(404).json({error: "The specified bear id does not exist"})
+      }
+    })
+    .catch(err =>{
+        res.status(500).json({error: "Unable to update the specified bear"})
+    })
+});
 
-// //DELETE 
-// server.delete('/api/zoos/:id', (req, res) =>{
-//   const id = req.params.id;
+//DELETE 
+router.delete('/:id', (req, res) =>{
+  const id = req.params.id;
 
-//   db('zoos')
-//   .where('id', id)
-//   .del()
-//   .then(count =>{
-//     if(count){
-//       res.status(200).json(count)
-//     }else{
-//       res.status(404).json({error: "The specified zoo id does not exist"})
-//     }
-//   })
-//   .catch(err =>{
-//     res.status(500).json({error: "Unable to delete specified zoo"})
-//   })
-// });
+  db('bears')
+  .where('id', id)
+  .del()
+  .then(count =>{
+    if(count){
+      res.status(200).json(count)
+    }else{
+      res.status(404).json({error: "The specified bear id does not exist"})
+    }
+  })
+  .catch(err =>{
+    res.status(500).json({error: "Unable to delete specified bear"})
+  })
+});
 
-// module.exports = router;
+module.exports = router;

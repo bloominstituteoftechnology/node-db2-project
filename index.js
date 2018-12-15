@@ -11,7 +11,8 @@ server.use(helmet());
 //Grab route handlers/endpoints
 const zoosRoutes = require('./routers/zoosRouter')
 server.use('/api/zoos', zoosRoutes);
-
+const bearsRoutes = require('./routers/bearsRouter')
+server.use('/api/bears', bearsRoutes);
 
 //Listener
 const port = 3300;

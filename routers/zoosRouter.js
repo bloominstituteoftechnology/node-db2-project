@@ -31,7 +31,7 @@ router.get('/:id', (req, res) =>{
     db('zoos')
     .where('id', id)
     .then(zoo =>{
-      if(zoo){
+      if(zoo[0]){
         res.status(200).json(zoo);
       }else{
         res.status(404).json({error: "The specified zoo does not exist"})
