@@ -39,7 +39,15 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    res.send('put request');
+    const id = req.params.id;
+    const zoo = req.body;
+    db('zoos').where('id', id).update(zoo)
+    .then(rowCount => {
+        res.json(rowCount);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to update zoo"});
+    });
 });
 
 router.delete('/:id', (req, res) => {
