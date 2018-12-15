@@ -43,7 +43,29 @@ server.get('/api/zoos', (req, res) => {
       console.log(err);
       res
         .status(500)
-        .json({err: 'The zoos information could not be retrieved at this time.'});
+        .json({message: 'The zoos information could not be retrieved at this time.'});
+    });
+});
+
+server.get('/api/zoos/:id', (req, res) =>{
+  const { id } = req.params;
+  db('zoos').where('id', id)
+    .then(rows => {
+      if (rows.length > 0) {
+        res
+          .json(rows);
+      }
+      else {
+        res
+          .status(404)
+          .json({message: 'The zoo with the specified ID does not exist.'})
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({message: 'The zoo information could not be retrieved at this time.'})
     });
 });
 
