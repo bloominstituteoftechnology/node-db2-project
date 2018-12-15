@@ -61,4 +61,19 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+// special endpoint get bears in zoo by zoo id
+router.get('/:id/bears', (req, res) => {
+    const id = req.params.id;
+    db('bears as b')
+        .join('zoos as z', 'z.id', 'b.zoo_id')
+        .select('b.id as BearID', 'b.name as BearName', 'z.name as ZooName')
+        .where('z.id', id)
+    .then(rowCount => {
+        res.status(201).json(rowCount);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to get bears from zoo"});
+    });
+});
+
 module.exports = router;
