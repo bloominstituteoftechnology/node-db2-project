@@ -31,6 +31,22 @@ server.post('/api/zoos', (req , res) => {
   })
 })
 
+// INSERT INTO bears (name)
+server.post('/api/bears', (req , res) => {
+  const bear = req.body;
+  console.log('bear info', bear)
+
+  db('bears').insert(bear)
+  .then(ids => {
+    res.status(201).json(ids);
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: "Failed to insert bear"});
+  })
+})
+
+
 // GET /api/zoos
 // SELECT * FROM zoos
 server.get('/api/zoos', (req , res) => {
@@ -44,6 +60,20 @@ server.get('/api/zoos', (req , res) => {
   })
 })
 
+// GET /api/bears
+// SELECT * FROM bears
+server.get('/api/bears', (req , res) => {
+  db('bears') 
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: "Fail to find bears"});
+  })
+})
+
+
 // GET /api/zoos/:id
 // SELECT * FROM zoos WHERE id = '2'
 server.get('/api/zoos/:id', (req, res) => {
@@ -55,6 +85,20 @@ server.get('/api/zoos/:id', (req, res) => {
   .catch(err => {
     console.log(err)
     res.status(500).json({err: 'Failed to find specific zoo'});
+  })
+})
+
+// GET /api/bears/:id
+// SELECT * FROM bears WHERE id = '2'
+server.get('/api/bears/:id', (req, res) => {
+  const {id} = req.params;
+  db('bears').where('id', id)
+  .then(rows => {
+    res.json(rows)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: 'Failed to find specific bear'});
   })
 })
 
@@ -71,6 +115,19 @@ server.delete('/api/zoos/:id', (req , res) => {
   });
 })
 
+// DELETE /api/bears/:id
+// DELETE FROM bears WHERE id = 2;
+server.delete('/api/bears/:id', (req , res) => {
+  const {id} = req.params;
+  db('bears').where('id', id).del()
+  .then(rowCount => {
+    res.status(201).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500).json({err: "Failed to delete bear"})
+  });
+})
+
 // PUT /api/zoos/:id
 // UPDATE zoos SET name = 'NEW ZOO'
 server.put('/api/zoos/:id', (req , res) => {
@@ -83,6 +140,21 @@ server.put('/api/zoos/:id', (req , res) => {
   })
   .catch(err => {
     res.status(500).json({err: 'Failed to update zoo'});
+  })
+})
+
+// PUT /api/bears/:id
+// UPDATE bears SET name = 'NEW BEAR'
+server.put('/api/bears/:id', (req , res) => {
+  const {id} = req.params;
+  const bear = req.body;
+
+  db('bears').where('id', id).update(bear)
+  .then(rowCount => {
+    res.status(200).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500).json({err: 'Failed to update bear'});
   })
 })
 
