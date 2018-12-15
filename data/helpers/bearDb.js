@@ -2,24 +2,24 @@ const db = require("../dbConfig.js");
 
 module.exports = {
   get: function(id) {
-    let query = db("zoos");
+    let query = db("bears");
     if (id) {
       query.where("id", id);
     }
     return query;
   },
-  insert: function(zoo) {
-    return db("zoos")
-      .insert(zoo)
+  insert: function(bear) {
+    return db("bears")
+      .insert(bear)
       .then(ids => ({ id: ids[0] }));
   },
-  update: function(id, zoo) {
-    return db("zoos")
+  update: function(id, bear) {
+    return db("bears")
       .where("id", id)
-      .update(zoo);
+      .update(bear);
   },
   remove: function(id) {
-    return db("zoos")
+    return db("bears")
       .where("id", id)
       .del();
   }
