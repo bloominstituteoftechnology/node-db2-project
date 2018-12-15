@@ -53,12 +53,32 @@ server.get('/api/zoos', (req, res) => {
 
 //GET /api/zoos/:id
 
-server.get('/api/zoos:id', (req, res) =>{
-  const {id}
-})
+server.get('/api/zoos/:id', (req, res) =>{
+  const {id} = req.params;
+  db('zoos').where('id', id)
+    .then(zoo =>{
+        if(zoo.length !== 0){
+          console.log(zoo)
+          res
+          .status(200)
+          .json(zoo)
+        } else {
+        res
+          .status(404)
+          .json({error: "The post with the specified ID does not exist"})
+      }
+    })
+    .catch(err =>{
+      res
+      .status(500)
+      .json({error: "The zoo could not be retrieved."})
+    })
+  })
 
 
 //DELETE  /api/zoos/:id
+
+server.delete('/api/')
 
 //PUT /api/zoos/:id
 
