@@ -41,7 +41,27 @@ server.get('/zoos', (req, res) => {
     .catch(err => res.status(500).json({ err: "failed to get zoos" }))
 });
 
+server.delete('/zoos:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where('id', id).del().then(count => {
+    res.json(count)
+  })
+    .catch(err => {
+      res.status(500).json({ err: 'cannot delete that zoo' })
+    })
+})
 
+server.put('/zoos/id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+    .then(rowCount => {
+      res.json(rowCount)
+    })
+    .catch(err => {
+      res.status(500).json({ err: 'trouble updating your zoo' })
+    });
+});
 
 const port = 3300;
 server.listen(port, function () {
