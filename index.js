@@ -48,7 +48,38 @@ server.get('/api/zoos/:id', (req, res) => {
       res.status(201).json(animal)
     })
     .catch(err => {
-      res.status(500).json({ message: 'Cout not get animal'})
+      res.status(500).json({ message: 'Cout not get animal' })
+    })
+})
+
+server.put('/api/zoos/:id', (req, res) => {
+
+  const { id } = req.params;
+  const animal = req.body;
+
+  if (animal.name) {
+    db('zoos').where('id', id).update(animal)
+      .then(animalCount => {
+        res.status(200).json(animalCount)
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Could not update animal' })
+      })
+  } else {
+    res.status(400).json({ message: 'Missing name' })
+  }
+})
+
+server.delete('/api/zoos/:id', (req, res) => {
+
+  const { id } = req.params;
+
+  db('zoos').where('id', id).del()
+    .then(animalCount => {
+      res.status(201).json(animalCount)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to delete animal' })
     })
 })
 
