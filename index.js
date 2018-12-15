@@ -45,6 +45,19 @@ server.get('/api/animal/:id', (req, res) => {
     });
 });
 
+server.put('/api/animal/:id', (req, res) => {
+  const { id } = req.params;
+  const animal = req.body;
+
+  db('zoos').where('id', id).update(animal)
+    .then(rowCount => {
+      res.json(rowCount);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to update animal' })
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
