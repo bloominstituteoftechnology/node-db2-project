@@ -60,7 +60,21 @@ server.get("/api/zoos/:id", (req, res) => {
       res.status(500).json({ message: "Could not get any zoos." });
     });
 });
-server.put("/api/zoos", (req, res) => {});
+
+server.put("/api/zoos/:id", (req, res) => {
+  const updates = req.body;
+  const { id } = req.params;
+
+  db("zoos")
+    .where("id", "=", id)
+    .update(updates)
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    }); 
+});
 server.delete("/api/zoos", (req, res) => {});
 
 const port = 3300;
