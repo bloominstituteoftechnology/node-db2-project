@@ -40,3 +40,22 @@ server.get("/api/zoos", (req, res) => {
         .json({ error: "Cannot Fetch Zoos, Check your connection." });
     });
 });
+
+// ~~~~ GET FOR ZOO ID ~~~~~
+server.get("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where("id", id)
+    .then(zoo => {
+      if (zoo.length) {
+        res.json({ zoo });
+      } else {
+        res
+          .status(404)
+          .json({ error: "This zoo does not exist, search again" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "Could not fetch zoo. Try again" });
+    });
+});
