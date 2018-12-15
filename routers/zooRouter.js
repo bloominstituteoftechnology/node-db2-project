@@ -18,11 +18,24 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.send('get request');
+    db('zoos')
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to get zoos"});
+    });
 });
 
 router.get('/:id', (req, res) => {
-    res.send('get request with id');
+    const id = req.params.id;
+    db('zoos').where('id', id)
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to get zoo"});
+    });
 });
 
 router.put('/:id', (req, res) => {
