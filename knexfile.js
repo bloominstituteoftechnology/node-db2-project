@@ -4,8 +4,8 @@ module.exports = {
   development: {
     client: "sqlite3",
     connection: {
-      filename: "./zoos.db"
-    }
-  },
-  useNullAsDefault: true
+      filename: "./data/lambda.sqlite3"
+    },
+    useNullAsDefault: true
+  }
 };
