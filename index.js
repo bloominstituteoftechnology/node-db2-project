@@ -9,6 +9,7 @@ const db = knex(dbConfig.development);
 server.use(express.json());
 server.use(helmet());
 
+
 server.get('/zoos', (req, res) => {
   db('zoos').then(rows => {
     res.json(rows); 
@@ -37,7 +38,14 @@ server.post('/zoos', (req, res) => {
 })
 
 server.delete('/zoos/:id', (req, res) => {
-
+  const {id} = req.params; 
+  
+  db('zoos').where('id', id).del()
+    .then(rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => { res.status(500).json({err:"we've encountered an error"})
+  })
 })
 
 server.put('/zoos/:id', (req, res) => {
