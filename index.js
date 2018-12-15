@@ -187,3 +187,27 @@ server.delete("/api/animals/bears/:id", (req, res) => {
         .json({ error: "Make sure you have a connection and try again." });
     });
 });
+
+// ~~~~~ UPDATE A BEAR ~~~~~
+server.put("/api/animals/bears/:id", (req, res) => {
+  const { id } = req.params;
+  const { bear } = req.body;
+
+  db("bears")
+    .where("id", id)
+    .update(bear)
+    .then(updated => {
+      if (updated) {
+        res.json({ updated });
+      } else {
+        res.status(400).json({ error: "Bear was not deleted, try again." });
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({
+          error: "Check your connection, and attempt to delete bear again."
+        });
+    });
+});
