@@ -39,7 +39,6 @@ server.post('/zoos', (req, res) => {
 
 server.delete('/zoos/:id', (req, res) => {
   const {id} = req.params; 
-  
   db('zoos').where('id', id).del()
     .then(rowCount => {
       res.status(201).json(rowCount)
@@ -52,6 +51,56 @@ server.put('/zoos/:id', (req, res) => {
   const {id} = req.params;
   const zoos = req.body; 
   db('zoos').where('id', id).update(zoos)
+    .then( rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => { res.status(500).json({err: "We've encountered an error"})
+  })
+})
+
+/*--------Bears Table---------------------------------------------------------------*/
+
+server.get('/Bears', (req, res) => {
+  db('Bears').then(rows => {
+    res.json(rows); 
+  })
+  .catch(err => { res.status(500).json({err: "we've encountered an error"})
+  })
+})
+
+server.get('/Bears/:id', (req, res) => {
+  const {id} = req.params; 
+  db('Bears').where('id', id)
+    .then( rows => {
+      res.json(rows)
+    })
+    .catch( err => { res.status(500).json({err: "we've encounterd an error"})
+    })
+})
+
+server.post('/Bears', (req, res) => {
+  let name = req.body; 
+  db('Bears').insert(name)
+    .then( ids => {
+      res.status(201).json(ids); 
+    })
+    .catch( err => { res.status(500).json({err: "we've encountered an error"})})
+})
+
+server.delete('/Bears/:id', (req, res) => {
+  const {id} = req.params; 
+  db('Bears').where('id', id).del()
+    .then(rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => { res.status(500).json({err:"we've encountered an error"})
+  })
+})
+
+server.put('/Bears/:id', (req, res) => {
+  const {id} = req.params;
+  const zoos = req.body; 
+  db('Bears').where('id', id).update(zoos)
     .then( rowCount => {
       res.status(201).json(rowCount)
     })
