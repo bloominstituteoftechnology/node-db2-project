@@ -24,6 +24,16 @@ server.post('/animals', (req, res) => {
     });
 });
 
+server.get('/animals', (req, res) => {
+  db('zoos')
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to get animals' })
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
