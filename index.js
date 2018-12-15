@@ -101,6 +101,34 @@ server.delete('/api/zoos/:id', (req, res) =>{
 
 //PUT /api/zoos/:id
 
+server.put('/api/zoos/:id', (req, res) =>{
+  const {id} = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+  .then(count =>{
+    if(count === 1){
+      if(zoo.name){
+        res
+        .status(200)
+        .json({message: `Zoo ${id} updated`})
+      } else {
+        res
+        .status(400)
+        .json({errorMessage: "Please provide a unique name for the zoo. "})
+      } 
+    } else {
+      res
+      .status(404)
+      .json({message: "The post with the specified ID does not exist"})
+    }
+  })
+  .catch(err =>{
+    res
+    .status(500)
+    .json({error: "The zoos information could not be modified. "})
+  })
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
