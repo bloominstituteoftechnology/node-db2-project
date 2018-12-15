@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const db = require('./data/model');
+const db = require('./data/zooModel');
 
 // const knex = require('knex');
 // const knexConfig = require('./knexfile');
