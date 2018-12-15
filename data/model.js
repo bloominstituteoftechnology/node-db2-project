@@ -34,5 +34,11 @@ module.exports = {
             .where('id', id)
             .update(changes)
             .then(count => (count > 0 ? this.get(id) : null))
+    },
+
+    remove: function(id){
+        return db('zoos')
+            .where('id', id)
+            .del();
     }
 };

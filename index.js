@@ -53,7 +53,7 @@ server.post('/', (req, res) => {
   } else{
     res.status(400).json({ message: "New zoos require a name" })
   }
-})
+});
 
 server.put('/:id', (req, res) => {
   const {id} = req.params;
@@ -74,10 +74,37 @@ server.put('/:id', (req, res) => {
           })
         }
       })
+      .catch(err => {
+        res.status(500).json({ message: "Could not fetch that zoo" })
+      })
   } else {
     res.status(400).json({ message: "Every Zoo needs a name!" })
   }
-})
+});
+
+server.delete('/:id', (req, res) => {
+  const {id} = req.params;
+  db.get(id)
+    .then(response => {
+      const theZoo = response;
+      if(Object.keys(response).length === 0){
+        res.status(400).json({ message: "That Zoo ID is invalid" })
+      } else {
+        db.remove(id)
+          .then(response => {
+            if(response){
+              res.json(theZoo)
+            }
+          })
+          .catch(err => {
+            res.status(500).json({ message: "This Zoo could not be deleted" })
+          })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Could not fetch that Zoo" })
+    })
+});
 
 
 const port = 3300;
