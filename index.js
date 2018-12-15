@@ -160,10 +160,30 @@ server.get("/api/animals/bears/:id", (req, res) => {
       }
     })
     .catch(err => {
+      res.status(500).json({
+        error: "Please check your connect so you can check out this bear."
+      });
+    });
+});
+
+// ~~~~~ DELETE a bear ~~~~~
+server.delete("/api/animals/bears/:id", (req, res) => {
+  const { id } = req.params;
+  db("bears")
+    .where("id", id)
+    .del()
+    .then(count => {
+      if (count) {
+        res.json({ count });
+      } else {
+        res
+          .status(400)
+          .json({ error: "Something went wrong, please try again." });
+      }
+    })
+    .catch(err => {
       res
         .status(500)
-        .json({
-          error: "Please check your connect so you can check out this bear."
-        });
+        .json({ error: "Make sure you have a connection and try again." });
     });
 });
