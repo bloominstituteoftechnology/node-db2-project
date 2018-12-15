@@ -39,7 +39,54 @@ server.get('/:id', (req, res) => {
     })
 });
 
+server.post('/', (req, res) => {
+  const zoo = req.body;
+  //Add check for existing Zoo name, throw error if duplicate
+  if(zoo.name){
+    db.insert(zoo)
+      .then(newZoo => {
+        res.json(newZoo)
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Unable to add this new zoo" })
+      })
+  } else{
+    res.status(400).json({ message: "New zoos require a name" })
+  }
+})
 
+// server.post(('/', (req, res) => {
+//   const zoo = req.body;
+//   console.log('zoo:', zoo);
+
+//   if(zoo.name){
+//     console.log('if', zoo.name);
+//     //check if name already exists
+//     //if so, return no duplicates allowed
+//     //if not, insert
+//     db.nameCheck(zoo.name)
+//       .then(zoo => {
+//         console.log('name check then:', zoo)
+//         if(Object.keys(zoo).length === 0){
+//           db.insert(zoo)
+//             .then(response => {
+//               console.log('insert response', response);
+//               res.json(response)
+//             })
+//             .catch(err => {
+//               console.log('insert err', err);
+//               res.status(500).json({ message: "Unable to add Zoo" })
+//             })
+//         } else {
+//           console.log('zoo exists')
+//           res.status(400).json({ message: "That Zoo already exists. New Zoos cannot have the same name as an existing Zoo" })
+//         }
+//       })
+//   } else {
+//     console.log('no name')
+//     res.status(400).json({ message: "New Zoos require a name" })
+//   }
+// }))
 
 
 const port = 3300;

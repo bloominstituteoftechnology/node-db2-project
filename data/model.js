@@ -15,5 +15,17 @@ module.exports = {
         return query.then(zoos => {
             return zoos.map(zoo => mappers.zooToBody(zoo))
         })
+    },
+
+    insert: function(zoo){
+        return db('zoos')
+        .insert(zoo)
+        .then( ([id]) => this.get(id) )
+    },
+
+    nameCheck: function(name){
+        db('zoos')
+            .where('name', name)
+            .then(zoo => mappers.zooToBody(zoo))
     }
 };
