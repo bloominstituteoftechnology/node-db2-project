@@ -50,3 +50,35 @@ server.get('/api/zoos/:id', (req, res)  =>  {
             res.status(500).json({ error: "Could not complete the request" });
         })
 })
+
+server.put('/api/zoos/:id',  (req, res)  =>  {
+    const { id }    =   req.params;
+    const animal    =   req.body;
+    db('zoos').where('id', id)
+        .update(animal)
+        .then(rowCount  =>  {
+            if(rowCount   === 0)    {
+                res.status(400).json({ message: "Could not find the animal with the specified id" });
+            }
+            res.json(rowCount);
+        })
+        .catch(err  =>  {
+            res.status(500).json({ error: "Could not update the animal" });
+
+        })
+})
+
+server.delete('/api/zoos/:id',  (req, res)  =>  {
+    const { id }    =   req.params;
+    db('zoos').where('id',  id)
+        .del()
+        .then(rowCount  =>  {
+            if(rowCount === 0)  {
+                res.status(400).json({ message: "Could not find an animal with the specified id"} );
+            }
+            res.json(rowCount);
+        })
+        .catch(err  =>  {
+            res.status(500).json({ message: "Could not delete animal" });
+        })
+})
