@@ -19,8 +19,21 @@ server.get('/api/zoos', (req, res)=>{
   })
 })
 
-server.get('api/zoos/:id', (req, res)=>{
-  
+server.get('/api/zoos/:id', (req, res)=>{
+  const {id} = req.params;
+  db('zoos')
+  .where('id', id)
+  .then(data=>{
+    if(data.length){
+      res.json(data);
+    }
+    else{
+      res.status(404).json({errorMessage: 'ID not found'});
+    }
+  })
+  .catch(err=>{
+    res.status(500).json({error: 'Failed to retrieve data'});
+  })
 })
 
 server.post('/api/zoos', (req, res)=>{
@@ -40,12 +53,36 @@ server.post('/api/zoos', (req, res)=>{
   }
 })
 
-server.delete('api/zoos/:id', (req, res)=>{
-  
+server.delete('/api/zoos/:id', (req, res)=>{
+  const {id} = req.params;
+  db('zoos')
+  .where('id', id)
+  .del()
+  .then(response=>{
+    res.json({message: 'Success'});
+  })
+  .catch(err=>{
+    res.status(500).json({error: 'Failed to delete data'})
+  })
 })
 
-server.put('api/zoos/:id', (req, res)=>{
-  
+server.put('/api/zoos/:id', (req, res)=>{
+  const {id} = req.params;
+  const body = req.body;
+  db('zoos')
+  .where('id', id)
+  .update(body)
+  .then(count=>{
+    if(count){
+      res.json({id: id, name: body.name});
+    }
+    else{
+      res.status(404).json({errorMessage: 'ID not found'});
+    }
+  })
+  .catch(err=>{
+    res.status(500).json({error: 'Failed to update data'})
+  })
 })
 
 const port = 3300;
