@@ -63,7 +63,7 @@ server.put("/api/zoos/:id", (req, res) => {
     .where("id", id)
     .update(zoo)
     .then(zoo => {
-      res.json({ zoo });
+      res.json({ message: 'Zoo successfully updated' });
     })
     .catch(err => {
       res.status(500).json({ error: err });
@@ -76,7 +76,7 @@ server.delete('/api/zoos/:id', (req, res) => {
     .where('id', id)
     .del()
     .then(zoo => {
-      res.json({ zoo });
+      res.status(200).json({ message: 'Zoo successfully deleted' });
     })
     .catch(err => {
       res.status(500).json({ err: 'failed to update crayons' })
