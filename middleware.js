@@ -1,4 +1,5 @@
 const verify = {
+    //Verify that zoo.name exists within request body
     checkName: (req,res, next) => {
         const zoo = req.body;
         if(zoo.name){

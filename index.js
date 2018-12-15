@@ -63,8 +63,23 @@ server.post('/api/zoos', verify.checkName, (req, res) =>{
 });
 
 //UPDATE - PUT
-server.put('/api/zoos/:id', (req, res) =>{
-  
+server.put('/api/zoos/:id', verify.checkName, (req, res) =>{
+    const id = req.params.id;
+    const updatedZoo = req.body;
+
+    db('zoos')
+    .where('id', id)
+    .update(updatedZoo)
+    .then(count =>{
+      if(count){
+        res.status(200).json(count)
+      }else{
+        res.status(404).json({error: "The specified zoo id does note exist"})
+      }
+    })
+    .catch(err =>{
+        res.status(500).json({error: "Unable to update the specified zoo"})
+    })
 });
 
 //DELETE 
