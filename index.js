@@ -23,9 +23,9 @@ server.post("/api/zoos", (req, res) => {
         res.status(201).json(id);
       })
       .catch(err => {
-        res.status(500).json({error: "Failed to add user"});
+        res.status(500).json({error: "Failed to add Zoo"});
       })
-  : res.status(401).json({error: "Please provide a name"});
+  : res.status(400).json({error: "Please provide a Zoo name"});
 });
 
 //SELECT * FROM zoos
@@ -35,7 +35,7 @@ server.get("/api/zoos", (req, res) => {
       rows.length > 0 ? res.json(rows) : res.status(404).json({message: "No records found"});
     })
     .catch(err => {
-      res.status(500).json({error: "Failed to get rows"});
+      res.status(500).json({error: "Failed to get Zoo"});
     });
 });
 
@@ -51,12 +51,32 @@ server.get("/api/zoos/:id", (req, res) => {
     });
 });
 
-server.delete("/api/zoos:id", (req, res) => {
-
+//DELETE FROM zoos WHERE id = :id
+server.delete("/api/zoos/:id", (req, res) => {
+  const id = req.params.id;
+  db("zoos").where("id", id).del()
+    .then(rowCount => {
+      rowCount > 0 ? res.status(201).json(rowCount) : res.status(404).json({error: "Record does not exist"});
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({error: "Failed to remove Zoo"});
+    });
 });
 
-server.put("/api/zoos:id", (req, res) => {
-
+//UPDATE FROM zoos WHERE id = :id
+server.put("/api/zoos/:id", (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  data.name ?
+    db("zoos").where("id", id).update(data)
+      .then(rowCount => {
+        rowCount ? res.json(rowCount) : res.status(404).json({error: "record does not exist"})
+      })
+      .catch(err => {
+        res.status(500).json({error: "Failed to update Zoo"});
+      })
+  : res.status(400).json({error: "Please provide Zoo name"});
 });
 
 const port = 3300;
