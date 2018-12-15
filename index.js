@@ -8,7 +8,6 @@ server.use(express.json(), helmet());
 
 server.use('/api/zoos', zooRouter);
 
-// endpoints here
 server.get('/', (req, res) => {
   res.send('API is Active');
 })
