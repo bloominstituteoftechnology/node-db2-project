@@ -74,7 +74,7 @@ server.put('/api/zoos/:id', verify.checkName, (req, res) =>{
       if(count){
         res.status(200).json(count)
       }else{
-        res.status(404).json({error: "The specified zoo id does note exist"})
+        res.status(404).json({error: "The specified zoo id does not exist"})
       }
     })
     .catch(err =>{
@@ -84,7 +84,21 @@ server.put('/api/zoos/:id', verify.checkName, (req, res) =>{
 
 //DELETE 
 server.delete('/api/zoos/:id', (req, res) =>{
-  
+  const id = req.params.id;
+
+  db('zoos')
+  .where('id', id)
+  .del()
+  .then(count =>{
+    if(count){
+      res.status(200).json(count)
+    }else{
+      res.status(404).json({error: "The specified zoo id does not exist"})
+    }
+  })
+  .catch(err =>{
+    res.status(500).json({error: "Unable to delete specified zoo"})
+  })
 });
 
 //Listener
