@@ -40,7 +40,26 @@ server.get("/api/zoos", (req, res) => {
       res.status(500).json(err);
     });
 });
-server.get("/api/zoos", (req, res) => {});
+
+server.get("/api/zoos/:id", (req, res) => {
+  const zooId = req.params.id;
+
+  db("zoos")
+    .where("id", zooId)
+    .select()
+    .then(zoo => {
+      if (zoo.length) {
+        res.status(200).json(zoo);
+      } else {
+        res
+          .status(404)
+          .json({ message: `Could not find zoo with id ${zooId}` });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Could not get any zoos." });
+    });
+});
 server.put("/api/zoos", (req, res) => {});
 server.delete("/api/zoos", (req, res) => {});
 
