@@ -45,7 +45,7 @@ server.post('/', (req, res) => {
   if(zoo.name){
     db.insert(zoo)
       .then(newZoo => {
-        res.json(newZoo)
+        res.status(201).json(newZoo)
       })
       .catch(err => {
         res.status(500).json({ message: "Unable to add this new zoo" })
