@@ -12,7 +12,17 @@ server.use(helmet());
 
 // endpoints here
 
+server.get('/api/zoos', (req, res) => {
+  db('zoos')
+    .then(animals => {
+      res.status(201).json(animals)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Could not get animals'})
+    })
+})
+
 const port = 3300;
-server.listen(port, function() {
+server.listen(port, function () {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
