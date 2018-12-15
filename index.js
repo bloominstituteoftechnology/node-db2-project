@@ -20,7 +20,7 @@ server.post('/api/animals', (req, res) => {
       res.status(201).json(animalsId);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Failed to insert animal' })
+      res.status(500).json({ errorMessage: 'Failed to insert animal' });
     });
 });
 
@@ -30,7 +30,7 @@ server.get('/api/animals', (req, res) => {
       res.json(rows);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Failed to get animals' })
+      res.status(500).json({ errorMessage: 'Failed to get animals' });
     });
 });
 
@@ -41,7 +41,7 @@ server.get('/api/animal/:id', (req, res) => {
       res.json(rows);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Failed to get animal' })
+      res.status(500).json({ errorMessage: 'Failed to get animal' });
     });
 });
 
@@ -54,7 +54,19 @@ server.put('/api/animal/:id', (req, res) => {
       res.json(rowCount);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: 'Failed to update animal' })
+      res.status(500).json({ errorMessage: 'Failed to update animal' });
+    });
+});
+
+server.delete('/api/animal/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('zoos').where('id', id).del()
+    .then(rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to delete animal' });
     });
 });
 
