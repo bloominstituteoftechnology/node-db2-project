@@ -15,7 +15,8 @@ server.use(helmet());
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
   if (zoo.name) {
-    db('zoos').insert(zoo)
+    db('zoos')
+    .insert(zoo)
     .then(id => {
       res
         .status(201)
@@ -43,13 +44,14 @@ server.get('/api/zoos', (req, res) => {
       console.log(err);
       res
         .status(500)
-        .json({message: 'The zoos information could not be retrieved at this time.'});
+        .json({message: `The zoos' information could not be retrieved at this time.`});
     });
 });
 
 server.get('/api/zoos/:id', (req, res) =>{
   const { id } = req.params;
-  db('zoos').where('id', id)
+  db('zoos')
+    .where('id', id)
     .then(rows => {
       if (rows.length > 0) {
         res
@@ -58,15 +60,47 @@ server.get('/api/zoos/:id', (req, res) =>{
       else {
         res
           .status(404)
-          .json({message: 'The zoo with the specified ID does not exist.'})
+          .json({message: 'The zoo with the specified ID does not exist.'});
       }
     })
     .catch(err => {
       console.log(err);
       res
         .status(500)
-        .json({message: 'The zoo information could not be retrieved at this time.'})
+        .json({message: 'The zoo information could not be retrieved at this time.'});
     });
+});
+
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+  if (zoo.name) {
+    db('zoos')
+      .where('id', id)
+      .update(zoo)
+      .then(row => {
+        if (row){
+          res
+            .status(201)
+            .json({message: 'The zoo was updated.'});
+        }
+        else {
+          res
+            .status(404)
+            .json({message: 'The zoo with the specified ID  does not exist.'});
+        }
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({message: 'The zoo could not be updated at this time.'});
+      });
+  }
+  else {
+    res
+      .status(400)
+      .json({message: 'Please include the updated name.'})
+  } 
 });
 
 const port = 3300;
