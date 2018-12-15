@@ -32,7 +32,13 @@ server.listen(port, function() {
 server.get("/api/zoos", (req, res) => {
   db("zoos")
     .then(zoos => {
-      res.json({ zoos });
+      if (zoos.length) {
+        res.json({ zoos });
+      } else {
+        res.status(404).json({
+          error: "There are no zoos. Please create a zoo first to view zoos."
+        });
+      }
     })
     .catch(err => {
       res
@@ -57,5 +63,19 @@ server.get("/api/zoos/:id", (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ error: "Could not fetch zoo. Try again" });
+    });
+});
+
+// ~~~~~ DELETE ~~~~~
+server.delete("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  db("zoos")
+    .where("id", id)
+    .del()
+    .then(count => {
+      res.json({ count });
+    })
+    .catch(err => {
+      res.status(500).json({ error: "Delete did not process. Try again." });
     });
 });
