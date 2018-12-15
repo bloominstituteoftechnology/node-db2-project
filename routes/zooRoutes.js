@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('../data/zooModel');
+const middleware = require('../customMiddleware');
 
 router.get('/', (req, res) => {
     db.get()
@@ -29,8 +30,8 @@ router.get('/', (req, res) => {
       })
   });
   
-  router.post('/', (req, res) => {
-    const zoo = req.body;
+  router.post('/', middleware.uppercase, (req, res) => {
+    const zoo = middleware.upperName;
     if(zoo.name){
       db.insert(zoo)
         .then(newZoo => {
@@ -44,9 +45,9 @@ router.get('/', (req, res) => {
     }
   });
   
-  router.put('/:id', (req, res) => {
+  router.put('/:id', middleware.uppercase, (req, res) => {
     const {id} = req.params;
-    const zoo = req.body;
+    const zoo = middleware.upperName;
   
     if(zoo.name){
       db.get(id)

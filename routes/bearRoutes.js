@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('../data/bearModel');
+const middleware = require('../customMiddleware');
 
 router.get('/', (req, res) => {
     db.get()
@@ -29,8 +30,8 @@ router.get('/', (req, res) => {
       })
   });
   
-  router.post('/', (req, res) => {
-    const bear = req.body;
+  router.post('/', middleware.uppercase, (req, res) => {
+    const bear = middleware.upperName;
     if(bear.name){
       db.insert(bear)
         .then(newBear => {
@@ -44,9 +45,9 @@ router.get('/', (req, res) => {
     }
   });
   
-  router.put('/:id', (req, res) => {
+  router.put('/:id', middleware.uppercase, (req, res) => {
     const {id} = req.params;
-    const bear = req.body;
+    const bear = middleware.upperName;
   
     if(bear.name){
       db.get(id)
