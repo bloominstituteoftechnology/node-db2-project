@@ -13,7 +13,7 @@ server.use(helmet());
 
 // endpoints here
 
-server.post('/animals', (req, res) => {
+server.post('/api/animals', (req, res) => {
   const animal = req.body;
   db('zoos').insert(animal)
     .then(animalsId => {
@@ -24,13 +24,24 @@ server.post('/animals', (req, res) => {
     });
 });
 
-server.get('/animals', (req, res) => {
+server.get('/api/animals', (req, res) => {
   db('zoos')
     .then(rows => {
       res.json(rows);
     })
     .catch(err => {
       res.status(500).json({ errorMessage: 'Failed to get animals' })
+    });
+});
+
+server.get('/api/animal/:id', (req, res) => {
+  const { id } = req.params;
+  db('zoos').where('id', id)
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to get animal' })
     });
 });
 
