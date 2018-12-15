@@ -27,13 +27,23 @@ server.get('/api/zoos', (req, res) => {
   .catch(err => {res.status(500).json({message: 'cannot find animal'})})
 })
 server.get('/api/zoos/:id', (req, res) => {
-  
+  const {id} = req.params;
+  db('zoos').where('id', id)
+  .then(zoo => {res.json(zoo)})
+  .catch(err => {res.status(500).json({message: 'cannot find specified animal'})})
 })
 server.delete('/api/zoos/:id', (req, res) => {
-  
+    const {id} = req.params;
+    db('zoos').where('id', id).del()
+    .then(rowsDeleted => {res.status(201).json(rowsDeleted)})
+    .catch(err => {res.status(500).json({message: "cannot delete"})})
 })
 server.put('/api/zoos/:id', (req, res) => {
-  
+  const {id} = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+    .then(rowCount => {res.json(rowCount)})
+    .catch(err => {res.status(500).json({message:'cannot update'})})
 })
 
 const port = 3300;
