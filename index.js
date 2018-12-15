@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
+
 const db = knex ({
   client:'sqlite3',
   connection: {
@@ -16,7 +17,18 @@ server.use(helmet());
 
 // endpoints here
 
-server.post("/api/zoos", (req, res) => {});
+server.post("/api/zoos", (req, res) => {
+  const zoo = req.body
+
+  db.insert(zoo)
+  .into('zoos')
+  .then(ids => {
+    res.status(201).json(ids)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+});
 
 server.get("/", (req, res) => {
   res.send('The Server is running')
