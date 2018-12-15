@@ -1,0 +1,8 @@
+const express = require('express');
+const router = express.Router();
+
+const db = require('../data/bearModel');
+
+//GET
+
+module.exports = router;
