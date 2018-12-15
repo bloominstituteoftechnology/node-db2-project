@@ -34,15 +34,38 @@ server.get('/api/zoos', (req, res) => {
 })
 
 server.get('/api/zoos/:id', (req, res) => {
-  
+  const { id } = req.params;
+  db('zoos').where('id', id)
+    .then(rows => {
+      res.json(rows)
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Invalid ID' })
+    })
 })
 
 server.delete('/api/zoos/:id', (req, res) => {
-  
+  const { id } = req.params;
+  db('zoos').where('id', id).delete()
+    .then(rowCount => {
+      res.json(rowCount)
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Failed to delete animal' })
+    })
 })
 
 server.put('/api/zoos/:id', (req, res) => {
-  
+  const { id } = req.params;
+  const name = req.body;
+
+  db('zoos').where('id', id).update(name)
+    .then(rowCount => {
+      res.status(201).json(rowCount)
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Failed to update animal' })
+    })
 })
 
 const port = 3300;
