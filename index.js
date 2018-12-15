@@ -14,23 +14,48 @@ server.use(helmet());
 
 // endpoints here
 
-server.post("/crayons", (req, res) => {
+//INSERT INTO zoos (name) VALUES ("Dan's Zoo of Swag")
+server.post("/api/zoos", (req, res) => {
+  const data = req.body;
+  data.name ? 
+    db("zoos").insert(data)
+      .then(id => {
+        res.status(201).json(id);
+      })
+      .catch(err => {
+        res.status(500).json({error: "Failed to add user"});
+      })
+  : res.status(401).json({error: "Please provide a name"});
+});
+
+//SELECT * FROM zoos
+server.get("/api/zoos", (req, res) => {
+  db("zoos")
+    .then(rows => {
+      rows.length > 0 ? res.json(rows) : res.status(404).json({message: "No records found"});
+    })
+    .catch(err => {
+      res.status(500).json({error: "Failed to get rows"});
+    });
+});
+
+//SELECT * FROM zoos WHERE id = :id
+server.get("/api/zoos/:id", (req, res) => {
+  const id = req.params.id;
+  db("zoos").where("id", id)
+    .then(rows => {
+      rows.length > 0 ? res.json(rows) : res.status(404).json({error: "Zoo not found"})
+    })
+    .catch(err => {
+      res.status(500).json({error: "Failed to get Zoo"});
+    });
+});
+
+server.delete("/api/zoos:id", (req, res) => {
 
 });
 
-server.get("/crayons", (req, res) => {
-
-});
-
-server.get("/crayons/:id", (req, res) => {
-
-});
-
-server.put("/crayons/:id", (req, res) => {
-
-});
-
-server.delete("/crayons/:id", (req, res) => {
+server.put("/api/zoos:id", (req, res) => {
 
 });
 
