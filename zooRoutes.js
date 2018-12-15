@@ -1,23 +1,33 @@
 const express = require('express');
 
-const dbConfig = require('./knexfile');
+// const dbConfig = require('./knexfile');
 
-const knex = require('knex');
-const db = knex(dbConfig.development);
+// const knex = require('knex');
+// const db = knex(dbConfig.development);
+
+const zooDb = require('./zooModal');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  db('zoos').then(zoos => {
-    res.json(zoos);
-  });
+  //   db('zoos')
+  zooDb
+    .find()
+    .then(zoos => {
+      res.json(zoos);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
 });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  db('zoos')
-    .where({ id })
-    .first()
+  //   db('zoos')
+  //     .where({ id })
+  //     .first()
+  zooDb
+    .findById(id)
     .then(zoo => {
       if (zoo) {
         res.json(zoo);
@@ -32,8 +42,10 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const zoo = req.body;
-  db('zoos')
-    .insert(zoo)
+  //   db('zoos')
+  //     .insert(zoo)
+  zooDb
+    .create(zoo)
     .then(ids => {
       res.status(201).json(ids);
     })
@@ -46,9 +58,11 @@ router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  db('zoos')
-    .where({ id })
-    .update(changes)
+  //   db('zoos')
+  //     .where({ id })
+  //     .update(changes)
+  zooDb
+    .update(id, changes)
     .then(count => {
       if (count) {
         res.status(201).json(count);
@@ -63,9 +77,11 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  db('zoos')
-    .where({ id })
-    .del()
+  //   db('zoos')
+  //     .where({ id })
+  //     .del()
+  zooDb
+    .delete(id)
     .then(count => {
       if (count) {
         res.json(count);
