@@ -27,5 +27,12 @@ module.exports = {
         db('zoos')
             .where('name', name)
             .then(zoo => mappers.zooToBody(zoo))
+    },
+
+    update: function(id, changes){
+        return db('zoos')
+            .where('id', id)
+            .update(changes)
+            .then(count => (count > 0 ? this.get(id) : null))
     }
 };
