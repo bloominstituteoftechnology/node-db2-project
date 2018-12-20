@@ -12,13 +12,14 @@ server.use(helmet());
 // endpoints here
 server.post('/zoos', (req, res)=>{
   const zoo = req.body;
+  zoo.name?
   db('zoos').insert(zoo)
     .then(id=>{
       res.status(201).json(id)
     })
     .catch(err=>{
       res.status(500).json({err: "Something happend while adding your Data"})
-    })
+    }):res.status(400).json({err: "Please add a name and try again"})
 })
 
 server.get('/zoos', (req, res)=>{
@@ -31,7 +32,7 @@ server.get('/zoos', (req, res)=>{
 })
 
 server.get('/zoos/:id', (req, res)=>{
-  
+
 })
 
 const port = 3300;
