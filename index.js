@@ -1,18 +1,17 @@
 const express = require('express');
-const knex = require('knex')
 const helmet = require('helmet');
-const dbConfig = require('./knexfile')
+const db = require('./data/db.js')
 
 const server = express();
-const db = knex(dbConfig.development)
 
 server.use(express.json());
 server.use(helmet());
 
+
 // endpoints here
 
 server.get('/api/zoos', (req, res) => {
-  db('zoos')
+  db.find()
     .then( zoos => {
       res.json(zoos)
     })
@@ -24,7 +23,7 @@ server.get('/api/zoos', (req, res) => {
 server.get('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
 
-  db('zoos').where('id', id)
+  db.findByID(id)
     .then( zoo => {
       res.json(zoo)
     })
@@ -36,9 +35,9 @@ server.get('/api/zoos/:id', (req, res) => {
 server.post('/api/zoos', (req, res) => {
   const newZoo = req.body;
 
-  db('zoos').insert(newZoo)
+  db.insert(newZoo)
     .then( row => {
-      res.status(201).json({message: `successfully created ${row} row(s)`})
+      res.status(201).json({message: `successfully created id: ${row}`})
     })
     .catch( err => {
       res.status(500).json({error: 'unable to create a new zoo'})
@@ -49,7 +48,7 @@ server.put('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  db('zoos').where('id', id).update(changes)
+  db.update(id, changes)
     .then( rows => {
       res.status(201).json({message: `updated ${rows} row(s)`})
     })
@@ -61,7 +60,7 @@ server.put('/api/zoos/:id', (req, res) => {
 server.delete('/api/zoos/:id', (req, res) => {
   const { id } = req.params;
 
-  db('zoos').where('id', id).del()
+  db.remove(id)
     .then( rows => {
       res.json({message: `successfully deleted ${rows} row(s)`})
     })
