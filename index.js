@@ -32,7 +32,15 @@ server.get('/zoos', (req, res)=>{
 })
 
 server.get('/zoos/:id', (req, res)=>{
-
+  const {id} = req.params;
+  
+  db('zoos').where('id', id).then(zoo=>{
+    zoo[0]?res.json(zoo)
+    :res.status(404).json({err: "No zoo with this ID found"})
+  })
+  .catch(err=>{
+    res.status(500).json("We experienced a problem looking for that ID")
+  })
 })
 
 const port = 3300;
