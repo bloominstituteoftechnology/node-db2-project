@@ -14,6 +14,7 @@ server.get('/api/zoos', (req,res) => {
         res.json(ids);
    })
 });
+server.post();
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
