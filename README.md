@@ -13,11 +13,11 @@ You'll write a server that lets you create and read _Zoos_ stored in a Relationa
 
 ## Running the Project
 
-- Fork and Clone this project.
-- `cd` into your project folder.
-- Run `npm install` or `yarn` to download the dependencies.
-- Add `knex` and `sqlite3` npm modules.
-- Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
+- COMPLETE - Fork and Clone this project.
+- COMPLETE - `cd` into your project folder.
+- COMPLETE - Run `npm install` or `yarn` to download the dependencies.
+- COMPLETE - Add `knex` and `sqlite3` npm modules.
+- COMPLETE - Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
 - Write a set of endpionts inside `index.js` to satisfy the specifications listed below.
 - To start the API server, run `yarn start` or `npm start`.
 - Use _Postman_ to test your API.
