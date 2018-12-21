@@ -38,10 +38,7 @@ server.get('/zoos', (req, res) => {
 })
 
 server.get('/zoos/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
-
+  const {id} = req.params;
   db('zoos').where('id', id).then(zoo => {
       zoo[0] ? res.json(zoo) :
         res.status(404).json({
@@ -71,8 +68,21 @@ server.delete('/zoos/:id', (req, res) => {
         err: "We are having trouble getting rid of this Zoo"
       })
     })
-
 })
+
+server.put('/zoos/:id', (req, res)=>{
+  const {id} = req.params;
+  const zoo = req.body;
+  zoo?
+  db('zoos').where('id', id).update(zoo)
+  .then(count=>{
+    res.status(201).json({message: `Total of ${count} items changed`})
+  })
+  .catch(err=>{
+    res.status(500).json({err: "We are having an issue updating this zoo"})
+  }) :res.status(400).json({err: "Please Make sure to have an updated name"})
+})
+
 
 const port = 3300;
 server.listen(port, function () {
