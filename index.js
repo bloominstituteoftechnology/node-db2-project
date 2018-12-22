@@ -10,9 +10,19 @@ server.use(helmet());
 // endpoints here
 const port = 3300;
 server.get('/api/zoos', (req,res) => {
-   db('zoos').then(ids => {
-        res.json(ids);
+   db('zoos').then(zoos => {
+        res.status(200).json(zoos);
    })
+});
+
+server.get('/api/zoos/:id', (req,res) => {
+  const {id} = req.params;
+  db('zoos').where('id', id)
+            .then(zoo => {
+               res.status(200).json(zoo);
+           }).catch(err => {
+                res.status(500).json({err: 'Failed to find crayon'});
+              })
 });
 server.post('/api/zoos', (req, res) => {
     const name = req.body;
