@@ -14,7 +14,21 @@ server.get('/api/zoos', (req,res) => {
         res.json(ids);
    })
 });
-server.post();
+server.post('/api/zoos', (req, res) => {
+    const name = req.body;
+  if(name) {  
+      db('zoos').insert(name)
+                .then( response => {
+                    console.log(response);
+                    res.status(201).json(response)
+                })
+                .catch(err => {
+                    res.status(500).json({err:'Something went wrong with our server..please try again.'})
+                })
+    } else {
+          res.status(400).json({err: 'Please enter the name'});
+    }        
+});
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
