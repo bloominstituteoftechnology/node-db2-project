@@ -70,8 +70,25 @@ server.delete('/api/zoos/:id', (req, res)=>{
 server.put('/api/zoos/:id', (req, res)=>{
   const { id } = req.params;
   const zoo = req.body;
-  db('zoos').where('id', id).update(zoo)
-    .then()
+  if(zoo.name){
+    db('zoos').where('id', id).update(zoo)
+      .then(count =>{
+        if(count){
+          db('zoos').where('id',id).then(zoo=>{
+            res.json(zoo)
+          }).catch(err=>{
+            res.status(500).json({error:"Could not return the zoo"})
+          })
+        }else{
+          res.status(404).json({error:"The zoo with the specified id does not exist!"})
+        }
+      }).catch(err=>{
+        res.status(500).json({error:"Error in updating the Zoo in the database!"})
+      })
+
+  }else{
+    res.status(400).json({message:"Missing a valid name!"})
+  }
 })
 
 
