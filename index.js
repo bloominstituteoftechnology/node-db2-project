@@ -20,6 +20,7 @@ server.post('/api/zoos', (req, res)=>{
     res.status(201).json(ids)
   })
   .catch(err=>{
+    console.log(err)
     res.status(404).json({error:"An error occurred in adding a zoo! "})
   })
 })
@@ -40,7 +41,7 @@ server.get('/api/zoos/:id', (req, res)=>{
   const { id } = req.params;
   db('zoos').where('id', id)
   .then(zoo=>{
-    if(zoo){
+    if(zoo.length > 0){
       res.status(200).json(zoo)
     }else{
       res.status(404).json({error:"The Zoo with the specific id does not exist"})
@@ -52,11 +53,25 @@ server.get('/api/zoos/:id', (req, res)=>{
 })
 
 server.delete('/api/zoos/:id', (req, res)=>{
+  const { id } = req.params;
+  db('zoos').where('id', id).del()
+  .then(remove=>{
+    if(remove){
+      res.status(200).json({message:"It was deleted"})
+    }else{
+      res.status(500).json({error:"The id does not exist"})
+    }
+  }).catch(err=>{
+    res.status(500).json({error:"The zoo could not be removed"})
+  })
   
 })
 
 server.put('/api/zoos/:id', (req, res)=>{
-  
+  const { id } = req.params;
+  const zoo = req.body;
+  db('zoos').where('id', id).update(zoo)
+    .then()
 })
 
 
