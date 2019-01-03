@@ -1,14 +1,14 @@
-const express = require('express');
-const helmet = require('helmet');
+const   express = require('express'),
+        Middleware = require('./MIddleware/Middleware'),
+        port = 3312,
+        server = express();
 
-const server = express();
 
-server.use(express.json());
-server.use(helmet());
 
-// endpoints here
+// import middleware  and call 
+Middleware(server);
 
-const port = 3300;
+
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
