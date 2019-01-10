@@ -18,17 +18,16 @@ server.use(
 const port = process.env.port || 3300;
 
 server.get('/api/zoos', (req, res) => {
- const zoo = req.body
  DB
  .select()
  .then(rows => {
   res
    .json(rows)
  })
+ .
 })
 
 server.get('/api/zoos/:id', (req, res) => {
- const zoo = req.body
 })
 
 server.post('/api/zoos', (req, res) => {
@@ -43,8 +42,7 @@ server.put('/api/zoos:id', (req, res) => {
 })
 
 server.delete('/api/zoos/:id', (req, res) => {
- const zoo = req.body
- 
+ const { id } = req.params.id
 })
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
