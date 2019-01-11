@@ -67,7 +67,7 @@ server.post('/api/zoos', (req, res) => {
  }
 })
 
-server.put('/api/zoos:id', (req, res) => {
+server.put('/api/zoos/:id', (req, res) => {
  const zoo = req.body
  const { id } = req.params
  DB('zoos')
@@ -85,7 +85,7 @@ server.put('/api/zoos:id', (req, res) => {
 })
 
 server.delete('/api/zoos/:id', (req, res) => {
- const { id } = req.params.id
+ const { id } = req.params
  DB('zoos')
  .where({ id })
  .del()
