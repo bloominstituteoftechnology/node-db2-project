@@ -18,8 +18,7 @@ server.use(
 const port = process.env.port || 3300;
 
 server.get('/api/zoos', (req, res) => {
- DB
- .select()
+ DB('zoos')
  .then(rows => {
   res
    .json(rows)
@@ -34,6 +33,7 @@ server.get('/api/zoos', (req, res) => {
 server.get('/api/zoos/:id', (req, res) => {
  const { id } = req.params.id
  DB('zoos')
+ .where({ id })
  .then((rows) => {
   res
    .json(rows)
@@ -46,19 +46,24 @@ server.get('/api/zoos/:id', (req, res) => {
 
 server.post('/api/zoos', (req, res) => {
  const zoo = req.body
- const { name } = req.params
- DB('zoos')
-  .insert(zoo)
-  .then((ids) => {
-   res
-    .status(201)
-    .json(ids[0])
-  })
-  .catch(() => {
-   res
-    .status(500)
-    .json({error: "There was an error adding zoo to database."})
-  })
+ if (zoo.name) {
+  DB('zoos')
+   .insert(zoo)
+   .then((ids) => {
+    res
+     .status(201)
+     .json(ids[0])
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error adding zoo to database."})
+   })
+ }
+ else {
+  res
+   .json({error: "Name required to add zoo to database."})
+ }
 })
 
 server.put('/api/zoos:id', (req, res) => {
@@ -67,8 +72,9 @@ server.put('/api/zoos:id', (req, res) => {
  DB('zoos')
   .where({id: id})
   .update(zoo)
-  .then(() => {
-
+  .then((nums) => {
+   res
+    .json(nums)
   })
   .catch(() => {
    res
@@ -82,8 +88,9 @@ server.delete('/api/zoos/:id', (req, res) => {
  DB('zoos')
  .where({ id })
  .del()
- .then(() => {
-
+ .then((nums) => {
+   res
+    .json(nums)
  })
  .catch(() => {
   res
