@@ -8,6 +8,7 @@ Topics:
 - Create/Read/Update/Delete operations
 
 ## Description
+## Description
 
 You'll write a server that lets you create and read _Zoos_ stored in a Relational Database. Much of the knowledge from Node and Express will carry over to this mini project, where you'll interface with a database in your route handlers.
 
