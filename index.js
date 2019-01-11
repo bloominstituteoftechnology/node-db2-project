@@ -19,11 +19,10 @@ server.post('/api/zoos', (req, res) => {
       .then(ids => {
         res.status(201).json(ids)
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
         res
           .status(500)
-          .json({ err: 'Failed to insert the zoo into the database.' })
+          .json({ error: 'Failed to insert the zoo into the database.' })
       })
   } else {
     res.status(400).json({ error: 'Please provide a name for the zoo' })
@@ -31,7 +30,16 @@ server.post('/api/zoos', (req, res) => {
 })
 
 server.get('/api/zoos', (req, res) => {
-
+  db('zoos')
+    .then(rows => {
+      res.json(rows)
+    })
+    .catch(() => {
+      res.status(500).json({
+        error:
+          'Information for this table could not be retrieved from the database.'
+      })
+    })
 })
 
 server.get('/api/zoos/:id', (req, res) => {})
