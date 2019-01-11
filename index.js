@@ -42,7 +42,19 @@ server.get('/api/zoos', (req, res) => {
     })
 })
 
-server.get('/api/zoos/:id', (req, res) => {})
+server.get('/api/zoos/:id', (req, res) => {
+  const { id } = req.params
+  db('zoos')
+    .where('id', id)
+    .then(rows => {
+      res.json(rows)
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: 'Failed to find a zoo with this id in the database.' })
+    })
+})
 
 server.delete('/api/zoos/:id', (req, res) => {})
 
