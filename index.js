@@ -58,7 +58,21 @@ server.get('/api/zoos/:id', (req, res) => {
 
 server.delete('/api/zoos/:id', (req, res) => {})
 
-server.put('/api/zoos/:id', (req, res) => {})
+server.put('/api/zoos/:id', (req, res) => {
+  const { id } = req.params
+  const zoo = req.body
+  db('zoos')
+    .where('id', id)
+    .update(zoo)
+    .then(rowCount => {
+      res.status(200).json(rowCount)
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: 'Failed to update information for this zoo.' })
+    })
+})
 
 const port = 3300
 server.listen(port, function() {
