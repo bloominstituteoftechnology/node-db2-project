@@ -65,6 +65,21 @@ server.put('/api/zoos/:id', (req, res) => {
   })
 })
 
+server.delete('/api/zoos/:id', (req, res) => {
+  // DELETE FROM zoos WHERE id = 3
+
+  const {id} = req.params;
+  const animal = req.body;
+
+  db('zoos').where('id', id).del()
+  .then(rowCount => {
+    res.status(201).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500).json('this animal is immune to deletion')
+  })
+
+})
 
 const port = 8080;
 server.listen(port, function() {
