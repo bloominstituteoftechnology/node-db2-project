@@ -24,17 +24,35 @@ server.get('/api/zoos', (req, res) => {
   res
    .json(rows)
  })
- .
+ .catch(() => {
+  res
+   .status(500)
+   .json({error: "Was un-able to retrieve list of Zoos."})
+ })
 })
 
 server.get('/api/zoos/:id', (req, res) => {
+ const { id } = req.params.id
+ DB
+ .select()
+ .where()
 })
 
 server.post('/api/zoos', (req, res) => {
  const zoo = req.body
- DB
-
-
+ const { name } = req.params
+ DB('zoos')
+  .insert(zoo)
+  .then((ids) => {
+   res
+    .status(201)
+    .json(ids[0])
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error adding zoo to database."})
+  })
 })
 
 server.put('/api/zoos:id', (req, res) => {
@@ -43,6 +61,7 @@ server.put('/api/zoos:id', (req, res) => {
 
 server.delete('/api/zoos/:id', (req, res) => {
  const { id } = req.params.id
+
 })
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
