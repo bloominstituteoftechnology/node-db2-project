@@ -19,9 +19,9 @@ const port = process.env.port || 3300;
 
 server.get('/api/zoos', (req, res) => {
  DB('zoos')
- .then(rows => {
+ .then(zoos => {
   res
-   .json(rows)
+   .json(zoos)
  })
  .catch(() => {
   res
@@ -41,6 +41,7 @@ server.get('/api/zoos/:id', (req, res) => {
  })
  .catch(() => {
   res
+   .status(500)
    .json({error:  "There was an error retriving zoos from database."})
  })
 })
@@ -63,6 +64,7 @@ server.post('/api/zoos', (req, res) => {
  }
  else {
   res
+   .status(400)
    .json({error: "Name required to add zoo to database."})
  }
 })
@@ -75,6 +77,7 @@ server.put('/api/zoos/:id', (req, res) => {
   .update(zoo)
   .then((nums) => {
    res
+   .status(201)
     .json(nums)
   })
   .catch(() => {
@@ -100,6 +103,51 @@ server.delete('/api/zoos/:id', (req, res) => {
  })
 
 })
+
+server.get('api/bears', (req, res) => {
+ DB('bears')
+ .then((rows) => {
+  res
+   .json(rows)
+ })
+ .catch(() => {
+  res
+   .status(500)
+   .json({error: "There was an error retrieving bears from database."})
+ })
+})
+
+server.get('/api/bears/:id', (req, res) => {
+ const { id } = req.params
+ DB('bears')
+  .select()
+  .where({id: id})
+  .then((bear) => {
+   res
+    .json(bear)
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error retrieving bear from database."})
+  })
+})
+
+server.post("/api/bears", (req, res) => {
+ const bear = req.body
+ if (bear.name) {
+  DB('bears')
+   .insert(bear)
+   .then(nums => {
+    res
+     .status(201)
+     .json(nums, bear)
+   })
+ }
+
+})
+
+
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
