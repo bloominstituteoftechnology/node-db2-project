@@ -104,6 +104,7 @@ server.delete('/api/zoos/:id', (req, res) => {
 
 })
 
+// Bears
 server.get('api/bears', (req, res) => {
  DB('bears')
  .then((rows) => {
@@ -143,10 +144,47 @@ server.post("/api/bears", (req, res) => {
      .status(201)
      .json(nums, bear)
    })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error adding bear to database."})
+   })
  }
 
 })
 
+server.delete('/api/bears/:id', (req, res) => {
+ const { id } = req.params
+ DB('bears')
+ .where({ id })
+ .del()
+ .then((nums) => {
+  res
+   .json(nums)
+ })
+ .catch(() => {
+  res
+   .status(500)
+   .json({error: "There was an error removing bear from database."})
+ })
+})
+
+server.put('/api/bears/:id', (req, res) => {
+ const bear = req.body 
+ const { id } = req.params
+ DB('bears')
+  .where({id: id})
+  .update(bear)
+  .then((nums) => {
+   res
+    .json(nums)
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error updating bear in database."})
+  })
+})
 
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
