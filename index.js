@@ -40,7 +40,7 @@ server.get('/api/zoos', (req, res) => {
 });
 
 server.get('/api/zoos/:id', (req, res) => {
-  const {id} = req.params.id;
+  const [id] = req.params.id;
   db('zoos').where('id', id)
   .then(rows => {
     res.json(rows)
@@ -50,19 +50,21 @@ server.get('/api/zoos/:id', (req, res) => {
   })
 })
 
-// server.post('/api/zoos', (req, res) => {
-//   const animal = req.body;
-//   console.log(`hi from my post function on line 40`)
-//   db('zoos').insert(animal)
-//   .then(ids => { 
-//       console.log(`hi from line 43`)
-//     res.status(201).json(ids);
-   
-//   })
-//   .catch(err => {
-//     res.status(500).json({err: 'Failed to insert animal'});
-//   });
-// });  
+server.put('/api/zoos/:id', (req, res) => {
+  const {id} = req.params;
+  const animal = req.body;
+
+  db('zoos').where('id', id)
+  .update(animal)
+  .then(rowCount => {
+    res.status(201).json(rowCount)
+  })
+  .catch(err => {
+    res.status(500)
+    res.json(`Hmm, couldn't update that animal`)
+  })
+})
+
 
 const port = 8080;
 server.listen(port, function() {
