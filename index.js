@@ -33,9 +33,15 @@ server.get('/api/zoos', (req, res) => {
 
 server.get('/api/zoos/:id', (req, res) => {
  const { id } = req.params.id
- DB
- .select()
- .where()
+ DB('zoos')
+ .then((rows) => {
+  res
+   .json(rows)
+ })
+ .catch(() => {
+  res
+   .json({error:  "There was an error retriving zoos from database."})
+ })
 })
 
 server.post('/api/zoos', (req, res) => {
@@ -57,10 +63,33 @@ server.post('/api/zoos', (req, res) => {
 
 server.put('/api/zoos:id', (req, res) => {
  const zoo = req.body
+ const { id } = req.params
+ DB('zoos')
+  .where({id: id})
+  .update(zoo)
+  .then(() => {
+
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error updating zoo in database."})
+  })
 })
 
 server.delete('/api/zoos/:id', (req, res) => {
  const { id } = req.params.id
+ DB('zoos')
+ .where({ id })
+ .del()
+ .then(() => {
+
+ })
+ .catch(() => {
+  res
+   .status(500)
+   .json({error: "There was an error removing zoo from database."})
+ })
 
 })
 server.listen(port, function() {
