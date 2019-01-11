@@ -31,12 +31,13 @@ server.get('/api/zoos', (req, res) => {
 })
 
 server.get('/api/zoos/:id', (req, res) => {
- const { id } = req.params.id
+ const { id } = req.params
  DB('zoos')
- .where({ id })
- .then((rows) => {
+ .select()
+ .where({id: id })
+ .then((zoo) => {
   res
-   .json(rows)
+   .json(zoo)
  })
  .catch(() => {
   res
