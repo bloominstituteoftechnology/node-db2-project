@@ -105,7 +105,7 @@ server.delete('/api/zoos/:id', (req, res) => {
 })
 
 // Bears
-server.get('api/bears', (req, res) => {
+server.get('/api/bears', (req, res) => {
  DB('bears')
  .then((rows) => {
   res
@@ -142,7 +142,7 @@ server.post("/api/bears", (req, res) => {
    .then(nums => {
     res
      .status(201)
-     .json(nums, bear)
+     .json(bear)
    })
    .catch(() => {
     res
