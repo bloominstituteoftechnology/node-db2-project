@@ -10,7 +10,7 @@ server.use(express.json())
 
 server.use(helmet())
 
-// endpoints here
+// zoos endpoints here
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body
   if (zoo.name) {
@@ -86,6 +86,85 @@ server.put('/api/zoos/:id', (req, res) => {
       res
         .status(500)
         .json({ error: 'Failed to update information for this zoo.' })
+    })
+})
+
+//bears endpoints here 
+server.post('/api/bears', (req, res) => {
+  const bear = req.body
+  if (bear.name) {
+    db('bears')
+      .insert(bear)
+      .then(ids => {
+        res.status(201).json(ids)
+      })
+      .catch(() => {
+        res
+          .status(500)
+          .json({ error: 'Failed to insert the bear into the database.' })
+      })
+  } else {
+    res.status(400).json({ error: 'Please provide a name for the bear' })
+  }
+})
+
+server.get('/api/bears', (req, res) => {
+  db('bears')
+    .then(rows => {
+      res.json(rows)
+    })
+    .catch(() => {
+      res.status(500).json({
+        error:
+          'Information for this table could not be retrieved from the database.'
+      })
+    })
+})
+
+server.get('/api/bears/:id', (req, res) => {
+  const { id } = req.params
+  db('bears')
+    .where('id', id)
+    .then(rows => {
+      res.json(rows)
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: 'Failed to find a bear with this id in the database.' })
+    })
+})
+
+server.delete('/api/bears/:id', (req, res) => {
+  const { id } = req.params
+  db('bears').where('id', id).del()
+  .then(count => {
+    if (count) {
+      res.json({ message: "The bear was successfully deleted" });
+    } else {
+      res
+        .status(404)
+        .json({ message: "The bear with the specified ID does not exist" });
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ error: "The bear could not be removed" });
+  });
+})
+
+server.put('/api/bears/:id', (req, res) => {
+  const { id } = req.params
+  const bear = req.body
+  db('bears')
+    .where('id', id)
+    .update(bear)
+    .then(rowCount => {
+      res.status(200).json(rowCount)
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: 'Failed to update information for this bear.' })
     })
 })
 
