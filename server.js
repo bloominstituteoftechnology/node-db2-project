@@ -1,6 +1,5 @@
 const express = require('express');
 const helmet = require('helmet');
-const db = require('./db');
 const server = express();
 const configMiddleware =require('./middleware/middleware')
 
