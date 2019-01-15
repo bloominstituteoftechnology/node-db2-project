@@ -28,6 +28,20 @@ server.get("/zoos", async (req, res) => {
   }
 });
 
+server.get("/zoos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const zoo = await db("zoos")
+      .where({ id })
+      .first();
+
+    res.json(zoo);
+  } catch (err) {
+    res.json({ error: "Unable to fetch the zoo with that id." });
+  }
+});
+
 server.post("/zoos", (req, res) => {
   const zoo = req.body;
 
