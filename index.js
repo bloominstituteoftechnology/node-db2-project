@@ -37,6 +37,16 @@ server.post("/zoos", (req, res) => {
     .catch(err => res.json({ error: "Unable to add a new zoo." }));
 });
 
+server.delete("/zoos/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("zoos")
+    .where({ id })
+    .del()
+    .then(count => res.json({ count }))
+    .catch(err => res.json({ error: "Unable to delete the zoo." }));
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
