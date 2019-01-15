@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 
 const zoosRoutes = require("./zoos/zoosRoutes");
+const bearsRoutes = require("./bears/bearsRoutes");
 
 const server = express();
 
@@ -15,6 +16,7 @@ server.get("/", async (req, res) => {
 });
 
 server.use("/zoos", zoosRoutes);
+server.use("/bears", bearsRoutes);
 
 const port = 3300;
 server.listen(port, function() {
