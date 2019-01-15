@@ -75,6 +75,23 @@ server.delete('/api/zoos/:id', async (req, res) => {
     }
 });
 
+//PUT /api/zoos/:id 
+server.put('/api/zoos/:id', async(req, res) => {
+  try {
+    const { id } = req.params;
+    const changes = req.body;
+    if (changes.name.length > 0) {
+      const updated = await db('zoos').where({id}).update(changes);
+      res.status(200).json(updated);
+    } else {
+      res.status(404).json({message: "Please enter the name of the zoo"});
+    }
+  }
+  catch (err){
+    res.status(500).json({message: "There was an error while trying to update a zoo in the data base"});
+  }
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
