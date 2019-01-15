@@ -43,6 +43,37 @@ server.get('/api/zoos', async (req, res) => {
 });
 
 //GET /api/zoos/:id
+server.get('/api/zoos/:id', async (req, res) => {
+  try {
+    const {id} = req.params;
+    const zoo = await db('zoos').where({id}).first();
+    if(zoo){
+      res.status(200).json(zoo);
+    } else {
+      res.status(404).json({message: "Please provide the correct ID of the zoo"})
+    }
+  }
+  catch (err){
+    res.status(500).json({message: "There was an error while trying to retrieve a zoo from the data base"});
+  }
+});
+
+//DELETE /api/zoos/:id
+server.delete('/api/zoos/:id', async (req, res) => {
+  try {
+    const {id} = req.params;
+    const count = await db('zoos').where({id}).del();
+
+    if(!count || count < 1){
+        res.status(404).json({message: "Zoo was not found to be removed"})
+    } else{
+        res.status(200).json(count);
+    }
+  }
+  catch (err) {
+    res.status(500).json({message: "There was an error while trying to delete a zoo from the data base"});
+    }
+});
 
 const port = 3300;
 server.listen(port, function() {
