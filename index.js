@@ -16,7 +16,18 @@ server.use(helmet());
 
 //POST /api/zoos
 server.post('/api/zoos', async (req, res) => {
-
+  try {
+    const zoo = req.body;
+    if(zoo.name.length > 0){
+      const newZoo = await db.insert(zoo).into('zoos');
+      res.status(200).json(newZoo);
+    } else {
+      res.status(404).json({message: "Please enter the name of the zoo"});
+    }
+  }
+  catch (err) {
+    res.status(500).json({message: "There was an error while trying to save a zoo to the data base"});
+  }
 });
 
 
@@ -30,6 +41,8 @@ server.get('/api/zoos', async (req, res) => {
     res.status(500).json({message: "There was an error while trying to connect to the data base"});
   }
 });
+
+//GET /api/zoos/:id
 
 const port = 3300;
 server.listen(port, function() {
