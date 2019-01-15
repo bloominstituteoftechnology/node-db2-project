@@ -61,6 +61,17 @@ server.delete("/zoos/:id", (req, res) => {
     .catch(err => res.json({ error: "Unable to delete the zoo." }));
 });
 
+server.put("/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db("zoos")
+    .where({ id })
+    .update(changes)
+    .then(count => res.json({ count }))
+    .catch(err => res.json({ error: "Unable to update the zoo." }));
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
