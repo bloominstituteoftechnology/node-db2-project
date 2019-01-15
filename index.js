@@ -55,8 +55,8 @@ server.delete('/api/:table/:id', (req, res) => {
 	db(req.params.table)
 		.where({id: id})
 		.del()
-		.then(zoos => {
-			res.status(200).json(zoos);
+		.then(thing => {
+			res.status(200).json(thing);
 		})
 		.catch(err => res.status(500).json(err));
 });
@@ -67,8 +67,8 @@ server.put('/api/:table/:id', (req, res) => {
 	db(req.params.table)
 		.where({id: id})
 		.update(req.body)
-		.then(zoos => {
-			res.status(200).json(zoos);
+		.then(thing => {
+			res.status(200).json(thing);
 		})
 		.catch(err => res.status(500).json(err));
 });
