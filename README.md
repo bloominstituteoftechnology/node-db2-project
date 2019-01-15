@@ -57,4 +57,4 @@ When the client makes a `PUT` request to this endpoint passing an object with th
 
 ## Stretch Problem
 
-Add a new _bears_ table to the database and add endpoints to perform CRUD operations on it. Each bear should have an `id` and `name` property similar to the _zoos_ table.
+Add a new _zoos_ table to the database and add endpoints to perform CRUD operations on it. Each bear should have an `id` and `name` property similar to the _zoos_ table.
