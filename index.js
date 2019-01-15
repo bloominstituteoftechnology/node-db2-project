@@ -12,24 +12,28 @@ server.use(helmet());
 
 // endpoints here
 
-server.get("/api/zoos", async (req, res) => {
-  res.send(`It's working`);
-  // const zoos = await db.get("zoos");
-  // try {
-  //   res.json(zoos);
-  // } catch (err) {
-  //   res
-  //     .status(500)
-  //     .json({ error: "Unable to retrieve the Zoos data from the server" });
-  // }
+server.get("/", async (req, res) => {
+  res.send("Sanity Check: Everything is working");
 });
 
-server.post("/api/zoos", (req, res) => {
+server.get("/zoos", async (req, res) => {
+  const zoos = await db("zoos");
+
+  try {
+    res.json(zoos);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Unable to retrieve the Zoos data from the server" });
+  }
+});
+
+server.post("/zoos", (req, res) => {
   const zoo = req.body;
 
   db.insert(zoo)
     .into("zoos")
-    .then(id => res.status(201).json(id))
+    .then(ids => res.status(201).json(ids))
     .catch(err => res.json({ error: "Unable to add a new zoo." }));
 });
 
