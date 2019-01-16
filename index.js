@@ -1,171 +1,20 @@
 const express = require('express');
-const knex = require('knex');
 const helmet = require('helmet');
 
-const dbConfig = require('./knexfile');
+const zooRoutes = require('./routers/zooRoutes.js');
+const bearRoutes = require('./routers/bearRoutes.js')
 
 
 const server = express();
-const db = knex(dbConfig.development);
 const port = 3300;
 
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
+server.use('/api/zoos', zooRoutes);
+server.use('/api/bears', bearRoutes);
 
-server.post('/api/zoos', (req, res) =>{
-  const zoo = req.body;
-  if(!zoo.name){res.status(400).json({error:"Please include a name!"})}
-    db('zoos').insert(zoo)
-  .then(ids=>{
-    res.status(201).json(ids)
-  })
-  .catch(err =>{
-    res.status(500).json({error:"Unable to add the zoo."})
-  })
-})
 
-server.get('/api/zoos', (req, res) =>{
-  db('zoos')
-  .then(zoos =>{
-    if(zoos.length > 0){
-      res.json(zoos)
-    }else{
-      res.status(404).json({error:"No zoos have been added"})
-    }
-  })
-  .catch(err =>{
-    res.status(500).json({error:"Unable to retrieve the Zoos from the database!"})
-  })
-  
-})
-
-server.get('/api/zoos/:id', async (req, res) =>{
- try {
-   const { id } = req.params
-
-   const zoo = await db('zoos')
-   .where({ id })
-   .first()
-   if(zoo){
-     res.json(zoo)
-   }else{
-     res.status(404).json({error: "The Zoo with the specified id does not exist!"})
-   }
- } catch(err) {
-    res.status(500).json({error:"Could not retrieve information from the database!"})
- }
-
-  
-})
-
-server.delete('/api/zoos/:id', (req, res) =>{
-  const { id } = req.params;
-  db('zoos').where({ id }).del()
-  .then(deletedZoo =>{
-    if(deletedZoo){
-      res.status(201).json({message:"Zoo deleted"})
-    }else{
-      res.status(404).json({error:"Unable to delete specified Zoo!"})
-    }
-  })
-})
-
-server.put('/api/zoos/:id', (req, res) =>{
-  const { id } = req.params;
-  const zoo = req.body;
-
-  db('zoos').where({ id }).update(zoo)
-  .then(count =>{
-    if(count){
-      db('zoos').where({ id }).then(updated =>{
-        res.status(201).json(updated)
-      }).catch(err =>{
-        res.status(404).json({error:"No records found to updated"})
-      })
-    }
-  }).catch(err =>{
-    res.status(500).json({error:"Could not update the Zoo!"})
-  })
-})
-
-// beginning the bears endpoints
-server.post('/api/bears', (req, res) =>{
-  const bear = req.body;
-  if(!bear.name){res.status(400).json({error:"Please include a name!"})}
-    db('bears').insert(bear)
-  .then(ids=>{
-    res.status(201).json(ids)
-  })
-  .catch(err =>{
-    res.status(500).json({error:"Unable to add the bear."})
-  })
-})
-
-server.get('/api/bears', (req, res) =>{
-  db('bears')
-  .then(bears =>{
-    if(bears.length > 0){
-      res.json(bears)
-    }else{
-      res.status(404).json({error:"No bears have been added"})
-    }
-  })
-  .catch(err =>{
-    res.status(500).json({error:"Unable to retrieve the bears from the database!"})
-  })
-  
-})
-
-server.get('/api/bears/:id', async (req, res) =>{
- try {
-   const { id } = req.params
-
-   const bear = await db('zoos')
-   .where({ id })
-   .first()
-   if(bear){
-     res.json(bear)
-   }else{
-     res.status(404).json({error: "The bear with the specified id does not exist!"})
-   }
- } catch(err) {
-    res.status(500).json({error:"Could not retrieve information from the database!"})
- }
-
-  
-})
-
-server.delete('/api/bears/:id', (req, res) =>{
-  const { id } = req.params;
-  db('bears').where({ id }).del()
-  .then(deletedBear =>{
-    if(deletedBear){
-      res.status(201).json({message:"Bear deleted"})
-    }else{
-      res.status(404).json({error:"Unable to delete specified Bear!"})
-    }
-  })
-})
-
-server.put('/api/bears/:id', (req, res) =>{
-  const { id } = req.params;
-  const bear = req.body;
-
-  db('bears').where({ id }).update(bear)
-  .then(count =>{
-    if(count){
-      db('bears').where({ id }).then(updated =>{
-        res.status(201).json(updated)
-      }).catch(err =>{
-        res.status(404).json({error:"No records found to updated"})
-      })
-    }
-  }).catch(err =>{
-    res.status(500).json({error:"Could not update the bear!"})
-  })
-})
 
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
