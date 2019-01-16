@@ -27,6 +27,12 @@ server.get('/api/zoos', (req, res) => {
 
 //add
 
+server.post('/api/zoos', (req, res) => {
+  db('zoos').insert(req.body).then(zoo => {
+    res.status(200).json(zoo)
+  }).catch()
+})
+
 //delete
 
 //update
