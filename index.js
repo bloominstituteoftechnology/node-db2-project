@@ -35,7 +35,27 @@ server.post('/api/zoos', (req, res) => {
 
 //delete
 
+server.delete('/api/zoos/:id', (req, res) => {
+  const id = req.params.id
+  db('zoos').where('id', id).del().then(zoo => {
+    res.status(200).json(zoo)
+  })
+  .catch(err => res.status(500).json(err))
+})
+
 //update
+
+server.put('/api/zoos/:id', (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
+
+  db('zoos')
+  .where('id', id)
+  .update(changes).then(change => {
+    res.status(200).json(change)
+  })
+  .catch(err => res.status(500).json(err))
+})
 
 //connecting to the API
 const port = 3300;
