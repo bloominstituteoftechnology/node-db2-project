@@ -61,13 +61,38 @@ server.get('/api/zoos/:id', async (req, res) =>{
 })
 
 server.delete('/api/zoos/:id', (req, res) =>{
-  
+  const { id } = req.params;
+  db('zoos').where({ id }).del()
+  .then(deletedZoo =>{
+    if(deletedZoo){
+      res.status(201).json({message:"Zoo deleted"})
+    }else{
+      res.status(404).json({error:"Unable to delete specified Zoo!"})
+    }
+  })
 })
 
 server.put('/api/zoos/:id', (req, res) =>{
+  const { id } = req.params;
+  const zoo = req.body;
+
+  db('zoos').where({ id }).update(zoo)
+  .then(count =>{
+    if(count){
+      db('zoos').where({ id }).then(updated =>{
+        res.status(201).json(updated)
+      }).catch(err =>{
+        res.status(404).json({error:"No records found to updated"})
+      })
+    }
+  }).catch(err =>{
+    res.status(500).json({error:"Could not update the Zoo!"})
+  })
+
   
 })
 
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
+
