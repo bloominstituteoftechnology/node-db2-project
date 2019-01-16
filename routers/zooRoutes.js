@@ -1,9 +1,6 @@
 const express = require('express');
-const knex = require('knex');
 
-const dbConfig = require('../knexfile.js');
-const db = knex(dbConfig.development);
-
+const zooDb = require('./zooModel.js');
 
 const router = express.Router();
 
@@ -12,7 +9,7 @@ const router = express.Router();
 router.post('/', (req, res) =>{
     const zoo = req.body;
     if(!zoo.name){res.status(400).json({error:"Please include a name!"})}
-      db('zoos').insert(zoo)
+      zooDb.add(zoo)
     .then(ids=>{
       res.status(201).json(ids)
     })
@@ -22,7 +19,7 @@ router.post('/', (req, res) =>{
   })
   
   router.get('/', (req, res) =>{
-    db('zoos')
+    zooDb.getAll()
     .then(zoos =>{
       if(zoos.length > 0){
         res.json(zoos)
@@ -40,9 +37,7 @@ router.post('/', (req, res) =>{
    try {
      const { id } = req.params
   
-     const zoo = await db('zoos')
-     .where({ id })
-     .first()
+     const zoo = await zooDb.findById(id)
      if(zoo){
        res.json(zoo)
      }else{
@@ -57,7 +52,7 @@ router.post('/', (req, res) =>{
   
   router.delete('/:id', (req, res) =>{
     const { id } = req.params;
-    db('zoos').where({ id }).del()
+    zooDb.remove(id)
     .then(deletedZoo =>{
       if(deletedZoo){
         res.status(201).json({message:"Zoo deleted"})
@@ -71,10 +66,10 @@ router.post('/', (req, res) =>{
     const { id } = req.params;
     const zoo = req.body;
   
-    db('zoos').where({ id }).update(zoo)
+    zooDb.update(id, zoo)
     .then(count =>{
       if(count){
-        db('zoos').where({ id }).then(updated =>{
+        zooDb.findById(id).then(updated =>{
           res.status(201).json(updated)
         }).catch(err =>{
           res.status(404).json({error:"No records found to updated"})

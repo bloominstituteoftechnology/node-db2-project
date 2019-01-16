@@ -1,8 +1,6 @@
 const express = require('express');
-const knex = require('knex');
 
-const dbConfig = require('../knexfile.js');
-const db = knex(dbConfig.development);
+const bearDB = require('./bearsModel');
 
 const router = express.Router();
 
@@ -11,7 +9,7 @@ const router = express.Router();
 router.post('/', (req, res) =>{
     const bear = req.body;
     if(!bear.name){res.status(400).json({error:"Please include a name!"})}
-      db('bears').insert(bear)
+     bearDB.add(bear) 
     .then(ids=>{
       res.status(201).json(ids)
     })
@@ -21,7 +19,7 @@ router.post('/', (req, res) =>{
   })
   
   router.get('/', (req, res) =>{
-    db('bears')
+    bearDB.getAll()
     .then(bears =>{
       if(bears.length > 0){
         res.json(bears)
@@ -39,9 +37,7 @@ router.post('/', (req, res) =>{
    try {
      const { id } = req.params
   
-     const bear = await db('zoos')
-     .where({ id })
-     .first()
+     const bear = await bearDB.findById(id)
      if(bear){
        res.json(bear)
      }else{
@@ -56,7 +52,7 @@ router.post('/', (req, res) =>{
   
   router.delete('/:id', (req, res) =>{
     const { id } = req.params;
-    db('bears').where({ id }).del()
+    bearDB.remove(id)
     .then(deletedBear =>{
       if(deletedBear){
         res.status(201).json({message:"Bear deleted"})
@@ -70,10 +66,10 @@ router.post('/', (req, res) =>{
     const { id } = req.params;
     const bear = req.body;
   
-    db('bears').where({ id }).update(bear)
+    bearDB.update(id, bear)
     .then(count =>{
       if(count){
-        db('bears').where({ id }).then(updated =>{
+        bearDB.findById(id).then(updated =>{
           res.status(201).json(updated)
         }).catch(err =>{
           res.status(404).json({error:"No records found to updated"})
