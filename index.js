@@ -41,18 +41,21 @@ server.get('/api/zoos', (req, res) =>{
   
 })
 
-server.get('/api/zoos/:id', (req, res) =>{
-  const { id } = req.params;
-  db('zoos').where({ id })
-  .then(zoo =>{
-    if(zoo.length > 0){
-      res.json(zoo)
-    } else {
-      res.status(404).json({error:"The Zoo with the specified id does not exist!"})
-    }
-  }).catch(err =>{
-    res.status(500).json({error:"Unable to get Zoo information from the database!"})
-  })
+server.get('/api/zoos/:id', async (req, res) =>{
+ try {
+   const { id } = req.params
+
+   const zoo = await db('zoos')
+   .where({ id })
+   .first()
+   if(zoo){
+     res.json(zoo)
+   }else{
+     res.status(404).json({error: "The Zoo with the specified id does not exist!"})
+   }
+ } catch(err) {
+    res.status(500).json({error:"Could not retrieve information from the database!"})
+ }
 
   
 })
