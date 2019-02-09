@@ -1,89 +1,96 @@
-const express = require('express');
-const helmet = require('helmet');
-const logger = require('morgan');
-const knex = require('knex');
-const knexDB = require('./knexfile');
+const express = require("express");
+const helmet = require("helmet");
+const logger = require("morgan");
+const knex = require("knex");
+const knexDB = require("./knexfile");
 const DB = knex(knexDB.development);
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
-server.use(logger('tiny'));
+server.use(logger("tiny"));
 
 // endpoints here
 
-server.get('/api/zoos', (req, res) => {
-  DB('zoos')
-  .then(zoos => {
-    res.json(zoos)
-  })
-  .catch(() => {
-    res.status(500).json({ error: 'Unable to retrieve list of zoos from the DB.' })
-  })
-})
+server.get("/api/zoos", (req, res) => {
+  DB("zoos")
+    .then(zoos => {
+      res.json(zoos);
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: "Unable to retrieve list of zoos from the DB." });
+    });
+});
 
-server.get('/api/zoos/:id', (req, res) => {
-  const { id } = req.params
-  DB('zoos')
-  .where('id', id)
-  .then(rows => {
-    res.json(rows)
-  })
-  .catch(() => {
-    res.status(500).json({ error: 'Failed to find a zoo with this ID in the DB.' })
-  })
-})
+server.get("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  DB("zoos")
+    .where("id", id)
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: "Failed to find a zoo with this ID in the DB." });
+    });
+});
 
-server.post('/api/zoos', (req, res) => {
-  const zoo = req.body
+server.post("/api/zoos", (req, res) => {
+  const zoo = req.body;
   if (zoo.name) {
-    DB('zoos')
+    DB("zoos")
       .insert(zoo)
       .then(ids => {
-        res.status(201).json(ids)
+        res.status(201).json(ids);
       })
       .catch(() => {
         res
           .status(500)
-          .json({ error: 'Failed to insert the zoo into the database.' })
-      })
+          .json({ error: "Failed to insert the zoo into the database." });
+      });
   } else {
-    res.status(400).json({ error: 'Name required to insert zoo into the DB.' })
+    res.status(400).json({ error: "Name required to insert zoo into the DB." });
   }
-})
+});
 
-server.put('/api/zoos/:id', (req, res) => {
-
+server.put("/api/zoos/:id", (req, res) => {
   const { id } = req.params;
   const zoo = req.body;
 
   if (zoo.name) {
-      DB('zoos').where('id', id).update(zoo)
-          .then(zooCount => {
-              res.status(200).json('zoo has been updated')
-          })
-          .catch(err => {
-              res.status(500).json({ message: 'Could not update zoo' })
-          })
+    DB("zoos")
+      .where("id", id)
+      .update(zoo)
+      .then(zooCount => {
+        res.status(200).json("zoo has been updated");
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Could not update zoo" });
+      });
   } else {
-      res.status(400).json({ message: 'Missing name' })
+    res.status(400).json({ message: "Missing name" });
   }
-})
+});
 
-server.delete('/api/zoos/:id', (req, res) => {
-  const { id } = req.params
-  DB('zoos')
-  .where({ id })
-  .del()
-  .then((nums) => {
-    res.json(nums)
-  })
-  .catch(() => {
-    res.status(500).json({ error: 'There was an error removing the zoo from the DB.' })
-  })
-})
-
+server.delete("/api/zoos/:id", (req, res) => {
+  DB("zoos")
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if (count) {
+        res.status(204).end();
+      } else {
+        res
+          .status(404)
+          .json({ error: "There is no zoo with this ID in the DB." });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
 
 const port = 3300;
 server.listen(port, function() {
