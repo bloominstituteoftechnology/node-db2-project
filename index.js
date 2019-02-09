@@ -70,7 +70,20 @@ server.put('/api/zoos/:id', (req, res) => {
       res.status(400).json({ message: 'Missing name' })
   }
 })
-    
+
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params
+  DB('zoos')
+  .where({ id })
+  .del()
+  .then((nums) => {
+    res.json(nums)
+  })
+  .catch(() => {
+    res.status(500).json({ error: 'There was an error removing the zoo from the DB.' })
+  })
+})
+
 
 const port = 3300;
 server.listen(port, function() {
