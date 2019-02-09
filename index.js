@@ -49,7 +49,7 @@ server.post('/api/zoos', (req, res) => {
           .json({ error: 'Failed to insert the zoo into the database.' })
       })
   } else {
-    res.status(400).json({ error: 'Please provide a name for the zoo' })
+    res.status(400).json({ error: 'Name required to insert zoo into the DB.' })
   }
 })
     
