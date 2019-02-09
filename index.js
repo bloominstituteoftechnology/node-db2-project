@@ -19,7 +19,7 @@ server.get('/api/zoos', (req, res) => {
     res.json(zoos)
   })
   .catch(() => {
-    res.status(500).json({error: 'Unable to retrieve list of zoos from the DB.'})
+    res.status(500).json({ error: 'Unable to retrieve list of zoos from the DB.' })
   })
 })
 
@@ -31,7 +31,7 @@ server.get('/api/zoos/:id', (req, res) => {
     res.json(rows)
   })
   .catch(() => {
-    res.status(500).json({ error: 'Failed to find a zoo with this ID in the DB.'})
+    res.status(500).json({ error: 'Failed to find a zoo with this ID in the DB.' })
   })
 })
 
@@ -53,7 +53,23 @@ server.post('/api/zoos', (req, res) => {
   }
 })
 
+server.put('/api/zoos/:id', (req, res) => {
 
+  const { id } = req.params;
+  const zoo = req.body;
+
+  if (zoo.name) {
+      DB('zoos').where('id', id).update(zoo)
+          .then(zooCount => {
+              res.status(200).json('zoo has been updated')
+          })
+          .catch(err => {
+              res.status(500).json({ message: 'Could not update zoo' })
+          })
+  } else {
+      res.status(400).json({ message: 'Missing name' })
+  }
+})
     
 
 const port = 3300;
