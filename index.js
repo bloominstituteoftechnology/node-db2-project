@@ -52,6 +52,8 @@ server.post('/api/zoos', (req, res) => {
     res.status(400).json({ error: 'Name required to insert zoo into the DB.' })
   }
 })
+
+
     
 
 const port = 3300;
