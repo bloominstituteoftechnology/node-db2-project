@@ -77,21 +77,84 @@ server.put("/api/zoos/:id", (req, res) => {
 });
 
 server.delete("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
   DB("zoos")
-    .where({ id: req.params.id })
+    .where("id", id)
     .del()
     .then(count => {
       if (count) {
-        res.status(204).end();
+        res.json({ message: "The zoo was successfully deleted" });
       } else {
-        res
-          .status(404)
-          .json({ error: "There is no zoo with this ID in the DB." });
+        res.status(404).json({
+          error: "The zoo with the specified ID does not exist within the DB."
+        });
       }
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      res.status(500).json({ error: "The zoo could not be removed" });
+    });
 });
 
+//bears endpoints here
+server.get("/api/bears", (req, res) => {
+  DB("bears")
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: "There was an error retrieving bears from database." });
+    });
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  DB("bears")
+    .select()
+    .where({ id: id })
+    .then(bear => {
+      res.json(bear);
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({ error: "There was an error retrieving bear from database." });
+    });
+});
+
+server.post("/api/bears", (req, res) => {
+  const bear = req.body;
+  if (bear.name) {
+    DB("bears")
+      .insert(bear)
+      .then(nums => {
+        res.status(201).json(bear);
+      })
+      .catch(() => {
+        res
+          .status(500)
+          .json({ error: "There was an error adding bear to database." });
+      });
+  }
+});
+
+server.delete('/api/bears/:id', (req, res) => {
+  const { id } = req.params
+  DB('bears')
+  .where({ id })
+  .del()
+  .then((nums) => {
+   res
+    .json(nums)
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error removing bear from database."})
+  })
+ })
+ 
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
