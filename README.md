@@ -1,5 +1,7 @@
 # Building an API using a Relational Database Mini
 
+//Jerrard Smith
+
 Topics:
 
 - Relational Databases
