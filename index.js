@@ -13,7 +13,7 @@ server.use(helmet());
 server.post("/api/zoos", (req, res) => {
   const newZoo = req.body;
 
-  db.insert(req.body)
+  db.insert(newZoo)
     .into("zoos")
     .then(ids => {
       console.log(ids);
@@ -26,7 +26,7 @@ server.post("/api/zoos", (req, res) => {
 server.post("/api/bears", (req, res) => {
   const newBear = req.body;
 
-  db.insert(req.body)
+  db.insert(newBear)
     .into("bears")
     .then(ids => {
       console.log(ids);
