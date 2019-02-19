@@ -4,10 +4,14 @@ const logger = require("morgan");
 const cors = require("cors");
 const server = express();
 
+const zoosRoute = require("./zoos");
+
 server.use(express.json());
 server.use(helmet());
 server.use(logger("dev"));
 server.use(cors());
+
+server.use("/api/zoos", zoosRoute);
 
 const port = 4000;
 server.listen(port, function() {
