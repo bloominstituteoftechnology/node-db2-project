@@ -60,20 +60,32 @@ server.delete("/api/zoos/:id", (req, res) => {
 
 // put I feel the same way about then/catch here as above need to get some clarification
 
-server.put("/api/zoos/:id", (req, res) => {
-  const edits = req.body;
+// server.put("/api/zoos/:id", (req, res) => {
+//   const edits = req.body;
 
-  db("zoos")
-    .where({ id: req.params.id })
-    .update(edits)
-    .then(value => {
-      if (value) {
-        res.status(200).json(value);
-      } else {
-        res.status(404).json({ message: "Zoo not found" });
-      }
-    })
-    .catch(err => res.status(500).json(err));
+//   db("zoos")
+//     .where({ id: req.params.id })
+//     .update(edits)
+//     .then(value => {
+//       if (value) {
+//         res.status(200).json(value);
+//       } else {
+//         res.status(404).json({ message: "Zoo not found" });
+//       }
+//     })
+//     .catch(err => res.status(500).json(err));
+// });
+
+server.put('/api/zoos/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const result = await db('zoos')
+          .where('id', id)
+          .update(req.body);
+      res.status(200).json(result);
+  } catch (error) {
+      res.status(500).json(error);
+  }
 });
 
 const port = 3300;
