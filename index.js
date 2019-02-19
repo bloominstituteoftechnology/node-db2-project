@@ -23,9 +23,30 @@ server.post("/api/zoos", (req, res) => {
       res.status(500).json(err);
     });
 });
+server.post("/api/bears", (req, res) => {
+  const newBear = req.body;
+
+  db.insert(req.body)
+    .into("bears")
+    .then(ids => {
+      console.log(ids);
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 // Get endpoints
 server.get("/api/zoos", async (req, res) => {
   const allZoos = await db("zoos");
+  try {
+    res.status(200).json(allZoos);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+server.get("/api/bears", async (req, res) => {
+  const allbears = await db("bears");
   try {
     res.status(200).json(allZoos);
   } catch (error) {
@@ -45,11 +66,31 @@ server.get("/api/zoos/:id", (req, res) => {
       }
     });
 });
+server.get("/api/bears/:id", (req, res) => {
+  db("bears")
+    .where({ id: req.params.id })
+    .then(bear => {
+      if (bear) {
+        res.status(200).json(bear);
+      } else {
+        res.status(404).json({ message: "Couldn't find that zoo" });
+      }
+    });
+});
 
 //delete intellisense helped me find my method but I'm still unclear as to where it came from??
 
 server.delete("/api/zoos/:id", (req, res) => {
   db("zoos")
+    .where({ id: req.params.id })
+    .del()
+    .then(value => {
+      res.status(200).json(value);
+    })
+    .catch(err => res.status(500).json(err));
+});
+server.delete("/api/bears/:id", (req, res) => {
+  db("bears")
     .where({ id: req.params.id })
     .del()
     .then(value => {
@@ -80,6 +121,17 @@ server.put('/api/zoos/:id', async (req, res) => {
   try {
       const { id } = req.params;
       const result = await db('zoos')
+          .where('id', id)
+          .update(req.body);
+      res.status(200).json(result);
+  } catch (error) {
+      res.status(500).json(error);
+  }
+});
+server.put('/api/bears/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const result = await db('bears')
           .where('id', id)
           .update(req.body);
       res.status(200).json(result);
