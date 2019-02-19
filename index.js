@@ -10,19 +10,19 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
 //POST /api/zoos
 server.post('/api/zoos', async (req, res) => {
   try {
-    const id = await db('zoos').insert(req.body);
+    const [id] = await db('zoos').insert(req.body); //this works
     
-    const zoo = await db('roles').where({ id }).first();
+    const zoo = await db('zoos').where({ id }).first();
 
     res.status(201).json(zoo);
   } catch (error) {
     res.status(500).json(error);
   }
 });
+
 //GET /api/zoos
 server.get('/api/zoos', async (req, res) => {
   try {
@@ -32,6 +32,7 @@ server.get('/api/zoos', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 //GET /api/zoos/:id
 server.get('/api/zoos/:id', async (req, res) => {
   try {
@@ -41,11 +42,11 @@ server.get('/api/zoos/:id', async (req, res) => {
     } else {
       res.status(200).json(zoo);
     }
-    
   } catch (error) {
     res.status(500).json(error);
   }
 });
+
 //DELETE /api/zoos/:id
 server.delete('/api/zoos/:id', (req, res) => {
 
@@ -54,6 +55,12 @@ server.delete('/api/zoos/:id', (req, res) => {
 server.put('/api/zoos/:id', (req, res) => {
 
 });
+
+const errors = {
+
+}
+
+const errorMessage = "There was an error.";
 
 const port = 3300;
 server.listen(port, function() {
