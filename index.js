@@ -15,7 +15,10 @@ server.use(helmet());
 server.post('/api/zoos', async (req, res) => {
   try {
     const id = await db('zoos').insert(req.body);
-    console.log(id);
+    
+    const zoo = await db('roles').where({ id }).first();
+
+    res.status(201).json(zoo);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -33,7 +36,12 @@ server.get('/api/zoos', async (req, res) => {
 server.get('/api/zoos/:id', async (req, res) => {
   try {
     const zoo = await db('zoos').where({id: req.params.id})
-    res.status(200).json(zoo);
+    if (zoo.length === 0) {
+      res.status(404).json({error: "The specified ID does not exist in the database."})
+    } else {
+      res.status(200).json(zoo);
+    }
+    
   } catch (error) {
     res.status(500).json(error);
   }
