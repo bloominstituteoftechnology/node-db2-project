@@ -24,12 +24,13 @@ server.post("/api/zoos", (req, res) => {
     });
 });
 // Get endpoints
-server.get("/api/zoos", (req, res) => {
-  db("zoos")
-    .then(zoos => {
-      res.status(200).json(zoos);
-    })
-    .catch(err => res.status(500).json(err));
+server.get("/api/zoos", async (req, res) => {
+  const allZoos = await db("zoos");
+  try {
+    res.status(200).json(allZoos);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 // Curious if the catch() is still needed here, didn't add it because it seemed redundant
