@@ -41,7 +41,8 @@ server.post("/", async (req, res) => {
       .select()
       .from("zoos")
       .insert({ name });
-    getAllZoos(req, res);
+
+    getAllZoos(req, res); //async
   } catch (err) {
     return errHelper(500, "internal server err", res);
   }
@@ -99,6 +100,7 @@ server.put("/:id", async (req, res) => {
   if (!name) {
     return res.status(400).json({ message: "All fields are required" });
   }
+
   try {
     const updated = await db
       .select()
@@ -106,6 +108,7 @@ server.put("/:id", async (req, res) => {
       .where({ id })
       .update({ name });
 
+    //console.log(udpated); count or 0
     if (updated) {
       getAllZoos(req, res);
     } else {

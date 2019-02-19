@@ -20,9 +20,9 @@ x Add `knex` and `sqlite3` npm modules.
 x Configure `knex` to connect to `/data/lambda.sqlite3` using the xsqlite3`module. x Write a set of endpionts inside`index.js`to satisfy the specifications listed below. x To start the API server, run`yarn start`or`npm start`.
 x Use _Postman_ to test your API.
 
-## Specifications
+##x Specifications
 
-### Table
+### x Table
 
 The included database has a _zoos_ table with the following schema:
 
@@ -53,6 +53,6 @@ When the client makes a `DELETE` request to this endpoint, the _zoo_ that has th
 
 When the client makes a `PUT` request to this endpoint passing an object with the changes, the _zoo_ with the provided `id` should be updated with the new information.
 
-## Stretch Problem
+## x Stretch Problem
 
 Add a new _bears_ table to the database and add endpoints to perform CRUD operations on it. Each bear should have an `id` and `name` property similar to the _zoos_ table.
