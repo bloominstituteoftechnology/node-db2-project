@@ -14,11 +14,8 @@ server.use(helmet());
 server.post("/api/zoos", async (req, res) => {
   try {
     const [id] = await db("zoos").insert(req.body);
-    const zoo = await db("zoos")
-      .where({ id })
-      .first();
 
-    res.status(201).json(zoo);
+    res.status(201).json(id);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -53,27 +50,42 @@ server.get("/api/zoos/:id", async (req, res) => {
 //DELETE /api/zoos/:id
 server.delete("/api/zoos/:id", async (req, res) => {
   try {
-    const records = await db('zoos').where({id: req.params.id}).del();
+    const records = await db("zoos")
+      .where({ id: req.params.id })
+      .del();
     if (records === 0) {
-      res.status(404).json({error: "A record with the specified ID does not exist and cannot be deleted."})
+      res
+        .status(404)
+        .json({
+          error:
+            "A record with the specified ID does not exist and cannot be deleted."
+        });
     } else {
       res.status(204).end();
     }
   } catch (error) {
     res.status(500).json(error);
   }
-
 });
 
 //PUT /api/zoos/:id
 server.put("/api/zoos/:id", async (req, res) => {
   try {
-    const record = await db('zoos').where({id: req.params.id}).update(req.body);
+    const record = await db("zoos")
+      .where({ id: req.params.id })
+      .update(req.body);
     console.log(record);
     if (record === 0) {
-      res.status(404).json({error: "A record with the specified ID does not exist and cannot be updated."})
+      res
+        .status(404)
+        .json({
+          error:
+            "A record with the specified ID does not exist and cannot be updated."
+        });
     } else {
-      const zoo = await db('zoos').where({id: req.params.id}).first();
+      const zoo = await db("zoos")
+        .where({ id: req.params.id })
+        .first();
       res.status(200).json(zoo);
     }
   } catch (error) {
