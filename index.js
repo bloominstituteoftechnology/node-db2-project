@@ -64,8 +64,22 @@ server.delete("/api/zoos/:id", async (req, res) => {
   }
 
 });
+
 //PUT /api/zoos/:id
-server.put("/api/zoos/:id", (req, res) => {});
+server.put("/api/zoos/:id", async (req, res) => {
+  try {
+    const record = await db('zoos').where({id: req.params.id}).update(req.body);
+    console.log(record);
+    if (record === 0) {
+      res.status(404).json({error: "A record with the specified ID does not exist and cannot be updated."})
+    } else {
+      const zoo = await db('zoos').where({id: req.params.id}).first();
+      res.status(200).json(zoo);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 const errors = {
   "19": "A record with that name already exists. Please provide a unique name."
