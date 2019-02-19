@@ -59,6 +59,21 @@ server.delete('/api/zoos/:id', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
+// UPDATE in CRUD
+server.put('/api/zoos/:id', (req, res) => {
+  const id = req.params.id;
+  db('zoos').where({ id }).update(req.body)
+    .then(zoo => {
+      if(zoo){
+        res.status(201).json({message: 'zoo updated'})
+      }
+      else {
+        res.status(404).json({message: 'we cant find that zooo'})
+      }
+    })
+    .catch(err => console.log(err))
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
