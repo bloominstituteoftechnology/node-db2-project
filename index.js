@@ -45,7 +45,7 @@ server.get('/api/zoos', (req, res) => {
   db.select()
     .from('zoos')
     .then(zoos => res.status(200).json(zoos))
-    .catch(err => res.status(500).json({ message: 'Server error! Technical error: ' + err}))
+    .catch(err => res.status(500).json({ message: err }))
 })
 /*END*/
 
@@ -55,9 +55,8 @@ server.get('/api/zoos/:id', (req, res) => {
   
     db('zoos')
       .where({ id: id })
-      .first()
       .then(zoos => { 
-        if (zoos) { res.status(200).json(zoos) } 
+        if (zoos.length === 1) { res.status(200).json(zoos) } 
         else { res.status(404).json({ message: `404 - zoo with id ${id} not found.` })  } 
       })
       .catch(err => res.status(500).json(err))
@@ -66,15 +65,17 @@ server.get('/api/zoos/:id', (req, res) => {
 
 // Update by ID logic
 server.put('/api/zoos/:id', (req, res) => {
-  const changes = req.body  
+  const changes = req.body
   const { id } = req.params 
   
-  db('zoos')  
-    .where({ id: id }) 
-    .update(changes)      
-    .then(count => res.status(200).json(count)) 
-    .catch(err =>  res.status(500).json({ message: "!!! " + err})) 
-})
+  if (changes) {
+    db('zoos')  
+      .where({ id: id }) 
+      .update(changes)      
+      .then(count => res.status(200).json(count)) 
+      .catch(err =>  res.status(500).json({ message: "!!! " + err })) 
+  } else res.status(400).json({ message: 'Client error - No changes to input!'})
+}) 
 /*END*/
 
 //  Delete by ID logic
@@ -83,10 +84,9 @@ server.delete('/api/zoos/:id', (req, res) => {
 
   db('zoos')
     .where({ id: id }) 
-    .first()
     .del()
     .then(count => { 
-      if (count) { res.status(200).json(count) } 
+      if (count > 0) { res.status(200).json(count) } 
       else { res.status(404).json({ message: `404 - zoo with id ${id} not found.` })  } 
     })
     .catch(err => { res.status(500).json(err) })
