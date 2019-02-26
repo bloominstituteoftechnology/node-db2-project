@@ -72,7 +72,26 @@ server.put('/api/zoos/:id', (req, rez) => {
   })
   .catch( err => {
     rez.status(500).json(
-      { err, message: 'Failed.  You might be updating to something that already exists......'}
+      { err, message: 'Failed.  You might be updating this TO something that already exists...'}
+    )
+  })
+
+})
+
+
+server.delete('/api/zoos/:id', (req, rez) => {
+  var randomthing = req.params.id;
+  deebee('zoos').where({id: randomthing}).del()
+  .then(thingsgone => {
+    if (!thingsgone) {
+      rez.send('Yo... you done tried to delet an animal that is not there...')
+    } else {
+      rez.status(404).json({message: 'Looks like you put that animal to sleep...'})
+    }
+  })
+  .catch( err => {
+    rez.status(500).json(
+      { err, message: 'Failed.  You tried something really really really wrong...'}
     )
   })
 
