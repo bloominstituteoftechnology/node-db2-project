@@ -1,12 +1,16 @@
+const knex = require('knex');
 const express = require('express');
+const router = express();
 
-const ZooMod = require('./ZooModel.js');
+const knexConfig = require('../knexfile.js');
+const db = knex(knexConfig.development);
 
-const router = express.Router();
+router.use(express.json());
 
-// get a list of animals
+
+// get a list of zoos
 router.get('/', (req, res) => {
-  ZooMod
+  db
     .find()
     .then(zoos => {
       res.status(200).json(zoos);
@@ -14,7 +18,7 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// get a animal by id
+// get a zoo by id
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -31,12 +35,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create animals
+// create zoo
 router.post('/', (req, res) => {
   const zoo = req.body;
 
-  ZooMod
-    .add(zoo)
+  db
+    .insert(zoo)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
@@ -45,12 +49,12 @@ router.post('/', (req, res) => {
     });
 });
 
-// update Animals
+// update zoo
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  ZooMod
+  db
     .update(id, changes)
     .then(count => {
       if (!count || count < 1) {
@@ -62,11 +66,11 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// delete courses
+// delete zoo
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  ZooMod
+  db
     .remove(id)
     .then(count => {
       if (!count || count < 1) {

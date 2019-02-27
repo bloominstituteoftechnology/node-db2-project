@@ -1,12 +1,16 @@
 const express = require('express');
 const helmet = require('helmet');
 
-const routes = require('./data/zooRoutes');
+const routes = require('./routes/ZooRoutes');
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
+
+server.get('/', (req, res) => {
+  res.send("Server Check");
+});
 
 // endpoints here
 server.use('/api/zoos', routes);
