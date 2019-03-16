@@ -1,26 +1,28 @@
-const express = require('express');
-const helmet = require('helmet');
-const logger = require('morgan');
-const knex = require('knex');
-const knexDB = require('./knexfile');
+const express = require("express");
+const helmet = require("helmet");
+const logger = require("morgan");
+const knex = require("knex");
+const knexDB = require("./knexfile");
 const zooDB = knex(knexDB.development);
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
-server.use(logger('tiny'));
+server.use(logger("tiny"));
 
 // endpoints here
 
-server.get('/api/zoos', (req, res) => {
-zooDB('zoos')
-.then(zoos => {
-  res.json(zoos);
-})
-.catch((error) => {
-  res.status(500).json({ error: 'Unable to retrieve list of zoos from the DB.'});
-});
+server.get("/api/zoos", (req, res) => {
+  zooDB("zoos")
+    .then(zoos => {
+      res.json(zoos);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: "Unable to retrieve list of zoos from the DB." });
+    });
 });
 
 server.get("/api/zoos/:id", (req, res) => {
@@ -74,19 +76,23 @@ server.put("/api/zoos/:id", (req, res) => {
   }
 });
 
-server.delete('/api/zoos/:id', (req, res) => {
-  const { id } = req.params
+server.delete("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
 
-  zooDB('zoos')
-    .where({ id: id }) 
+  zooDB("zoos")
+    .where({ id: id })
     .del()
-    .then(count => { 
-      if (count > 0) { res.status(200).json(count) } 
-      else { res.status(404).json({ message: `404 - zoo with id ${id} not found.` })  } 
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json(count);
+      } else {
+        res.status(404).json({ message: `404 - zoo with id ${id} not found.` });
+      }
     })
-    .catch(err => { res.status(500).json(err) })
-})
-
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 
 const port = 9090;
 server.listen(port, function() {
