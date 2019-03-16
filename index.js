@@ -55,6 +55,25 @@ server.post("/api/zoos", (req, res) => {
   }
 });
 
+server.put("/api/zoos/:id", (req, res) => {
+  const { id } = req.params;
+  const zoo = req.body;
+
+  if (zoo.name) {
+    zooDB("zoos")
+      .where("id", id)
+      .update(zoo)
+      .then(zooCount => {
+        res.status(200).json("zoo has been updated");
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Could not update zoo" });
+      });
+  } else {
+    res.status(400).json({ message: "Missing name" });
+  }
+});
+
 
 const port = 9090;
 server.listen(port, function() {
