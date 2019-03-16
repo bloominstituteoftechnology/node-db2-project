@@ -74,6 +74,19 @@ server.put("/api/zoos/:id", (req, res) => {
   }
 });
 
+server.delete('/api/zoos/:id', (req, res) => {
+  const { id } = req.params
+
+  zooDB('zoos')
+    .where({ id: id }) 
+    .del()
+    .then(count => { 
+      if (count > 0) { res.status(200).json(count) } 
+      else { res.status(404).json({ message: `404 - zoo with id ${id} not found.` })  } 
+    })
+    .catch(err => { res.status(500).json(err) })
+})
+
 
 const port = 9090;
 server.listen(port, function() {
