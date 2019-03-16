@@ -11,7 +11,7 @@ server.use(express.json());
 server.use(helmet());
 server.use(logger("tiny"));
 
-// endpoints here
+// zoo endpoints here
 
 server.get("/api/zoos", (req, res) => {
   zooDB("zoos")
@@ -91,6 +91,57 @@ server.delete("/api/zoos/:id", (req, res) => {
     })
     .catch(err => {
       res.status(500).json(err);
+    });
+});
+
+//bears
+
+server.get("/api/bears", (req, res) => {
+  zooDB("bears")
+    .then(bears => {
+      res.status(200).json(bears);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err });
+    });
+});
+
+server.get("/api/bears/:id", (req, res) => {
+  const { id } = req.params;
+  zooDB("bears")
+    .where("id", id)
+    .then(bear => {
+      if (bear.length) {
+        res.status(200).json(bear);
+      } else {
+        res.status(404).json({
+          error: "The bear with the specified ID does not exist."
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+server.post("/api/bears", (req, res) => {
+  const bear = req.body;
+  if (!bear.name) {
+    res
+      .status(404)
+      .json({ error: "Please provide complete bear information." });
+    return;
+  }
+  zooDB("bears")
+    .insert(bear)
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Error adding bear to server", err });
     });
 });
 
