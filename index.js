@@ -19,11 +19,16 @@ server.use(express.json());
 server.use(helmet());
 
 // endpoints here
-server.post
-    db('zoos')
-    .insert(req.body)
-    .then(ids => {
-      req.params.name ? res.status(201).json(id) : res.status(402).json({message: "Contains no name"})
+server.route('/api/zoos')
+    .get(async (req, res) => {
+      try{
+        const zoos = await db('zoos');
+        res.status(200).json(zoos)
+
+      }
+      catch(error){
+        res.status(500).json({message: "There was an error retrieving the zoos", error: error})
+      }
     })
 
 router.get
