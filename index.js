@@ -30,6 +30,16 @@ server.route('/api/zoos')
         res.status(500).json({message: "There was an error retrieving the zoos", error: error})
       }
     })
+    .post(async (req, res) => {
+      try{
+        const zoo= req.body
+        if (!zoo){
+          res.status(404).json({message: 'No name in body'})
+        }
+        const post = await db.insert(zoo).into('zoos')
+        res.status(201).json({zooId: post[0], message:"Zoo post created successfully"})
+      }
+    })
 
 router.get
 
