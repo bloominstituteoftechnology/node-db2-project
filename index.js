@@ -1,11 +1,4 @@
-const express = require('express');
-const helmet = require('helmet');
-
-const server = express();
-
-server.use(express.json());
-server.use(helmet());
-
+const server = require('./server.js')
 // endpoints here
 
 const port = 3300;
