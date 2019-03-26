@@ -4,6 +4,7 @@
 	"description": "RDBMS API Mini Sprint",
 	"main": "index.js",
 	"scripts": {
+		"server": "nodemon",
 		"start": "nodemon index.js"
 	},
 	"author": "Lambda School",
