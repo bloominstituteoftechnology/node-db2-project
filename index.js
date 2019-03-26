@@ -2,8 +2,6 @@ const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 
-const zoosRouter = require('./routers/zoosRouter');
-
 const knexConfig = {
   client: 'sqlite3',
   useNullAsDefault: true,
@@ -19,8 +17,6 @@ const server = express();
 
 server.use(express.json());
 server.use(helmet());
-
-server.use('/api/zoos', zoosRouter);
 
 // endpoints here
 server.get('/api/zoos', (req, res) => {
