@@ -39,18 +39,34 @@ server.route('/api/zoos')
         const post = await db.insert(zoo).into('zoos')
         res.status(201).json({zooId: post[0], message:"Zoo post created successfully"})
       }
+      catch(error){
+        res.status(500).json(error)
+      }
     })
 
-router.get
+server.route('api/zoos/:id')
+  .get(async (req,res)=>{
+    const {id} = req.params
+    const zoo = await db('zoos').where({id : id})
+    try{
+      if(!zoo){
+        res.status(404).json({message: "Zoo not found"})
+      }
+      res.status(200).json(zoo[0])
+    }
+    catch(error){
+        res.status(500).json(error)
+    }
+  })
 
 
-router.post
+  .post
 
 
-router.put
+  .put
 
 
-router.delete
+  .delete
 
 
 
