@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const knex = require('knex');
 
@@ -6,16 +6,13 @@ const knexConfig = {
   client: 'sqlite3',
   useNullAsDefault: true,
   connection: {
-    filename: './data/lambda.sqlite3',
-  },
-  // debug: true,                          // TODO: remove this before deploying
+    filename: './data/lambda.sqlite3'
+  }
 }
 
 const db = knex(knexConfig);
 
-console.log('zoos router running');
-
-router.get('/api/zoos', (req, res) => {
+router.get('/', (req, res) => {
   db('zoos')
   .then(zoos => {
     res.status(200).json(zoos);
@@ -25,7 +22,7 @@ router.get('/api/zoos', (req, res) => {
   })
 })
 
-router.get('/api/zoos/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const zooid = req.params.id;
   db('zoos')
   .where({ id: zooid })
@@ -38,7 +35,7 @@ router.get('/api/zoos/:id', (req, res) => {
   })
 })
 
-router.post('/api/zoos', (req, res) => {
+router.post('/', (req, res) => {
   db('zoos')
     .insert(req.body)
     .then(ids => {
@@ -55,7 +52,7 @@ router.post('/api/zoos', (req, res) => {
     })
 })
 
-router.put("/api/zoos/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   db("zoos")
     .where({ id: req.params.id })
     .update(req.body)
@@ -77,7 +74,7 @@ router.put("/api/zoos/:id", (req, res) => {
     });
 });
 
-router.delete('/api/zoos/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   db('zoos')
   .where({ id: req.params.id })
   .del()
