@@ -78,7 +78,21 @@ server.route('api/zoos/:id')
     }
 
   })
-
+  .delete(async (req, res)=> {
+    const { id } = req.params
+    try{
+      const count = await db('zoos').where({id:id}).del()
+      if(count > 0){
+        res.status(200).json({message: "Zoo was removed successfully"})
+      }
+      else{
+        res.status(404).json({message: "Zoo was not found"})
+      }
+    }
+    catch(error){
+      res.status(500).json({message: "Error deleting zoo from the database", error: error})
+    }
+  })
 
 
  
