@@ -14,11 +14,24 @@ server.use(helmet());
 // GET
 server.get('/api/zoos', (req, res) => {
   db('zoos')
-  .then(zoos => {res.status(200).json(zoos)})
+  .then( zoos => {res.status(200).json(zoos)})
   .catch((err) => {
     res.status(500).json({ error: 'could not load zoos', err });
   });
-})
+});
+
+server.get('/api/zoos/:id', (req, res) => {
+  const zooID = req.params.id;
+
+  db('zoos')
+  .where({ id: zooID })
+  .then( zoo => {
+    res.status(200).json(zoo);
+  })
+  .catch( err => {
+    res.status(500).json({ error: 'could not load zoo', err })
+  })
+});
 
 // POST
 server.post('/api/zoos', (req, res) => {
