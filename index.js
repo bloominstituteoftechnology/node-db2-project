@@ -47,11 +47,20 @@ server.post('/api/zoos', (req, res) => {
   })
 });
 
-
-// PUT
-
-
 // DELETE
+server.delete('/api/zoos/:id', (req, res) => {
+  const zooID = req.params.id;
+
+  db('zoos')
+  .where({ id: zooID })
+  .delete()
+  .then( zoo => {
+    res.status(200).json({ message: 'successfully deleted zoo', zoo })
+  })
+  .catch( err => {
+    res.status(500).json({ error: 'could delete zoo', err })
+  })
+});
 
 
 
