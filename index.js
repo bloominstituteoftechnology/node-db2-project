@@ -43,7 +43,7 @@ server.post('/api/zoos', (req, res) => {
     res.status(201).json({ message: 'successfully created zoo' })
   })
   .catch( err => {
-    res.status(500).json({ error: 'error creating new zoo', err })
+    res.status(500).json({ error: 'could not create new zoo', err })
   })
 });
 
@@ -58,10 +58,25 @@ server.delete('/api/zoos/:id', (req, res) => {
     res.status(200).json({ message: 'successfully deleted zoo', zoo })
   })
   .catch( err => {
-    res.status(500).json({ error: 'could delete zoo', err })
+    res.status(500).json({ error: 'could not delete zoo', err })
   })
 });
 
+// PUT
+server.put('/api/zoos/:id', (req, res) => {
+  const zooID = req.params.id;
+  const body = req.body;
+
+  db('zoos')
+  .where({ id: zooID })
+  .update(body)
+  .then( zoo => {
+    res.status(200).json({ message: 'successfully updated zoo', zoo })
+  })
+  .catch( err => {
+    res.status(500).json({ error: 'could not update zoo', err })
+  })
+});
 
 
 const port = 3300;
