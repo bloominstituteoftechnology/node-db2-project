@@ -16,7 +16,7 @@ server.get('/api/zoos', (req, res) => {
   db('zoos')
   .then(zoos => {res.status(200).json(zoos)})
   .catch((err) => {
-    res.status(500).json({ error: 'could not load zoos', err});
+    res.status(500).json({ error: 'could not load zoos', err });
   });
 })
 
@@ -27,10 +27,10 @@ server.post('/api/zoos', (req, res) => {
   db.insert(zoo)
   .into('zoos')
   .then( zoo => {
-    res.status(201).json({message: 'successfully created zoo'})
+    res.status(201).json({ message: 'successfully created zoo' })
   })
   .catch( err => {
-    res.status(500).json({error: 'error creating new zoo', err})
+    res.status(500).json({ error: 'error creating new zoo', err })
   })
 });
 
