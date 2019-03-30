@@ -24,14 +24,14 @@ server.get('/api/zoos', (req, res) => {
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
 
-//   db.insert(zoo)
-//   .into('zoos')
-//   .then( zoo => {
-//     res.status(201).json({message: 'successfully created zoo'})
-//   })
-//   .catch( err => {
-//     res.status(500).json({error: 'error creating new zoo', err})
-//   })
+  db.insert(zoo)
+  .into('zoos')
+  .then( zoo => {
+    res.status(201).json({message: 'successfully created zoo'})
+  })
+  .catch( err => {
+    res.status(500).json({error: 'error creating new zoo', err})
+  })
 });
 
 
