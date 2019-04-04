@@ -11,8 +11,7 @@ router.post('/', async (req, res) => {
 		const zoo = await db('zoos').where({ id }).first();
 		res.status(201).json(zoo);
 	} catch (error) {
-		const message = errors[error.errno] || 'post error';
-		res.status(500).json({ message, error });
+		res.status(500).json({ error: 'post error' });
 	}
 });
 router.get('/', async (req, res) => {
@@ -27,13 +26,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
-		const zoo = await db('zoos').where({ id }).first();
-		if (zoo) {
-			const animal = await db('zoos').where({ id }).first();
+		db('zoos').where({ id }).then((zoo) => {
 			res.status(200).json(zoo);
-		} else {
-			res.status(404).json({ message: 'Animal does not exist' });
-		}
+		});
 	} catch (error) {
 		res.status(500).json({ error: 'error with get request' });
 	}
