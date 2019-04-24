@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\seanw\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\seanw\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_webdb-II-challenge.-91941631.00" t="ExcludeRecursive" />
+    <e p="C:\Users\seanw\Desktop\Lambda School\11_Adding Data Persistence to Web APIs\webdb-II-challenge" t="IncludeFlat">
+      <e p="node_modules" t="ExcludeRecursive">
+        <e p="express" t="IncludeRecursive" />
+        <e p="helmet" t="IncludeRecursive" />
+        <e p="nodemon" t="IncludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
