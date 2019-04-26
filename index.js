@@ -17,18 +17,6 @@ knexConfig = {
 
 const db = knex(knexConfig)
 
-// endpoints here
-// server.post('/api/zoos', (req,res) => {
-//     db.select('zoos').insert(req.body)
-//         .then(ids => {
-//             const id = ids[0]
-//             db('zoos')
-//                 .where({id})
-//                 .first()
-//                 .then(name => res.status(200).json(name))
-//         })
-//         .catch(err => res.json(err))
-// })
 
 server.post('/api/zoos', (req, res) => {
     db('zoos').insert(req.body)
@@ -62,8 +50,16 @@ server.put('/api/zoos/:id', (req,res) => {
         .catch(err => res.json(err))
 })
 
+server.delete('/api/zoos/:id', (req,res) => {
+    db('zoos')
+        .where({id:req.params.id})
+        .del()
+        .then(count => res.json(count))
+        .catch(err => res.json(err))
+})
 
-const port = 3300;
+
+const port = 8000;
 server.listen(port, function () {
     console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
