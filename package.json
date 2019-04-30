@@ -9,8 +9,12 @@
 	"author": "Lambda School",
 	"license": "ISC",
 	"dependencies": {
+		"add": "^2.0.6",
 		"express": "^4.16.4",
-		"helmet": "^3.15.0"
+		"global": "^4.3.2",
+		"helmet": "^3.15.0",
+		"knex": "^0.16.5",
+		"sqlite3": "^4.0.6"
 	},
 	"devDependencies": {
 		"nodemon": "^1.18.9"
