@@ -31,7 +31,7 @@ The included database has a _zoos_ table with the following schema:
 - id: integer, primary key, autoincrements.
 - name: text, required, unique.
 
-### `POST /api/zoos`
+XXX `POST /api/zoos`
 
 When the client makes a `POST` request to this endpoint, a new _zoo_ should be created in the _zoos_ table.
 
@@ -39,7 +39,7 @@ Ensure the client passes a `name` property in the request body. If there's an er
 
 Return the `id` of the inserted zoo and a 201 status code.
 
-### `GET /api/zoos`
+XXX `GET /api/zoos`
 
 When the client makes a `GET` request to this endpoint, return a list of all the _zoos_ in the database. Remember to handle any errors and return the correct status code.
 
