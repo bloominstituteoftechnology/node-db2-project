@@ -1,3 +1,5 @@
+const knex = require('knex')
+
 const express = require('express');
 const helmet = require('helmet');
 
@@ -7,16 +9,42 @@ server.use(express.json());
 server.use(helmet());
 
 
+const knexConfig = {
+  client:'sqlite3',
+  connection: { //string or object
+    filename:'./data/lambda.sqlite3', // from the root folder
+  },
+  useNullAsDefault:true,
+  debug:true,
+}
 
+const db=knex(knexConfig);
 
-// const db=knex(knexConfig);
-
-// server.get('/', (req,res)=>{
-// db('roles')
-// })
+server.get('/', (req,res)=>{
+  // select * from zoos
+db('zoos') // returns a promise with all the rows
+.then(zoos =>{
+  res.status(200).json(zoos);
+})
+.catch(error =>{
+  console.log(error);
+  res.status(500).json(error);
+})
+})
 
 server.get('/hello', (req,res)=>{
   res.send('Hi There!')
+  })
+
+server.post('/', (req,res)=>{
+    db('zoos')
+    .insert(req.body, 'id')
+    .then(results=>{
+      res.status(201).json(results);
+    })
+    .catch(error =>{
+      res.status(500).json({ error: "Some useful error message" })
+    })
   })
 // endpoints here
 
