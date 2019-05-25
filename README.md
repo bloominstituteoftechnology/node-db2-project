@@ -43,15 +43,15 @@ XXX `GET /api/zoos`
 
 When the client makes a `GET` request to this endpoint, return a list of all the _zoos_ in the database. Remember to handle any errors and return the correct status code.
 
-### `GET /api/zoos/:id`
+XXX `GET /api/zoos/:id`
 
 When the client makes a `GET` request to `/api/zoos/:id`, find the _zoo_ associated with the given `id`. Remember to handle errors and send the correct status code.
 
-### DELETE /api/zoos/:id
+XXX DELETE /api/zoos/:id
 
 When the client makes a `DELETE` request to this endpoint, the _zoo_ that has the provided `id` should be removed from the database.
 
-### PUT /api/zoos/:id
+XXX PUT /api/zoos/:id
 
 When the client makes a `PUT` request to this endpoint passing an object with the changes, the _zoo_ with the provided `id` should be updated with the new information.
 
