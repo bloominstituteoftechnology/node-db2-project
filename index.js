@@ -38,7 +38,7 @@ server.get('/hello', (req,res)=>{
 
 server.post('/', (req,res)=>{
     db('zoos')
-    .insert(req.body, 'id')
+    .insert(req.body, ['id','name'])
     .then(results=>{
       res.status(201).json(results);
     })
@@ -46,6 +46,17 @@ server.post('/', (req,res)=>{
       res.status(500).json({ error: "Some useful error message" })
     })
   })
+
+server.get('/:id',(req, res)=>{
+  db('zoos')
+  .where({id:req.params.id})
+  .then(roles=>{
+    res.status(200).json(roles);
+  })
+  .catch(error =>{
+    res.status(500).json(error);
+  })
+})  
 // endpoints here
 
 const port = 3300;
