@@ -6,6 +6,18 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+
+
+
+// const db=knex(knexConfig);
+
+// server.get('/', (req,res)=>{
+// db('roles')
+// })
+
+server.get('/hello', (req,res)=>{
+  res.send('Hi There!')
+  })
 // endpoints here
 
 const port = 3300;
