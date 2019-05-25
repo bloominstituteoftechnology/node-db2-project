@@ -50,6 +50,7 @@ server.post('/', (req,res)=>{
 server.get('/:id',(req, res)=>{
   db('zoos')
   .where({id:req.params.id})
+  .first()
   .then(roles=>{
     res.status(200).json(roles);
   })
