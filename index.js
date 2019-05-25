@@ -19,6 +19,7 @@ server.use(helmet());
 // endpoints here
 // GET /api/zoos
 
+// get all zoos
 server.get('/api/zoos', (req, res) => {
   db('zoos')
   .then(zoos => {
@@ -31,6 +32,7 @@ server.get('/api/zoos', (req, res) => {
   });
 });
 
+//add/insert zoo into zoos
 server.post('/api/zoos', (req, res) => {
   const zoo = req.body;
   if(!req.body.name) {
@@ -49,6 +51,7 @@ server.post('/api/zoos', (req, res) => {
   }
 });
 
+//GET by id from zoos
 server.get('/api/zoos/:id', (req, res) => {
   db('zoos')
   .where({ id: req.params.id})
@@ -65,6 +68,29 @@ server.get('/api/zoos/:id', (req, res) => {
       res.status(500).json(error);
     });
 });
+
+//editing zoo based on id
+server.put('/api/zoos/:id', (req, res) =>{
+  db('zoos')
+  .where({id: req.params.id})
+  .update(req.body)
+
+  .then(count => {
+    if(count > 0) {
+      res.status(200).json({
+        message: "zoo updated"
+      })
+    } else {
+      res.status(404).json({
+        message: 'zoo not found'
+      })
+    }
+  })
+  .catch(error => {
+    res.status(500).json({message: " error updating zoo"})
+  })
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
