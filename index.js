@@ -1,16 +1,23 @@
 const express = require('express');
 const helmet = require('helmet');
 
+const knexConfig = {
+  client: 'sqlite3',
+  connection: {
+    filename: './data/lambda.sqlite3'
+  },
+  useNullAsDefault: true
+}
 const knex = require('knex');
-const knexConfig = require('./knexfile');
-// const db = knex(knexConfig.developement)
+// const knexConfig = require('./knexfile');
+const db = knex(knexConfig)
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
 
-// endpoints here
+// // endpoints here
 
 //add
 server.post('/api/zoos', (req, res)=>{
@@ -20,14 +27,14 @@ server.post('/api/zoos', (req, res)=>{
 })
 
 //get all
-server.get('api/zoos', (req, res)=>{
+server.get('/api/zoos', (req, res)=>{
   db.select().from('zoos')
   .then(zoos => res.status(200).json(zoos))
   .catch(err => res.status(500).json(err))
 })
 
 //get by id
-server.get('api/zoos/:id', (req, res) =>{
+server.get('/api/zoos/:id', (req, res) =>{
   const id = req.params.id;
 
   db.select().where({id}).first().from('zoos')
@@ -44,7 +51,7 @@ server.get('api/zoos/:id', (req, res) =>{
 //delete
 server.delete('/api/zoos/:id', (req, res) =>{
   const id = req.params.id;
-  db('zoo').where('id', id).del()
+  db('zoos').where('id', id).del()
   .then(del =>{
     if(del) {
       res.status(204)
@@ -59,7 +66,7 @@ server.delete('/api/zoos/:id', (req, res) =>{
 server.put('/api/zoos/:id', (req, res) =>{
 const id = req.params.id;
 
-db('zoo').where({ id }).update(req.body)
+db('zoos').where({ id }).update(req.body)
 .then(zoo => {
   if(zoo) {
     res.status(201).json({message: 'zoo updated'})
