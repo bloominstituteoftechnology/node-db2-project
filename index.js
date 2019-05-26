@@ -20,6 +20,11 @@ const knexConfig = {
 
 const db=knex(knexConfig);
 
+// GET req to /hello
+server.get('/hello', (req,res)=>{
+  res.send('Hi There!')
+  })
+// GET req. to /
 server.get('/', (req,res)=>{
   // select * from zoos
 db('zoos') // returns a promise with all the rows
@@ -32,32 +37,78 @@ db('zoos') // returns a promise with all the rows
 })
 })
 
-server.get('/hello', (req,res)=>{
-  res.send('Hi There!')
-  })
-
+// POST req. to zoos table
 server.post('/', (req,res)=>{
     db('zoos')
     .insert(req.body, ['id','name'])
-    .then(results=>{
-      res.status(201).json(results);
+    .then(ids=>{
+      db('zoos')
+        .where({id: ids[0]})
+        .first()
+        .then(z=>{
+          res.status(200).json(z)
+        })
+        .catch(error =>{
+          res.status(500).json({ error: "Some useful error message" })
+        })
     })
-    .catch(error =>{
-      res.status(500).json({ error: "Some useful error message" })
-    })
+    
   })
-
+// GET request with ID 
 server.get('/:id',(req, res)=>{
   db('zoos')
   .where({id:req.params.id})
   .first()
   .then(roles=>{
-    res.status(200).json(roles);
+    if (roles){
+      res.status(200).json(roles);
+    } else {
+      res.status(404).json({message: 'zoo not found'});
+    }
   })
   .catch(error =>{
     res.status(500).json(error);
   })
 })  
+server.delete('/api/zoos/:id', (req, res)=>{
+  db('zoos')
+  .where()
+})
+//PUT req. to :id
+server.put('/:id', (req,res)=>{
+  db('zoos').where({id:req.params.id}).update(req.body)
+  .then(count =>{
+    if(count>0){
+      res.status(200).json({message:`${count} ${count > 1 ? 'records':'record' }records updated`})
+    } else {
+      res.status(404).json({message:'Role does not exist'})
+    }
+  })
+  .catch(error =>{
+    res.status(500).json(error);
+  })
+  
+})
+// DEL request to /:id
+server.delete('/:id', (req, res)=>{
+  db('zoos')
+  .where({id:req.params.id})
+  .del()
+  .then(count=>{
+    if(count>0){
+      res.status(200).json({
+        message:`${count} ${count>1? 'records':'record'}`
+      })
+
+    }else{
+      res.status(404).json({message:'Zoo does not exist'})
+    }
+    
+  }).catch(error=>{
+    res.status(500).json(error)
+  })
+
+})
 // endpoints here
 
 const port = 3300;
