@@ -63,7 +63,7 @@ server.get('/:id',(req, res)=>{
     if (roles){
       res.status(200).json(roles);
     } else {
-      res.status(404).json({message: 'zoo not found'});
+      res.status(404).json({message: 'Zoo Id not found'});
     }
   })
   .catch(error =>{
@@ -81,7 +81,7 @@ server.put('/:id', (req,res)=>{
     if(count>0){
       res.status(200).json({message:`${count} ${count > 1 ? 'records':'record' }records updated`})
     } else {
-      res.status(404).json({message:'Role does not exist'})
+      res.status(404).json({message:'zoo does not exist'})
     }
   })
   .catch(error =>{
@@ -97,7 +97,7 @@ server.delete('/:id', (req, res)=>{
   .then(count=>{
     if(count>0){
       res.status(200).json({
-        message:`${count} ${count>1? 'records':'record'}`
+        message:`${count} ${count>1? 'records DELETED':'record DELETED'}`
       })
 
     }else{
