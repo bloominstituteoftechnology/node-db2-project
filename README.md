@@ -1,35 +1,38 @@
-# Building an API using a Relational Database Mini
+# Web DB II Module Challenge
 
-Topics:
+In this challenge, you will write an API that can be used to manage _Zoos_ stored in a Relational Database.
 
-- Relational Databases
-- SQLite
-- Knex
-- Create/Read/Update/Delete operations
+## Project Set Up
 
-## Description
+Follow these steps for starting your project.
 
-You'll write a server that lets you create and read _Zoos_ stored in a Relational Database. Much of the knowledge from Node and Express will carry over to this mini project, where you'll interface with a database in your route handlers.
+- [ ] Fork this repository and **clone your fork**.
+- [ ] Add your project manager as collaborator on your fork.
+- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
+- [ ] Push commits: git push origin `<firstName-lastName>`.
 
-## Running the Project
+Follow these steps for completing your project.
 
-- Fork and Clone this project.
-- `cd` into your project folder.
-- Run `npm install` or `yarn` to download the dependencies.
-- Add `knex` and `sqlite3` npm modules.
-- Configure `knex` to connect to `/data/lambda.sqlite3` using the `sqlite3` module.
-- Write a set of endpionts inside `index.js` to satisfy the specifications listed below.
-- To start the API server, run `yarn start` or `npm start`.
-- Use _Postman_ to test your API.
+- [ ] Submit a Pull-Request to merge `<firstName-lastName>` Branch into master (student's Repository). **Please don't merge your own pull request**
+- [ ] Add your project manager as a reviewer on the pull-request
+- [ ] Your project manager will count the project as complete by merging the branch back into master.
+
+## Minimum Viable Product
+
+- Configure `knex` to connect to the `/data/lambda.db3` database using the `sqlite3` npm module.
+- Write a set of endpoints inside `index.js` to satisfy the specifications listed below. Feel free to extract the endpoints to it's own express Router.
+- To start the API, type `npm run server`.
+- Use a rest client like _Insomnia_ or _Postman_ to test your API.
 
 ## Specifications
 
-### Table
-
 The included database has a _zoos_ table with the following schema:
 
-- id: integer, primary key, autoincrements.
-- name: text, required, unique.
+| Column | Data Type | Details                      |
+| ------ | --------- | ---------------------------- |
+| id     | integer   | primary key, auto-increments |
+| name   | text      | required, unique             |
 
 ### `POST /api/zoos`
 
@@ -37,7 +40,7 @@ When the client makes a `POST` request to this endpoint, a new _zoo_ should be c
 
 Ensure the client passes a `name` property in the request body. If there's an error, respond with an appropriate status code, and send a JSON response of the form `{ error: "Some useful error message" }`.
 
-Return the `id` of the inserted zoo and a 201 status code.
+Return the inserted zoo and a 201 status code.
 
 ### `GET /api/zoos`
 
@@ -45,7 +48,7 @@ When the client makes a `GET` request to this endpoint, return a list of all the
 
 ### `GET /api/zoos/:id`
 
-When the client makes a `GET` request to `/api/zoos/:id`, find the _zoo_ associated with the given `id`. Remember to handle errors and send the correct status code.
+When the client makes a `GET` request to `/api/zoos/:id`, find and return the _zoo_ associated with the given `id` or an HTTP status code `404` and a helpful message if no zoo with that `id` exists. Remember to handle errors and send the correct status code.
 
 ### DELETE /api/zoos/:id
 

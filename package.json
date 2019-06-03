@@ -1,18 +1,17 @@
 {
-	"name": "relationapimini",
-	"version": "1.0.0",
-	"description": "RDBMS API Mini Sprint",
-	"main": "index.js",
-	"scripts": {
-		"start": "nodemon index.js"
-	},
-	"author": "Lambda School",
-	"license": "ISC",
-	"dependencies": {
-		"express": "^4.16.4",
-		"helmet": "^3.15.0"
-	},
-	"devDependencies": {
-		"nodemon": "^1.18.9"
-	}
+  "name": "webdb-ii-challenge",
+  "version": "1.0.0",
+  "description": "Web DB II Module Challenge",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "author": "Lambda School",
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
