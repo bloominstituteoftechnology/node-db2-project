@@ -26,12 +26,46 @@ router.get("/", (req, res) => {
     });
 });
 
+// get by id
+
+router.get("/:id", (req, res) => {
+  Zoos.findById(req.params.id)
+    .then(zoo => {
+      if (zoo) {
+        res.status(200).json(zoo);
+      } else {
+        res.status(404).json({
+          message: "Role not found"
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
 // post a zoo
 
 router.post("/", (req, res) => {
   Zoos.add(req.body, "id")
     .then(ids => {
       res.status(201).json(ids);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
+//put a zoo
+
+router.put("/:id", (req, res) => {
+  Zoos.update(req.params.id, req.body)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: "aaa" });
+      } else {
+        res.status(404).json({ message: "bbb" });
+      }
     })
     .catch(error => {
       res.status(500).json(error);
