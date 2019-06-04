@@ -62,4 +62,26 @@ const knexConfig = {
   });
 
 
+
+  router.put('/:id', (req, res) => {
+    db('zoos')
+      .where({ id: req.params.id })
+      .update(req.body)
+      .then(count => {
+        if (count > 0) {
+        res.status(200).json({
+        message: `${count} ${count > 1 ? "records" : "record"} updated`
+         });
+        
+        } else {
+          res.status(404).json({ message: 'this zoo does not found' });
+        }
+      })
+      .catch(error => {
+       
+        res.status(500).json(error);
+      });
+  });
+
+
 module.exports = router;
