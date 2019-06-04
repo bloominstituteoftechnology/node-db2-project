@@ -12,9 +12,14 @@ const knexConfig = {
 const db = knex(knexConfig);
 
 module.exports = {
-  find
+  find,
+  add
 };
 
 function find() {
   return db("zoos");
+}
+
+function add(zoo) {
+  return find().insert(zoo);
 }
