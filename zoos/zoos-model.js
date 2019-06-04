@@ -15,7 +15,8 @@ module.exports = {
   find,
   add,
   update,
-  findById
+  findById,
+  order66
 };
 
 function find() {
@@ -36,4 +37,10 @@ function update(id, changes) {
   return find()
     .where({ id })
     .update(changes);
+}
+
+function order66(id) {
+  return find()
+    .where({ id })
+    .del();
 }

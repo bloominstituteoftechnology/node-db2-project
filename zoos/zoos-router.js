@@ -72,4 +72,21 @@ router.put("/:id", (req, res) => {
     });
 });
 
+//delete a zoo
+
+router.delete("/:id", (req, res) => {
+  Zoos.order66(req.params.id)
+    .then(count => {
+      if (count > 0) {
+        const unit = count > 1 ? "records" : "record";
+        res.status(200).json({ message: "aaa" });
+      } else {
+        res.status(404).json({ message: "bbb" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
 module.exports = router;
