@@ -50,15 +50,15 @@ const knexConfig = {
             .then(zoo => {
               res.status(200).json(zoo);
             })
-            .catch(err => {
-              res.status(500).json(err);
-            });
-        })
-        .call(err => {
-          res.status(500).json(err);
-        });
+           
+        }) 
+        .catch(err => {
+            res.status(500).json(err);
+          });   
     }
   });
+
+  
   router.delete("/:id", (req, res) => {
     db("zoos")
       .where({ id: req.params.id })
