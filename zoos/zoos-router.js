@@ -7,16 +7,17 @@ const router = require('express').Router();
 const knexConfig = {
     client: 'sqlite3',
     connection: {
-      filename: './data/zoos.db3'
+      filename: './data/zoos.db3',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
 };
 
 const db = knex(knexConfig);
 
 router.get('/', (req, res) => {
-    db('zoos').then(zoos => {
-        res.status(200).json(zoos)
+    db('zoos')
+    .then(zoos => {
+        res.status(200).json(zoos);
     })
     .catch(error => {
         res.status(500).json(error);
