@@ -1,36 +1,34 @@
-const knex = require('knex');
+const Zoos = require('./zoos-model');
 
 const router = require('express').Router();
 
 
 
-const knexConfig = {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/zoos.db3',
-    },
-    useNullAsDefault: true,
-};
 
-const db = knex(knexConfig);
 
-router.get('/', (req, res) => {
-    db('zoos')
-    .then(zoos => {
-        res.status(200).json(zoos);
-    })
-    .catch(error => {
-        res.status(500).json(error);
-    });
-});
+// router.get('/', (req, res) => {
+//     db('zoos')
+//     .then(zoos => {
+//         res.status(200).json(zoos);
+//     })
+//     .catch(error => {
+//         res.status(500).json(error);
+//     });
+// });
+
+
 
 
 router.post('/api/zoos', (req, res) => {
- 
-});
+  Zoos.add(req.body)
+  .then(zoo => {
+      res.status(201).json(zoo)
+  })
+  .catch(err = res.status(500).json({message: 'Useful error message'}))
+})
 
 router.get('/api/zoos', (req, res) => {
-    res.send('');
+    Zoos.find()
 });
 
 router.get('/api/zoos/:id', (req, res) => {
