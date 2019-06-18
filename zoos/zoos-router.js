@@ -14,9 +14,18 @@ const knexConfig = {
 
 const db = knex(knexConfig);
 
+router.get('/', (req, res) => {
+    db('zoos').then(zoos => {
+        res.status(200).json(zoos)
+    })
+    .catch(error => {
+        res.status(500).json(error);
+    });
+});
+
 
 router.post('/api/zoos', (req, res) => {
-    res.send('');
+ 
 });
 
 router.get('/api/zoos', (req, res) => {
