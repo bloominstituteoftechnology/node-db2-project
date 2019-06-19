@@ -20,27 +20,51 @@ const router = require('express').Router();
 
 
 router.post('/api/zoos', (req, res) => {
-  Zoos.add(req.body)
-  .then(zoo => {
-      res.status(201).json(zoo)
-  })
-  .catch(err = res.status(500).json({message: 'Useful error message'}))
+    Zoos.add(req.body)
+        .then(zoo => {
+            res.status(201).json(zoo)
+        })
+        .catch(err = res.status(500).json({ message: 'Useful error message' }))
 })
 
 router.get('/api/zoos', (req, res) => {
     Zoos.find()
+        .then(zoos => res.status(200).json(zoos))
+        .catch(err => res.status(500).json(err))
 });
 
 router.get('/api/zoos/:id', (req, res) => {
-    res.send('');
+    const { id } = req.params;
+    Zoos.findById(id)
+        .then(zoos => {
+            if (zoos) {
+                res.status(200).json(zoos)
+            } else {
+                res.status(404).json({ message: 'No Zoo with specified id exists' })
+            }
+        })
 });
 
 router.delete('/api/zoos/:id', (req, res) => {
-    res.send('');
+    Zoos.remove(req.params.id)
+        .then(zoos => {
+            if (zoos) {
+                res.status(201).json(zoos)
+            } else {
+                res.status(404).json({ message: 'There is no zoo with the specified id' })
+            }
+        })
 });
 
 router.put('/api/zoos/:id', (req, res) => {
-    res.send('');
+    Zoos.update(req.params.id, req.body)
+        .then(zoos => {
+            if (zoos) {
+                res.status(200).json(zoos)
+            } else {
+                res.status(404).json({ message: 'There is no zoo with specified id' })
+            }
+        })
 });
 
 
