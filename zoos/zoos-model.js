@@ -33,7 +33,7 @@ function find() {
 }
 
 function findById(id) {
-    return db('roles').where({ id }.first());
+    return db('zoos').where({ id }).first();
 }
 
 function remove(id) {

@@ -19,10 +19,10 @@ const router = require('express').Router();
 
 
 
-router.post('/api/zoos', (req, res) => {
+router.post('/', (req, res) => {
     Zoos.add(req.body)
-        .then(zoo => {
-            res.status(201).json(zoo)
+        .then(zoos => {
+            res.status(201).json(zoos)
         })
         .catch(err = res.status(500).json({ message: 'Useful error message' }))
 })
@@ -33,7 +33,7 @@ router.get('/api/zoos', (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
-router.get('/api/zoos/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const { id } = req.params;
     Zoos.findById(id)
         .then(zoos => {
