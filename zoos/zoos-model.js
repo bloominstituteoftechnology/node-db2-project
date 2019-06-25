@@ -27,3 +27,13 @@ function getById(id) {
         .where({ id })
         .first();
 }
+
+function add(zoos) {
+    return db('zoos')
+        .insert(zoos, 'id')
+        .then(ids => {
+            const [id] = ids;
+
+            return getById(id);
+        });
+}

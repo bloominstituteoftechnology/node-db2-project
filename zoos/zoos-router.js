@@ -26,3 +26,13 @@ router.get('/:id', (req, res) => {
             res.status(500).json(error) 
         })
 });
+
+reouter.post('/', (req, res) => {
+    Zoos.add(req.body)
+        .then(zoos => {
+            res.status(200).json(zoos);
+        })
+        .catch(error => {
+            res.status(500).json(error)
+        })
+});
