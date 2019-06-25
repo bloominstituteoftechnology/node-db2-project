@@ -21,3 +21,9 @@ module.exports = {
 function get() {
     return db('zoos');
 }
+
+function getById(id) {
+    return db('zoos')
+        .where({ id })
+        .first();
+}

@@ -13,4 +13,16 @@ router.get('/', (req, res) => {
 });
 
 
-
+router.get('/:id', (req, res) => {
+    Zooz.getById(req.params.id)
+        .then(zoos => {
+            if (zoos) {
+                res.status(200).json(zoos);
+            } else {
+                res.status(404).json({ message: 'Zoos not found'})
+            }
+        })
+        .catch(error => {
+            res.status(500).json(error) 
+        })
+});
