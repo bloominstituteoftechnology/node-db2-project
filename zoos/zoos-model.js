@@ -37,3 +37,16 @@ function add(zoos) {
             return getById(id);
         });
 }
+
+function update(id, changes) {
+    return db('zoos')
+        .where({ id })
+        .update(changes)
+        .then(count => {
+            if (count > 0) {
+                return getById(id);
+            } else {
+                return null;
+            }
+        });
+}

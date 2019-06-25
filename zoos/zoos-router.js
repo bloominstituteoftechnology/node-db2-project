@@ -36,3 +36,18 @@ reouter.post('/', (req, res) => {
             res.status(500).json(error)
         })
 });
+
+
+router.put('/:id', (req, res) => {
+    Zoos.update(req.params.id, req.body)
+        .then(zoos => {
+            if (zoos) {
+                res.status(200).json(zoos)
+            } else {
+                res.status(400).json({ message: 'Zoos not found'})
+            }
+        })
+        .catch(error => {
+            res.status(500).json(error)
+        })
+});
