@@ -50,3 +50,18 @@ function update(id, changes) {
             }
         });
 }
+
+function remove(id) {
+    return getById(id).then(zoos => {
+        if (zoos) {
+            return db('zoos')
+            .where({ id })
+            .del()
+            .then(() => {
+                return zoos;
+            })
+        } else {
+            return null;
+        }
+    })
+}

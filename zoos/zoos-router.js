@@ -51,3 +51,19 @@ router.put('/:id', (req, res) => {
             res.status(500).json(error)
         })
 });
+
+router.delete('/:id', (req, res) => {
+    Zoos.remove(req.params.id)
+        .then(zoos => {
+            if (zoos) {
+                res.status(204).end();
+            } else {
+                res.status(404).json({ message: 'Zoos not found'})
+            }
+        })
+        .cath(error => {
+            res.status(500).jason(error)
+        })
+});
+
+module.export = router;
