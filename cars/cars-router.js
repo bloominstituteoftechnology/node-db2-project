@@ -4,19 +4,20 @@ const knex = require('knex');
 const db = knex({
     client: 'sqlite3',
     connection: {
-        filename: './data/car-dealer.db3'
+        filename: './data/cars.db3'
     },
     useNullAsDefault: true
 });
 
-const router = expres.Router();
+const router = express.Router();
+router.use(express.json());
 
 router.get('/', async (req, res) => {
     try {
-        const cars = await db('fruits');
+        const cars = await db('cars');
         res.json(cars);
     } catch (err) {
-        res.status(500).json({ message: 'Failed to retrienve cars' });
+        res.status(500).json({ message: 'Failed to retrieve cars' });
     }
 });
 
