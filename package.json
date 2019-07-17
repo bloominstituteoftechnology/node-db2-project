@@ -1,7 +1,7 @@
 {
-  "name": "webdb-ii-challenge",
-  "version": "1.0.0",
-  "description": "Web DB II Module Challenge",
+  "name": "cars",
+  "version": "asd",
+  "description": "asdd",
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js"
@@ -9,5 +9,12 @@
   "author": "Lambda School",
   "devDependencies": {
     "nodemon": "^1.19.1"
-  }
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.19.0",
+    "sqlite3": "^4.0.9"
+  },
+  "repository": "asd",
+  "license": "sad"
 }
