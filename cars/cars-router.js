@@ -40,4 +40,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  try {
+    const count = await db('cars')
+      .where('id', '=', id)
+      .update(changes);
+    if (count) {
+      res.status(200).json({ update: count });
+    } else {
+      res.status(404).json({ message: `Could not find vehicle ${id}` });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to modify vehicle info.' });
+  }
+});
+
 module.exports = router;
