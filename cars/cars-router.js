@@ -59,4 +59,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const count = await db('cars')
+      .where({ id })
+      .del();
+    if (count) {
+      res
+        .status(200)
+        .json({ deleted: count, message: 'Vehicle has been deleted.' });
+    } else {
+      res.status(404).json({ message: `Could not find vehicle ${id}` });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to delete vehicle!' });
+  }
+});
+
 module.exports = router;
