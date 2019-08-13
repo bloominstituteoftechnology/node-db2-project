@@ -4,71 +4,77 @@ const db = require('../../data/dbConfig');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    db('cars')
-        .then(cars => {
-            res.status(200).json(cars);
-        })
-        .catch(error => {
-            next(error)
-        });
+router.get('/', async (req, res, next) => {
+    try {
+        const cars = await db('cars');
+        res.status(200).json(cars);
+    } catch (error) {
+        next(error);
+    }
 });
 
-router.get('/:id', (req, res, next) => {
-    db('cars')
-        .where({ carId: req.params.id })
-        .then(car => {
-            if(car.length)
-                res.status(200).json(car);
-            else
-                res.status(404).json({message:'A car with that id does not exist.' });
-        })
-        .catch(error => {
-            next(error)
-        });
+router.get('/:id', async (req, res, next) => {
+    try {
+        const [car] = await db('cars').where({ carId: req.params.id });
+        if (car) res.status(200).json(car);
+        else
+            res.status(404).json({
+                message: 'A car with that id does not exist.',
+            });
+    } catch (error) {
+        next(error);
+    }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res, next) => {
     const newCar = req.body;
-    db('cars')
-        .insert(newCar)
-        .then(id => {
-            res.status(201).json({ message: `A car with id ${id} was added.` });
-        })
-        .catch(error => {
-            next(error)
-        });
+    try {
+        const [id] = await db('cars').insert(newCar);
+        if (id) {
+            const [addedCar] = await db('cars').where({ carId: id });
+            res.status(201).json(addedCar);
+        }
+    } catch (error) {
+        next(error);
+    }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res, next) => {
     const changes = req.body;
-    db('cars')
-        .update(changes)
-        .where({ carId: req.params.id })
-        .then(amt => {
-            if(amt)
-                res.status(200).json({ message: `${amt} record was updated.` });
-            else
-                res.status(404).json({message:'A car with that id does not exist.' });
-        })
-        .catch(error => {
-            next(error)
-        });
+    try {
+        const amt = await db('cars')
+            .update(changes)
+            .where({ carId: req.params.id });
+        if (amt) {
+            const [updatedCar] = await db('cars').where({
+                carId: req.params.id,
+            });
+            res.status(200).json(updatedCar);
+        } else
+            res.status(404).json({
+                message: 'A car with that id does not exist.',
+            });
+    } catch (error) {
+        next(error);
+    }
 });
 
-router.delete('/cars/:id', (req, res) => {
-    db('cars')
-        .where({ carId: req.params.id })
-        .delete()
-        .then(amt => {
-            if(amt)
-                res.status(200).json({ message: `${amt} record was deleted.` });
-            else
-                res.status(404).json({message:'A car with that id does not exist.' });
-        })
-        .catch(error => {
-            next(error)
-        });
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const amt = await db('cars')
+            .where({ carId: req.params.id })
+            .delete();
+        if (amt) {
+            const remainingCars = await db('cars');
+            res.status(200).json(remainingCars);
+        } else {
+            res.status(404).json({
+                message: 'A car with that id does not exist.',
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;
