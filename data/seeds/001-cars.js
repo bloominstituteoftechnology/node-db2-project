@@ -15,7 +15,10 @@ exports.seed = function(knex) {
                     VIN: '82JDHVNA9234JDIS',
                     Make: 'Chrysler',
                     Model: '200',
-                    Mileage: '92500',                }
+                    Mileage: '92500',
+                    'Transmission Type': 'V4',
+                    'Title Status': "Clean"
+                },
             ]);
         });
 };

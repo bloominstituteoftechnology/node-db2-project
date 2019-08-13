@@ -14,10 +14,11 @@ server.get('/', (req, res) => {
     res.send(`Server is working!`);
 });
 
-server.use(errorHandler);
+server.use(errorHandler)
 
-function errorHandler(error, req, res, next) {
-    res.status(500).json({ message: 'Internal server error' });
+function errorHandler (error, req, res, next) {
+    console.log(error)
+    res.status(500).json({message:'Internal server error.' });
 }
 
 module.exports = server;
