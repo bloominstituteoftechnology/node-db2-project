@@ -1,8 +1,11 @@
 const express = require('express');
 
 const db = require('../../data/dbConfig');
+const { validateCarId, validateCarData } = require('../middleware');
 
 const router = express.Router();
+
+router.use('/:id', validateCarId);
 
 router.get('/', async (req, res, next) => {
     try {
@@ -16,24 +19,18 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const [car] = await db('cars').where({ carId: req.params.id });
-        if (car) res.status(200).json(car);
-        else
-            res.status(404).json({
-                message: 'A car with that id does not exist.',
-            });
+        res.status(200).json(car);
     } catch (error) {
         next(error);
     }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', validateCarData, async (req, res, next) => {
     const newCar = req.body;
     try {
         const [id] = await db('cars').insert(newCar);
-        if (id) {
-            const [addedCar] = await db('cars').where({ carId: id });
-            res.status(201).json(addedCar);
-        }
+        const [addedCar] = await db('cars').where({ carId: id });
+        res.status(201).json(addedCar);
     } catch (error) {
         next(error);
     }
@@ -42,18 +39,13 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     const changes = req.body;
     try {
-        const amt = await db('cars')
+        await db('cars')
             .update(changes)
             .where({ carId: req.params.id });
-        if (amt) {
-            const [updatedCar] = await db('cars').where({
-                carId: req.params.id,
-            });
-            res.status(200).json(updatedCar);
-        } else
-            res.status(404).json({
-                message: 'A car with that id does not exist.',
-            });
+        const [updatedCar] = await db('cars').where({
+            carId: req.params.id,
+        });
+        res.status(200).json(updatedCar);
     } catch (error) {
         next(error);
     }
@@ -64,14 +56,8 @@ router.delete('/:id', async (req, res, next) => {
         const amt = await db('cars')
             .where({ carId: req.params.id })
             .delete();
-        if (amt) {
-            const remainingCars = await db('cars');
-            res.status(200).json(remainingCars);
-        } else {
-            res.status(404).json({
-                message: 'A car with that id does not exist.',
-            });
-        }
+        const remainingCars = await db('cars');
+        res.status(200).json(remainingCars);
     } catch (error) {
         next(error);
     }
