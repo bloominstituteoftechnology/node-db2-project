@@ -23,6 +23,8 @@ exports.validateCarData = function(req, res, next) {
                 message:
                     'Please ensure you include the VIN, Make, Model, and Mileage are included.',
             });
+        else
+            next()
     } catch (error) {
         next(error);
     }
