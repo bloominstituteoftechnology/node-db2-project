@@ -4,10 +4,16 @@
   "description": "Web DB II Module Challenge",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "start": "node index.js",
+    "server": "nodemon"
   },
   "author": "Lambda School",
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.19.1",
+    "sqlite3": "^4.0.9"
   }
 }
