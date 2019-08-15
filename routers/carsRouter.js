@@ -1,16 +1,15 @@
 const knex = require('knex');
 const router = require ('express').Router();
+const db = require('../data/dbConfig')
 
-const knexConfig = {
-    client: 'sqlite3',
-    connection: {
-        filename: './data/carsdb.db3'
-    },
-    useNullAsDefault: true,
-    debug: true
-}
-
-const db = knex(knexConfig);
+// const knexConfig = {
+//     client: 'sqlite3',
+//     connection: {
+//         filename: './data/carsdb.db3'
+//     },
+//     useNullAsDefault: true,
+//     debug: true
+// }
 
 //C
 router.post("/", async (req, res) => {
