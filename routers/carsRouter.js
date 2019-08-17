@@ -1,28 +1,20 @@
-const knex = require('knex');
 const router = require ('express').Router();
 const db = require('../data/dbConfig')
 
-// const knexConfig = {
-//     client: 'sqlite3',
-//     connection: {
-//         filename: './data/carsdb.db3'
-//     },
-//     useNullAsDefault: true,
-//     debug: true
-// }
-
 //C
 router.post("/", async (req, res) => {
+  // console.log(req.body)
   try {
-    const car = await db('cars');
-    car.insert(req.body);
-    if (car.vin = !null) {
-      res.status(201).json(car);
-    } else {
-      res.status(400).json({
-        message: "Please provide a vin for the car"
-      });
-    }
+    const [id] = await db('cars').insert(req.body);
+    const newCarEntry = await db('cars').where({ id });
+    // car.insert(req.body);
+    // if (car === true) {
+      res.status(201).json(newCarEntry);
+    // } else {
+      // res.status(400).json({
+      //   message: "Please provide a vin for the car"
+      // });
+    // }
   } catch (error) {
     res.status(500).json({
       message: "Error adding the car"

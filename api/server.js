@@ -1,11 +1,11 @@
 //use express
 const express = require("express");
 const server = express();
+const CarsRouter = require('../routers/carsRouter');
 server.use(express.json());
 //use my middleware
 server.use(logger);
 //use my routes
-const CarsRouter = require('../routers/carsRouter');
 server.use('/api/cars', CarsRouter)
 
 //nice confirmation message that this is actually running
