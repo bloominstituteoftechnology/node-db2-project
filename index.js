@@ -25,7 +25,7 @@ server.get('/api/cars', (req, res) => {
     })
 });
 
-server.post('/api/users', (req, res) => {
+server.post('/api/cars', (req, res) => {
     const newUser = req.body;
     db.insert(newUser)
     .then(data => {
