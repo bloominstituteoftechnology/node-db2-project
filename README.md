@@ -6,9 +6,9 @@ In this challenge, you will write an API that can be used to manage _Cars_ store
 
 Follow these steps for starting your project.
 
-- [ ] Fork this repository and **clone your fork**.
-- [ ] Add your project manager as collaborator on your fork.
-- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [X] Fork this repository and **clone your fork**.
+- [X] Add your project manager as collaborator on your fork.
+- [X] Create a new branch: git checkout -b `<firstName-lastName>`.
 - [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
 - [ ] Push commits: git push origin `<firstName-lastName>`.
 
