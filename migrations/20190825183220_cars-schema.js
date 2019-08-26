@@ -2,7 +2,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable(
       'cars', tbl=> 
-      tbl.increments
+      tbl.increments,
       tbl.text('VIN').unique().notNullable(),
       tbl.text('make').notNullable(),
       tbl.text('model').notNullable(),
