@@ -10,7 +10,7 @@ carRouter.get('/' , async (req,res) => {
     }
 
     catch (err) {
-        res.status(500).json({message:'There was a problem with your request'});
+        res.status(500).json({message:'had problem with your request'});
     }
 })
 
