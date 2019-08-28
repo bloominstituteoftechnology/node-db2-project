@@ -1,6 +1,6 @@
 const express = require('express');
-const knex = require('knex');
 const db= require('../data/dbConfig')
+const server= express();
 
 server.get('/', (req, res) => {
     db('cars')
@@ -40,3 +40,4 @@ server.get('/:id', (req, res) => {
     });
   });
 
+module.exports= server;

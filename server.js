@@ -1,7 +1,8 @@
 const express= require('express');
 const server= express();
-const cars= require('./data/car-dealer.db3');
-// server.use(express.json());
-// server.use('/api/cars', cars);     server.use is giving me errors
+const db= require('./data/dbConfig');
+const cars= require('./cars/cars');
+server.use(express.json());
+server.use('/api/cars', cars); 
 
 module.exports= server;
