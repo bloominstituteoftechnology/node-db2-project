@@ -1,13 +1,13 @@
 {
-  "name": "webdb-ii-challenge",
+  "name": "node-db2-challenge",
   "version": "1.0.0",
-  "description": "Web DB II Module Challenge",
+  "description": "Node DB 2 Module Challenge",
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js"
   },
   "author": "Lambda School",
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.2"
   }
 }
