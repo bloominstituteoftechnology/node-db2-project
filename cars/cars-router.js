@@ -17,4 +17,16 @@ router.get('/', (req, res) => {
     }))
 });
 
+router.post('/', (req, res) => {
+    const carData = req.body;
+    db('cars').insert(carData)
+    .then(car => {
+        db('cars').where({ id: car[0] })
+        .then(newCar => {
+            res.status(201).json(newCar);
+        });
+    })
+    .catch (err => res.status(500).json({ message: 'Failed to add car'}))
+});
+
 module.exports = router;
