@@ -4,6 +4,7 @@
   "description": "Node DB 2 Module Challenge",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js"
   },
   "author": "Lambda School",
