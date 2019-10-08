@@ -26,7 +26,27 @@ router.post('/', (req, res) => {
             res.status(201).json(newCar);
         });
     })
-    .catch (err => res.status(500).json({ message: 'Failed to add car'}))
+    .catch (err => res.status(500).json({ message: 'Failed to add car' }))
 });
+
+router.get('/:id', (req, res) => {
+    db.select('*').from('cars').where('id', '=', req.params.id).first()
+    .then(car => res.status(200).json(car))
+    .catch(err => res.status(500).json({ message: 'Failed to get car' }))
+})
+
+router.put('/:id', (req, res) => {
+    db('cars').where({id: req.params.id}).update(req.body)
+    .then(car => {
+        res.status(200).json(car)
+    })
+    .catch(err => res.status(500).json({ message: 'Failed to update car' }))
+})
+
+router.delete('/:id', (req, res) => {
+    db('cars').where({id: req.params.id}).delete()
+    .then(car => res.status(200).json(car))
+    .catch(err => res.status(500).json({ message: 'Failed to delete car' }))
+})
 
 module.exports = router;
