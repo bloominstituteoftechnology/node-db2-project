@@ -9,5 +9,10 @@
   "author": "Lambda School",
   "devDependencies": {
     "nodemon": "^1.19.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.19.5",
+    "sqlite": "^3.0.3"
   }
 }
