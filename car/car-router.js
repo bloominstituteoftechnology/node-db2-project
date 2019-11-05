@@ -46,6 +46,26 @@ router.get('/:id', async (req,res) => {
     }
 })
 
+router.put('/:id', async (req,res) => {
+    const { id } = req.params;
+    const newInfo = req.body;
+    try{
+        const updating = await Car.update(id, newInfo)
+        if(updating){
+            //GET for updated car 
+            const updatedCar = await Car.get(id)
+            res.status(200).json(updatedCar)
+        }
+        else{
+            res.status(404).json({message: `error in updating the car information!`})
+        }
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message: `error in updating the car information!`})
+    }
+})
+
 function validateCarPost(req, res, next){
     const { VIN } = req.body;
     const { make } = req.body;
