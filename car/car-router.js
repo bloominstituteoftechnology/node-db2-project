@@ -66,6 +66,23 @@ router.put('/:id', async (req,res) => {
     }
 })
 
+router.delete('/:id', async (req,res) => {
+    const { id } = req.params;
+
+    try{
+        const deleting = await Car.remove(id)
+        if(deleting) {
+            res.status(200).json({messsage: `successfully deleted car with ID: ${id}`})
+        }
+        else{
+            res.status(400).json({message: `Error with car ID`})
+        }
+    }
+    catch(error){
+        res.status(500).json({message: `error in deleting the car information!`})
+    }
+})
+
 function validateCarPost(req, res, next){
     const { VIN } = req.body;
     const { make } = req.body;
@@ -101,12 +118,15 @@ function validateCarPost(req, res, next){
     else if(typeof mileage !== "number"){
         return res.status(400).json({error: `need STRING for mileage`});
     }
-    else if(typeof transmission !== "string"){
-        return res.status(400).json({error: `need STRING for transmission`});
-    }
-    else if(typeof title_status !== "string"){
-        return res.status(400).json({error: `need STRING for title status`});
-    }
+    //need to figure out how to enforce these non-required fields to be
+    //strings IF present... 
+    
+    // else if(typeof transmission !== "string"){
+    //     return res.status(400).json({error: `need STRING for transmission`});
+    // }
+    // else if(typeof title_status !== "string"){
+    //     return res.status(400).json({error: `need STRING for title status`});
+    // }
     req.body = {VIN, make, model, mileage, transmission, title_status}
     next();
 
