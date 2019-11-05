@@ -7,7 +7,7 @@ In this challenge, you will write an API that can be used to manage _Cars_ store
 Follow these steps for starting your project.
 
 - [ ] Fork this repository into your account and **clone your version**.
-- [ ] Add your project manager as collaborator on your repository.
+- [ ] Add your _Team Lead_ as collaborator on your repository.
 - [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
 - [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
 - [ ] Push commits: git push origin `<firstName-lastName>`.
@@ -15,8 +15,8 @@ Follow these steps for starting your project.
 Follow these steps for completing your project.
 
 - [ ] Submit a Pull-Request to merge `<firstName-lastName>` Branch into master (student's Repository). **Please don't merge your own pull request**
-- [ ] Add your project manager as a reviewer on the pull-request
-- [ ] Your project manager will count the project as complete by merging the branch back into master.
+- [ ] Add your _Team Lead_ as a reviewer on the pull-request
+- [ ] Your _Team Lead_ will count the project as complete by merging the branch back into master.
 
 ## Minimum Viable Product
 
