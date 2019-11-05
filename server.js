@@ -27,7 +27,7 @@ server.get('/api/cars/:id', (req, res) => {
 
     db('cars').where({id}).first()
     .then(resp => {
-        console.log(resp)
+        // console.log(resp)
         if (resp) res.json(resp)
         else res.status(404).json({message: 'car id not found', id})
     })
@@ -44,6 +44,21 @@ server.post('/api/cars', validateCarBody, (req, res) => {
     .then(([id]) => {
         // console.log(resp)
         res.status(201).json({id})
+    })
+    .catch(err => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+})
+
+server.delete('/api/cars/:id', (req, res) => {
+    const id = req.params.id
+
+    db('cars').where({id}).del()
+    .then(resp => {
+        // console.log(resp)
+        if (resp) res.sendStatus(204)
+        else res.status(404).json({message: 'car id not found', id})
     })
     .catch(err => {
         console.error(err)
