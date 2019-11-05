@@ -22,13 +22,28 @@ server.get('/api/cars', (req, res) => {
     })
 })
 
+server.get('/api/cars/:id', (req, res) => {
+    const id = req.params.id
+
+    db('cars').where({id}).first()
+    .then(resp => {
+        console.log(resp)
+        if (resp) res.json(resp)
+        else res.status(404).json({message: 'car id not found', id})
+    })
+    .catch(err => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+})
+
 server.post('/api/cars', validateCarBody, (req, res) => {
     const {vin, make, model, mileage, transmission_type, title_status} = req.body
 
     db('cars').insert({vin, make, model, mileage, transmission_type, title_status})
     .then(([id]) => {
         // console.log(resp)
-        res.json({id})
+        res.status(201).json({id})
     })
     .catch(err => {
         console.error(err)
