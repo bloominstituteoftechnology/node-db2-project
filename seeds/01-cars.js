@@ -10,6 +10,12 @@ exports.seed = function(knex, Promise) {
         
         {
           VIN: 'K0139DKS9382DKSL', MAKE: 'Acura', MODEL: 'MDX',  MILEAGE: '400',
+        },
+        {
+          VIN: 'TR8342DKS92DKS92', MAKE: 'Nissan', MODEL: 'Leaf',  MILEAGE: '1',
+        },
+        {
+          VIN: 'FJDKS93203DKS39', MAKE: 'Bugatti ', MODEL: 'Type 18',  MILEAGE: '5000',
         }
 
       ]);
