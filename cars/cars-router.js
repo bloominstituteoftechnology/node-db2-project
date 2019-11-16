@@ -16,11 +16,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-   const carData = req.body;
+   const carInfo = req.body;
    db("cars")
-   .insert(carData)
-   .then(car => {
-      res.status(201).json(car)
+   .insert(carInfo)
+   .then(info => {
+      res.status(201).json(info)
    })
    .catch(err => {
       res.status(500).json({
