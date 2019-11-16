@@ -15,16 +15,24 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const carData = req.body;
-  console.log(carData);
 
   try {
-    const id = await db('cars').insert(carData);
-    const newCarEntry = await db('cars').where( 'VIN', carData.VIN );
+    const ids = await db('cars').insert(carData);
+    const newCarEntry = await db('cars').where({ id: ids[0] });
     res.status(201).json(newCarEntry);
   } catch(error) {
     console.log('Post error', error);
     res.status(500).json({ message: 'Failed to store data', error });
   }
+});
+
+router.put('/', async (req, res) => {
+  const carChanges = req.body;
+
+  try {
+  } catch (error) {
+  }
+
 });
 
 module.exports = router;
