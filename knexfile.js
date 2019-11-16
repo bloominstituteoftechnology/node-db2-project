@@ -11,7 +11,15 @@ module.exports = {
     },
     // necessary when using sqlite3
     useNullAsDefault: true
+  },
+  migrations: {
+    directory: './migrations'
+  },
+  seeds: {
+    directory: './seeds'
   }
+
+
   
  };
  
