@@ -15,6 +15,18 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {});
+// router.post("/", (req, res) => {
+//    const carData = req.body;
+//    db("cars")
+//    .insert(carData)
+//    .then(car => {
+//       res.status(201).json(car)
+//    })
+//    .catch(err => {
+//       res.status(500).json({
+//          Message:"Problem with the database. "
+//       })
+//    })
+// });
 
 module.exports = router;
