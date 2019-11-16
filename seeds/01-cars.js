@@ -9,13 +9,13 @@ exports.seed = function(knex, Promise) {
         // transmission type and status of the title (clean, salvage, etc.),
         
         {
-          VIN: 'K0139DKS9382DKSL', MAKE: 'Acura', MODEL: 'MDX',  MILEAGE: '400',
+          vin: 'A123', make: 'Acura', model: 'MDX',  mileage: 123,
         },
         {
-          VIN: 'TR8342DKS92DKS92', MAKE: 'Nissan', MODEL: 'Leaf',  MILEAGE: '1',
+          vin: 'B456', make: 'Nissan', model: 'Leaf',  mileage: 456,
         },
         {
-          VIN: 'FJDKS93203DKS39', MAKE: 'Bugatti ', MODEL: 'Type 18',  MILEAGE: '5000',
+          vin: 'C789', make: 'Bugatti ', model: 'Type 18',  mileage: 789,
         }
 
       ]);
