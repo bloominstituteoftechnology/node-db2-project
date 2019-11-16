@@ -7,14 +7,9 @@ const server = express();
 server.use(express.json());
 server.use('/api/cars', carsRouter)
 
-server.get("/", (req, res) => {
-   res.send(` 
-   
-   <h1>CARS API</h1>
-   <p>Designed by Jashele Tillman</p>
-   
-   `);
-});
+server.get('/', function (req, res) {
+   res.send('Jashele Tillman')
+ })
 
 
 module.exports = server; 
