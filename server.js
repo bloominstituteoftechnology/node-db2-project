@@ -1,14 +1,17 @@
 const express = require('express');
 
+const carRouter = require('./cars/cars-router.js')
+
 const server = express();
 
 server.use(express.json());
+server.use('/api/accounts', carRouter)
 
 server.get("/", (req, res) => {
    res.send(` 
    
-   <h1>Hello.</h1>
-   <p>This is a template.</p>
+   <h1>CARS API</h1>
+   <p>Designed by Jashele Tillman</p>
    
    `);
 });
