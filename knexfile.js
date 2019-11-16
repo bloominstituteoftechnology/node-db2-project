@@ -7,6 +7,9 @@ module.exports = {
     connection: {
       filename: './data/cars.db3'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    migrations: {
+      directory: './data/migrations'
+    }
   }
 };
