@@ -3,34 +3,29 @@ exports.up = function(knex) {
   return knex.schema.createTable('cars', tbl => {
     tbl.increments();
     tbl
-        .string('vin')
+        .string('vin', 128)
         .notNullable()
         .unique()
         .index()
     tbl
-        .string('make')
+        .string('make', 128)
         .notNullable()
-        .unique()
-    tbl
-        .string('model')
-        .notNullable()
-        .unique()
-    tbl
-        .string('mileage')
-        .notNullable()
-        .unique()
-  
-    
         
+    tbl
+        .string('model', 128)
+        .notNullable()
+        
+    tbl
+        .string('mileage', 128)
+        .notNullable()
+    tbl
+        .string('transmission', 128)    
+    tbl
+        .string('title', 128) 
     })
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema.dropTableIfExists('cars');
 };
 
-
-The client for this API is a car dealer who has provided the following specs:
-
-The critical information for each car is the VIN, make, model, and mileage.
-They also track transmission type and status of the title (clean, salvage, etc.), but this information is not always immediately known.
