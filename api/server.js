@@ -10,7 +10,7 @@ server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
-server.use('./api/cars', carsRouter);
+server.use('/api/cars', carsRouter);
 
 server.get('/', (req, res) => {
     res.send('<h1>Cars data base</h1>')
