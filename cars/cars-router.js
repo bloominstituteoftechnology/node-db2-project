@@ -1,8 +1,10 @@
 const express = require("express");
 
-const knex = require("knex");
-const knexConfig = require("../knexfile.js");
-const db = knex(knexConfig.development);
+const db = require("../data/dbConfig");
+
+// const knex = require("knex");
+// const knexConfig = require("../knexfile.js");
+// const db = knex(knexConfig.development);
 
 // import middleware
 const validateId = require("../middleware/validateId.js");
