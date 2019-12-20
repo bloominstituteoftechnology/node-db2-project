@@ -9,5 +9,19 @@
   "author": "Lambda School",
   "devDependencies": {
     "nodemon": "^1.19.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spettigrew/webdb-ii-challenge.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spettigrew/webdb-ii-challenge/issues"
+  },
+  "homepage": "https://github.com/spettigrew/webdb-ii-challenge#readme",
+  "dependencies": {
+    "knex": "^0.20.4",
+    "sqlite3": "^4.1.1"
   }
 }
