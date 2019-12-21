@@ -1,11 +1,11 @@
 
 exports.up = function(knex) {
-  await knex.schema.createTable("care", (cars) => {
+  await knex.schema.createTable("cars", (table) => {
       table.increments("id")
       table.float("VIN").notNull().unique()
-      table.text("make")
-      table.text("model")
-      table.integer("mileage")
+      table.text("make").notNull()
+      table.text("model").notNull()
+      table.integer("mileage").notNull()
       table.text("color")
   })
 };
