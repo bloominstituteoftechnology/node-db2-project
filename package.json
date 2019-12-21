@@ -2,9 +2,9 @@
   "name": "node-db2-challenge",
   "version": "1.0.0",
   "description": "Node DB 2 Module Challenge",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon server.js"
   },
   "author": "Lambda School",
   "devDependencies": {
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/spettigrew/webdb-ii-challenge#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
     "knex": "^0.20.4",
     "sqlite3": "^4.1.1"
   }
