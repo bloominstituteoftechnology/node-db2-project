@@ -1,11 +1,12 @@
 
 exports.up = async function(knex) {
-  await knex.schema.createTable("car color", (table) => {
-      table.increments("id")
+  await knex.schema.alterTable("cars", (table) => {
       table.text("color")
   })
 };
 
 exports.down = async function(knex) {
-  await knex.schema.dropTableIfExists("car color")
+  await knex.schema.alterTable("cars", (table) => {
+    table.dropColumn("color")
+  })
 };
