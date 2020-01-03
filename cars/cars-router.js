@@ -28,7 +28,7 @@ router.post("/", async (req, res, next) => {
       const ids = await db("cars").insert(req.body)
       const newCar = await db("cars").where({ id: ids[0] }).first()
     
-    res.status(201).json(newCar)
+    return res.status(201).json(newCar)
   } catch (err) {
     next(err)
   }
