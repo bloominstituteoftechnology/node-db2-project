@@ -8,8 +8,8 @@ router.get('/', async(req, res)=>{
     const cars = await getCars();
     res.status(200).json(cars);
    }
-   catch(e){
-       console.log(e)
+   catch(error){
+    res.json({error: error.message});
    }
     
 })
@@ -21,8 +21,8 @@ router.get('/:id', async (req,res)=>{
         const car = await getCarById(id);
         res.status(200).json(car)
     }
-    catch(e){
-        console.log(e);
+    catch(error){
+        res.json({error: error.message});
     }
 })
 router.post('/', async(req, res)=>{
@@ -31,8 +31,8 @@ router.post('/', async(req, res)=>{
     const id = await addNewCar({VIN, make, model, milleage, transmission, status});
     res.status(200).json(`Car with id ${id} was created`)
     }
-    catch(e){
-        console.log(e);
+    catch(error){
+        res.status(404).json({error: "Car not found"});
     }
 })
 
