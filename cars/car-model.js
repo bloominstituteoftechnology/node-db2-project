@@ -1,8 +1,13 @@
 const db = require('../data/db-config');
 
-async function getCars(){
+function getCars(){
     return db('cars')
+}
+
+function getCarById(id){
+    return db('cars').where({id}).first();
 }
 module.exports={
     getCars,
+    getCarById
 }
