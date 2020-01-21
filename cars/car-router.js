@@ -31,6 +31,7 @@ router.post('/', async(req, res)=>{
     const id = await addNewCar({VIN, make, model, milleage, transmission, status});
     res.status(200).json(`Car with id ${id} was created`)
     }
+    
     catch(error){
         res.status(404).json({error: "Car not found"});
     }
