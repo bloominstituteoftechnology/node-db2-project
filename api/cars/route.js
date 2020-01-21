@@ -5,12 +5,7 @@ const {
   getCarByDetail,
   addCar,
   updateCar,
-  deleteCar,
-  getSales,
-  getSaleByDetail,
-  addSales,
-  updateSales,
-  deleteSales
+  deleteCar
 } = require("./model.js");
 
 // gets all cars
@@ -72,12 +67,10 @@ router.delete("/:id", (req, res) => {
       res.status(200).json({ success: "car deletion was successful" })
     )
     .catch(err =>
-      res
-        .status(500)
-        .json({
-          message: "Sorry something went wrong in deleting that car.",
-          error_message: err.message
-        })
+      res.status(500).json({
+        message: "Sorry something went wrong in deleting that car.",
+        error_message: err.message
+      })
     );
 });
 

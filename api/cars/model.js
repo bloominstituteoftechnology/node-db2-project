@@ -5,12 +5,7 @@ module.exports = {
   getCarByDetail,
   addCar,
   updateCar,
-  deleteCar,
-  getSales,
-  getSaleByDetail,
-  addSales,
-  updateSales,
-  deleteSales
+  deleteCar
 };
 
 function getCars() {
@@ -42,38 +37,5 @@ function updateCar(carId, changes) {
 function deleteCar(carId) {
   return db("cars")
     .where("cars.id", carId)
-    .del();
-}
-
-function getSales() {
-  return db("sales");
-}
-
-function getSaleByDetail(detail) {
-  return db("sales")
-    .where(detail)
-    .first();
-}
-
-function addSales(sales) {
-  return db("sales")
-    .insert(sales, "id")
-    .then(newsales => newsales)
-    .catch(err => console.log("Something went wrong in adding a sale: ", err));
-}
-
-function updateSales(salesId, changes) {
-  return db("sales")
-    .where("sales.id", salesId)
-    .update(changes)
-    .then(() => getsalesByDetail({ id: salesId }))
-    .catch(err =>
-      console.log("Something went wrong in updating a sale: ", err)
-    );
-}
-
-function deleteSales(salesId) {
-  return db("sales")
-    .where("sales.id", salesId)
     .del();
 }
