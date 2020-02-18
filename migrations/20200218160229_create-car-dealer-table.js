@@ -4,15 +4,17 @@ exports.up = function(knex) {
       tbl.increments();
       tbl.string('VIN', 50)
         .notNullable()
-        .index()
+        .index();
       tbl.string('make', 50)
         .notNullable()
-        .index()
+        .index();
       tbl.string('model', 50)
         .notNullable()
-        .index()
-      tbl.string('transtype', 50)
-      tbl.string('titlestatus', 50)
+        .index();
+      tbl.integer('carmiles')
+        .notNullable();  
+      tbl.string('transtype', 50);
+      tbl.string('titlestatus', 50);
   })
 };
 
