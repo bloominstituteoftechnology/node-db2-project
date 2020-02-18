@@ -15,7 +15,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+    const { id } = req.params;
     db('cars')
+    .where({ id })
+    .first()
     .then(car => {
         res.json(car)
     })
@@ -36,6 +39,34 @@ router.post('/', (req, res) => {
     })
     .catch(err => {
         res.status(500).json({ error: 'Failed to add car data' })
+    })
+});
+
+router.put('/:id', (req, res) => {
+    const id = req.params.id
+    const changes = req.body
+    db('cars')
+    .where({ id })
+    .update(changes)
+    .then(car => {
+        res.status(200).json(car)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({ error: 'Failed to update the car' })
+    })
+});
+
+router.delete('/:id', (req, res) => {
+    const { id } = req.params
+    db('cars')
+    .where({ id })
+    .del()
+    .then(del => {
+        res.status(200).json(del)
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'Failed to remove the car' })
     })
 });
 
