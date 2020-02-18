@@ -7,7 +7,11 @@ module.exports = {
     connection: {
       filename: './data/car-dealer.db3'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    
+    seeds: {
+      directory: './data/seeds'
+    }
   },
 
   staging: {
