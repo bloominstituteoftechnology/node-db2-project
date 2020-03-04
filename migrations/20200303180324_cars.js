@@ -11,7 +11,7 @@ exports.up = function(knex) {
         table.text('model').notNull();
         // Mileage
         table.integer('mileage').notNull();
-        // Status
+        // Title Status
         table.text('title')
       });
 };
