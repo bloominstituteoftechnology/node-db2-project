@@ -29,8 +29,8 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user:     'username',
+      database: process.env.PROD_DB || 'my_db',
+      user:    process.env.PROD_DB_USER ||  'username',
       password: 'password'
     },
     pool: {
