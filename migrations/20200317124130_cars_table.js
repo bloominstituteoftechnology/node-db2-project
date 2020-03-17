@@ -28,6 +28,7 @@ exports.up = function(knex) {
     tbl
       .string("transmission type")
       .index();
+    
     tbl
       .string("title status")
       .index();
