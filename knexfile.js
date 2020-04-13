@@ -8,6 +8,12 @@ module.exports = {
       filename: './data/cars.db3'
     }, 
     useNullAsDefault: true,
-  },
+    migrations: {
+      directory:'./data/migrations'
+    },
+    seeds:{
+      directory:'./data/seeds'
+    }
+  }
 
 };
