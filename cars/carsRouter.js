@@ -9,7 +9,7 @@ router.get('/', (req,res) => {
     .then(cars => {
       res.status(200).json({ cars: cars })
     })
-    .catch(err => res.status(500).json({ errormessage: `Internal Server error` }))
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
 })
 
 router.get('/:id', idValidator, (req,res) => {
@@ -19,20 +19,33 @@ router.get('/:id', idValidator, (req,res) => {
     .then(cars => {
       res.status(200).json(cars)
     })
-    .catch(err => res.status(500).json({ errormessage: `Internal Server error` }))
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
 })
 
 router.post('/', carValidator, (req, res) => {
   db('cars').insert(req.body)
     .then(id => res.status(201).json({ message: `successfully added car to database` }))
-    .catch(err => res.status(500).json({ errormessage: `Internal Server error` }))
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
 })
 
 router.delete('/:id', idValidator, (req, res) => {
   db('cars').where(req.params.id).del()
     .then(() => res.status(204).json({ message: `entry deleted successfully` }))
-    .catch(err => res.status(500).json({ errormessage: `Internal Server error` }))
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
 })
+
+router.put('/:id', idValidator, (req, res) => {
+  const id = req.params.id
+  db('cars').where({ id }).update(req.body)
+    .then(num => {
+      if(num) {
+        db('cars').where({ id })
+          .first()
+          .then(car => res.status(201).json(car))
+      }
+    })
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
+});
 
 module.exports = router;
 
@@ -46,7 +59,7 @@ function idValidator(req, res, next) {
         res.status(404).json({ errorMessage: `id doesn't exist` })
       }
     })
-    .catch(err => res.status(500).json({ errormessage: `Internal Server error` }))
+    .catch(err => res.status(500).json({ errormessage: `Internal Server error`, err }))
 }
 
 function carValidator(req, res, next) {
