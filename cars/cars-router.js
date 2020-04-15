@@ -19,7 +19,13 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
+    Cars.addCar(req.body)
+    .then(item => {
+        res.status(201).json(item)
+    })
+    .catch(err => {
+        res.status(500).json({message: 'Could not add'})
+    })
 })
 
 router.put('/:id', (req, res) => {
