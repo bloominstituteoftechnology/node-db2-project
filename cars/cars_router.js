@@ -24,18 +24,47 @@ router.get('/:id', (req, res)=>{
     });
 
 });
-router.post('/', (req,res)=>{
-    const carsData= res.body;
-    db('cars').insert(carsData)
-    .then(ids =>{
-        db('cars').where( { id: ids[0]})
-        .then(newCarsEntry => {
-            res.status(201).json(newCarsEntry);
-        })
-    })
+router.post("/", (req, res) => {
+    db("cars")
+      .insert(req.body, "id") 
+      .then(ids => {
+        res.status(201).json({ newID: ids }); 
+      })
     .catch(err =>{
         console.log('Post error', err);
         res.status(500).json({message: "Failed to store data"})
     });
 });
+router.put('/:id', (req, res) => {
+    const changes = req.body;
+  
+    db("cars")
+      .where({ id: req.params.id })
+      .update(changes)
+      .then((count) => {
+        if (count > 0) {
+          res.status(200).json({ message: "record updated successfully" }); // worked on insomnia
+        } else {
+          res.status(400).json({ message: "account not updated" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "sorry, ran into an error" });
+      });
+    });
+    router.delete('/:id', (req, res) => {
+        db("cars")
+          .where({ id: req.params.id })
+          .del()
+          .then((count) => {
+            if(count > 0) {
+              res.status(200).json({ message: "record deleted successfully" });
+            } else {
+              res.status(400).json({ message: "car not found" });
+            }
+          })
+          .catch(error => {
+            res.status(500).json({ message: "Sorry, ran into an error" });
+          })
+      })
 module.exports = router;
