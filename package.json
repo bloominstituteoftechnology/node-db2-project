@@ -4,10 +4,10 @@
     "description": "Node DB 2 Module Challenge",
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js"
+      "server": "nodemon index.js"
     },
     "author": "Lambda School",
     "devDependencies": {
-        "nodemon": "^2.0.2"
+      "nodemon": "^2.0.2"
     }
-}
+  }
