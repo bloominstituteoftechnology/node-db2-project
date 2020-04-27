@@ -51,4 +51,32 @@ router.post("/", (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+
+  const updateCar = {
+    vin: req.body.vin,
+    year: req.body.year,
+    make: req.body.make,
+    model: req.body.model,
+    mileage: req.body.mileage,
+    price: req.body.price,
+    color: req.body.color,
+  };
+
+  db("cars")
+    .where({ id })
+    .update(updateCar)
+    .then((cars) => {
+      res.status(200).json(cars).json({
+        message: "Information has been updated!",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        errorMessage: "This data could not be updated",
+      });
+    });
+});
+
 module.exports = router;
