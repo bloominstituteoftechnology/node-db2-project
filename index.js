@@ -1,5 +1,5 @@
 const express = require("express");
-const welcomeRouter = require("./Welcome/welcome");
+const welcomeRouter = require("./Welcome/welcome-router");
 
 const server = express();
 const port = 8000;
