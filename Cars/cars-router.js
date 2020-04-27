@@ -79,4 +79,18 @@ router.put("/:id", (req, res) => {
     });
 });
 
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("cars")
+    .where({ id })
+    .del()
+    .then((cars) => {
+      res.status(204);
+    })
+    .catch((err) => {
+      errorMessage: "This data could not be deleted";
+    });
+});
+
 module.exports = router;
