@@ -4,6 +4,7 @@
     "description": "Node DB 2 Module Challenge",
     "main": "index.js",
     "scripts": {
+        "start": "node index.js",
         "server": "nodemon index.js"
     },
     "author": "Lambda School",
@@ -14,6 +15,7 @@
         "express": "^4.17.1",
         "helmet": "^3.22.0",
         "knex": "^0.21.1",
+        "migrate": "^1.6.2",
         "sqlite": "^4.0.7",
         "sqlite3": "^4.2.0"
     }
