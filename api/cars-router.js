@@ -19,6 +19,17 @@ router.post("/", (req, res) => {
       });
   });
 
+  //localhost:5000/api/cars/
+  router.get("/", (req, res) => {
+    db("cars")
+      .then(carData => {
+        res.json(carData);
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to retrieve Car Data" });
+      });
+  });
+
 
 
 
