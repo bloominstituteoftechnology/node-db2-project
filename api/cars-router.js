@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require('../data/dataConfig.js');
 
+const router = express.Router();
 //localhost:5000/api/cars/
 router.post("/", (req, res) => {
     const carData = req.body;
