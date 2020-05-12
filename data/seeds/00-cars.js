@@ -1,3 +1,4 @@
+
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex('cars')
@@ -7,7 +8,7 @@ exports.seed = function (knex) {
       return knex('cars').insert([
         {
           id: 1,
-          vinNumber: '123sdf456sdf456sd',
+          vinNumber: '123sdf456sdf456xx',
           make: 'Toyota',
           model: 'Tundra',
           mileage: '33000',
@@ -25,7 +26,7 @@ exports.seed = function (knex) {
         },
         {
           id: 3,
-          vinNumber: '123sdf456sdf456sd',
+          vinNumber: '123sdf456sdf456zz',
           make: 'Toyota',
           model: 'Tundra',
           mileage: '33000',
