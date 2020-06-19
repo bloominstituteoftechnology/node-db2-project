@@ -1,1 +1,31 @@
-GET http://localhost:8001
+
+// GET all data
+GET http://localhost:8001/async
+
+###
+// GET by id:
+GET http://localhost:8001/async/1
+
+###
+// POST with required fields ~~~ Not Working
+POST http://localhost:8001/async
+Content-Type: application/json
+
+{
+    "VIN": 5161651316516516,
+    "Make":"JEEP",
+    "Model":"Cheroke",
+    "Mileage":22546,
+}
+
+###
+// PUT by :id
+PUT http://localhost:8001/async/10
+Content-Type: application/json
+
+{
+    "VIN": 5161651316516516,
+    "Make":"JEEP",
+    "Model":"Cheroke",
+    "Mileage":22546,
+}
