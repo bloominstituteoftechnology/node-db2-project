@@ -4,7 +4,7 @@ GET http://localhost:8001/async
 
 ###
 // GET by id:
-GET http://localhost:8001/async/1
+GET http://localhost:8001/async/2
 
 ###
 // POST with required fields ~~~ Not Working
@@ -12,10 +12,12 @@ POST http://localhost:8001/async
 Content-Type: application/json
 
 {
-    "VIN": 5161651316516516,
-    "Make":"JEEP",
-    "Model":"Cheroke",
-    "Mileage":22546,
+    "vin": 5161651316516516,
+    "make":"Porsche",
+    "model":"911",
+    "mileage":2251,
+    "transmission_type":"manual",
+    "title_status":"stolen"
 }
 
 ###
@@ -29,3 +31,7 @@ Content-Type: application/json
     "Model":"Cheroke",
     "Mileage":22546,
 }
+
+###
+// DELETE BY :id
+DELETE http://localhost:8001/async/10

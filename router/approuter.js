@@ -33,15 +33,12 @@ server.get("/async/:id", async (req, res, next) => {
     }
   });
 
-//POST async await 
+//POST async await ✅🏄🏽‍♂️
+// create error handlers to catch missing fields, and catch unique fields
 server.post("/async", async (req, res, next) => {
     try {
-      const payload = {
-        VIN: req.body.VIN,
-        Make:req.body.Make,
-        Model:req.body.Model,
-        Mileage:req.body.Mileage
-      };
+      const payload = req.body;
+      console.log(req.body)
       const [dataID] = await db("cars").insert(payload, "id");
       const displayData = await db("cars").where({ id: dataID });
       res.status(201).json(displayData);
@@ -50,15 +47,10 @@ server.post("/async", async (req, res, next) => {
     }
   });
 
-//PUT async await
+//PUT async await ✅🏄🏽‍♂️
 server.put("/async/:id", async (req, res, next) => {
   try {
-    const payload = {
-        VIN: req.body.VIN,
-        Make:req.body.Make,
-        Model:req.body.Model,
-        Mileage:req.body.Mileage
-    };
+    const payload = req.body;
     await db("cars").update(payload).where({ id: req.params.id });
     res.json({
       message: `Record succesfullyupdated`,
@@ -68,7 +60,7 @@ server.put("/async/:id", async (req, res, next) => {
   }
 });
 
-//DELETE with asycn await
+//DELETE with asycn await ✅🏄🏽‍♂️
 server.delete("/async/:id", async (req, res, next) => {
     try {
       await db("cars").where({ id: req.params.id }).del();
