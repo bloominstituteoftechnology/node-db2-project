@@ -12,7 +12,7 @@ const carsRouter = require('../cars/carsRouter');
 
 
 //* opt-in commands/middleware *// 
-//! USE THESE THINGS BEFORE ROUTER AND SERVER USES !// OTHERWISE: SQL LITE MISUSE ERROR #21
+//! USE THESE THINGS BEFORE ROUTER SERVER.USE = OTHERWISE: SQL LITE MISUSE ERROR #21 ORDER MATTERS !// 
 server.use(express.json()); 
 server.use(cors()); 
 server.use(helmet()); 
