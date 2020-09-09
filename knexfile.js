@@ -1,4 +1,5 @@
-// Update with your config settings.
+//TODO: KNEX-FLOW: This file was made after using 'npm i -g knex' then 'npm i knex sqlite3', once executing 'knex init' this file is made by Knex in the root of the project //
+//! The development object needs to be updated with a few things: A correct connect path in the filename key, useNullAsDefault: true is added, a migrations object is added - theses files are made through 'knex migrate:make' commands! !// 
 
 module.exports = {
 

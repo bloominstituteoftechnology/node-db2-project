@@ -5,7 +5,7 @@ const db = require('../data/db-config');
 //* create router *// 
 const router = express(); 
 
-//! GET all cars 
+//! GET all cars !// ✔
 router.get('/', (req, res) => {
     db('cars')
         .then(cars => {

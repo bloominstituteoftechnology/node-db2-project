@@ -1,4 +1,4 @@
-//* phase 1: import express and set up the server *// 
+//* SETUP: import express and set up the server *// 
 const express = require('express'); 
 const server = express (); 
 
