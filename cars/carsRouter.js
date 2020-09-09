@@ -6,7 +6,7 @@ const router = express.Router();
 const db = require('../data/db-config'); 
 
 
-//! GET all cars !//
+//! GET all cars !// ☑
 router.get('/', (req, res) => {
     db('cars')
         .then(cars => {
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
         });
 }); 
 
-//! GET car by id !// 
+//! GET car by id !// ☑
 router.get('/:id', (req, res) => {
     const { id } = req.params; 
 
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
         }); 
 }); 
 
-//! DELETE a car !//
+//! DELETE a car !// ☑
 //* for a DELETE we need the id of the item we wish to delete from the table - this comes from the req.params *// 
 router.delete('/:id', (req, res) => {
     const { id } = req.params; 
@@ -52,7 +52,7 @@ router.delete('/:id', (req, res) => {
         })
 }); 
 
-//! PUT update a car 
+//! PUT update a car !// ☑
 //* for a PUT we need: the ID of the item being updated, and the proposed updates. The ID comes from req.params, and the changes will be on req.body *// 
 router.put('/:id', (req, res) => {
     const { id } = req.params; 
@@ -74,7 +74,7 @@ router.put('/:id', (req, res) => {
 });
 
 
-//! POST a new car! 
+//! POST a new car! !// ☑
 //* For a POST we navigate to the /api/cars/ route, no ID is in the path because the new car doesn't have one yet! We will need a payload - the new car, which is found on req.body from the front end. Then we will INSERT the new car into the previously empty array *// 
 
 router.post('/', (req, res) => {
