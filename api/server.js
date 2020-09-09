@@ -2,7 +2,16 @@
 const express = require('express'); 
 const server = express (); 
 
-//* opt in to use JSON *// 
+//? Q: This [const db] pulls in the connection to the database? 
+const db = require('../data/db-config'); 
+
+//* router imports *// 
+const carsRouter = require('../cars/carsRouter'); 
+
+//* use router commands *// 
+server.use('/api/cars', carsRouter); 
+
+//* opt-in commands *// 
 server.use(express.json()); 
 
 server.get('/', (req, res) => {
