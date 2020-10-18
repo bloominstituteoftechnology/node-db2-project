@@ -6,8 +6,12 @@
     "scripts": {
         "server": "nodemon index.js"
     },
-    "author": "Lambda School",
     "devDependencies": {
         "nodemon": "^2.0.2"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "knex": "^0.21.6",
+        "sqlite3": "^5.0.0"
     }
 }
