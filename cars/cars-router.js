@@ -14,7 +14,7 @@ router.get("/cars", async (req, res, next) => {
 router.get("/cars/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params
-		const car = await db("cars").where({ id }).first()
+		const car = await db("cars").where({id})
 		
 		res.json(car)
 	} catch(err) {
@@ -28,6 +28,16 @@ router.post("/cars", async (req, res, next) => {
 		const newCar = await db("cars").where({ id }).first()
 
 		res.status(201).json(newCar)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.get("/cars/make/:make", async (req, res, next) => {
+	try {
+		const { make } = req.params
+        const car = await db("cars").where("make", make)
+        res.json(car)
 	} catch(err) {
 		next(err)
 	}
