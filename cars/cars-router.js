@@ -36,8 +36,18 @@ router.post("/cars", async (req, res, next) => {
 router.get("/cars/make/:make", async (req, res, next) => {
 	try {
 		const { make } = req.params
-        const car = await db("cars").where("make", make)
-        res.json(car)
+        const cars = await db("cars").where("make", make)
+        res.json(cars)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.get("/cars/mil/:miles", async (req, res, next) => {
+	try {
+		const { miles } = req.params
+        const cars = await db("cars").where("mileage", "<", miles)
+        res.json(cars)
 	} catch(err) {
 		next(err)
 	}
