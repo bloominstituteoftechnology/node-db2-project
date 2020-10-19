@@ -2,6 +2,6 @@ module.exports = {
     client: "sqlite3",
     useNullAsDefault: true,
     connection: {
-        filename: "./data/produce.bd3",
+        filename: "./data/car-dealer.bd3",
     }
 }
