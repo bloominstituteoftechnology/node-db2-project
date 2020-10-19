@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.get("/cars", async (req, res, next) => {
 	try {
-		res.json(await db("cars"))
+        const cars = await db("cars")//.where("sold", false)
+		res.json(cars)
 	} catch(err) {
 		next(err)
 	}
