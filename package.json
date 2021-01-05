@@ -1,13 +1,30 @@
 {
-    "name": "node-db2-challenge",
-    "version": "1.0.0",
-    "description": "Node DB 2 Module Challenge",
-    "main": "index.js",
-    "scripts": {
-        "server": "nodemon index.js"
-    },
-    "author": "Lambda School",
-    "devDependencies": {
-        "nodemon": "^2.0.2"
-    }
+  "name": "db2-challenge",
+  "version": "1.0.0",
+  "description": "Node DB 2 Module Challenge",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "author": "Lambda School",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "faker": "^5.1.0",
+    "nodemon": "^2.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julianisrel/node-db2-project.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Julianisrel/node-db2-project/issues"
+  },
+  "homepage": "https://github.com/Julianisrel/node-db2-project#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^4.3.1",
+    "knex": "^0.21.15",
+    "sqlite3": "^5.0.0"
+  }
 }
