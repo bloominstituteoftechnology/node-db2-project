@@ -41,4 +41,3 @@ The client for this API is a car dealer who has provided the following specs:
 Follow these steps for completing your project.
 
 - [ ] Submit a pull request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request**
-
