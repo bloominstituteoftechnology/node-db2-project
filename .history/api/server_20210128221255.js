@@ -7,6 +7,7 @@ const dbDealer = require('../data/dbDealer');
 
 //middlewares
 const cors = require('cors');
+const { json } = require('express');
 const logger = require('morgan')
 server.use(express.json(), cors(), logger('short'));
 
@@ -35,6 +36,17 @@ server.get('/api/vehicles/:id', async (req, res)=>{
 })
 
 
+server.delete('/api/test/:id', async (req, res, next)=>{
+
+    
+    await dbDealer.remove(req.params.id)
+    .then( resolve=> {
+        res.status(200).json({resolve: resolve})
+    }).catch(next)
+    
+
+});
+
 //POST new vehicle
 server.post('/api/add_vehicle', async (req, res, next) => {
     dbDealer.insert(req.body)
@@ -45,7 +57,7 @@ server.post('/api/add_vehicle', async (req, res, next) => {
 
 //DELETE or sold vehicle
 
-server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
+server.delete('/api/rm_vehicle', async (req, res, next) =>{
    
 
     await dbDealer.remove(req.params.id)

@@ -29,5 +29,5 @@ function insert(newVehicle){
 }
 
 function remove(id){
-    return db('car-dealer').where('id', id).del();
+    db('car-dealer').where('id', id).del();
 }

@@ -3,8 +3,7 @@ const db = require('./dbConfig');
 module.exports = {
     get,
     getByID,
-    insert,
-    remove
+    insert
 
 }
 
@@ -18,7 +17,7 @@ function getByID(id){
 }
 
 function insert(newVehicle){
-   return db.insert({
+    db.insert({
         Make: `${newVehicle.Make}`,
         Model: `${newVehicle.Model}`,
         VIN: `${newVehicle.VIN}`,
@@ -26,8 +25,4 @@ function insert(newVehicle){
         titleIsClean: newVehicle.titleIsClean
     })
     .into('car-dealer');
-}
-
-function remove(id){
-    return db('car-dealer').where('id', id).del();
 }

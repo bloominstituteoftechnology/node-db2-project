@@ -7,6 +7,7 @@ const dbDealer = require('../data/dbDealer');
 
 //middlewares
 const cors = require('cors');
+const { json } = require('express');
 const logger = require('morgan')
 server.use(express.json(), cors(), logger('short'));
 
