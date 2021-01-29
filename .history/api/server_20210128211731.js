@@ -3,41 +3,30 @@ server = express();
 
 //db
 const db = require("../data/dbConfig.js");
-const dbDealer = require('../data/dbDealer');
 
 //middlewares
 const cors = require('cors');
 const { json } = require('express');
-const logger = require('morgan')
-server.use(express.json(), cors(), logger('short'));
+server.use(express.json(), cors());
 
 // ENDPOINTS
 
 
 //GET
 server.get('/api/vehicles', async (req, res, next)=>{
-    const vehicles = await dbDealer.get()
-    if (vehicles) {
-        res.status(200).json({vehicles: vehicles})
-    }else{
-        res.status(400).json({Err: 'Something went wrong'})
+    try{
+        const allCars = await db.select('*').from('car-dealer');
+
+        res.json(allCars);
+
+    } catch (err) {
+        next(err);
     }
 });
 
-server.get('/api/vehicles/:id', async (req, res)=>{
-    const vehicle = await dbDealer.getByID(req.params.id)
-    if (vehicle) {
-        res.status(200).json(vehicle);
+server.get('/api/test', (req, res)=>{
 
-    }else{
-        res.status(400).json({message: 'Something went wrong.'})
-    }
-})
-
-
-server.get('/api/test/:id', async (req, res)=>{
-
-
+    res.status(200).json({message: "hello"})
 
 });
 

@@ -24,7 +24,10 @@ server.get('/api/vehicles', async (req, res, next)=>{
     }
 });
 
-server.get('/api/vehicles/:id', async (req, res)=>{
+
+
+server.get('/api/test/:id', async (req, res)=>{
+
     const vehicle = await dbDealer.getByID(req.params.id)
     if (vehicle) {
         res.status(200).json(vehicle);
@@ -32,12 +35,6 @@ server.get('/api/vehicles/:id', async (req, res)=>{
     }else{
         res.status(400).json({message: 'Something went wrong.'})
     }
-})
-
-
-server.get('/api/test/:id', async (req, res)=>{
-
-
 
 });
 

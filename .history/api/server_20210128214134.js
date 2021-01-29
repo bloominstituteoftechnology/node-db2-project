@@ -16,15 +16,16 @@ server.use(express.json(), cors(), logger('short'));
 
 //GET
 server.get('/api/vehicles', async (req, res, next)=>{
-    const vehicles = await dbDealer.get()
-    if (vehicles) {
-        res.status(200).json({vehicles: vehicles})
+    const posts = await dbDealer.get()
+    if (posts) {
+        res.status(200).json({ posts: posts})
     }else{
         res.status(400).json({Err: 'Something went wrong'})
     }
 });
 
-server.get('/api/vehicles/:id', async (req, res)=>{
+server.get('/api/test/:id', async (req, res)=>{
+
     const vehicle = await dbDealer.getByID(req.params.id)
     if (vehicle) {
         res.status(200).json(vehicle);
@@ -32,12 +33,6 @@ server.get('/api/vehicles/:id', async (req, res)=>{
     }else{
         res.status(400).json({message: 'Something went wrong.'})
     }
-})
-
-
-server.get('/api/test/:id', async (req, res)=>{
-
-
 
 });
 
