@@ -47,4 +47,15 @@ router.put('/:id',function updateCar(req,res){
     })
 })
 
+router.delete('/:id',function deleteCar(req,res){
+    const {id} = req.params;
+    Cars.remove(id)
+    .then((car)=>{
+        res.status(200).json("Car deleted")
+    })
+    .catch((error)=>{
+        res.status(500).json({error:error.message})
+    })
+})
+
 module.exports = router;
