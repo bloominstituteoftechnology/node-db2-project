@@ -13,6 +13,17 @@ router.get('/', function getCars(req,res){
     })
 });
 
+router.get('/:id', function getCars(req,res){
+    const {id} = req.params;
+    Cars.getById(id)
+    .then((cars)=>{
+        res.status(200).json(cars)
+    })
+    .catch((error)=>{
+        res.status(500).json({error:error.message})
+    })
+});
+
 router.post('/',function createCar(req,res){
     const newCar = req.body;
     Cars.create(newCar)
@@ -21,6 +32,18 @@ router.post('/',function createCar(req,res){
     })
     .catch((error)=>{
         res.status(500).json({error:error.message})
+    })
+})
+
+router.put('/:id',function updateCar(req,res){
+    const {id} = req.params;
+    const changes = req.body;
+    Cars.update(id,changes)
+    .then((car)=>{
+        res.status(200).json(changes)
+    })
+    .catch((error)=>{
+        res.status(400).json({error:error.message})
     })
 })
 
