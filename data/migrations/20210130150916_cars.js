@@ -9,7 +9,7 @@ exports.up = function(knex) {
         tbl.string('title_status',128);
     })
   };
-
-exports.down = function(knex) {
+  
+  exports.down = function(knex) {
     return knex.schema.dropTableIfExists('cars');
-};
+  };
