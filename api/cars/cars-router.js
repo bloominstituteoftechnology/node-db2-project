@@ -13,4 +13,15 @@ router.get('/', function getCars(req,res){
     })
 });
 
+router.post('/',function createCar(req,res){
+    const newCar = req.body;
+    Cars.create(newCar)
+    .then((cars)=>{
+        res.status(201).json(newCar)
+    })
+    .catch((error)=>{
+        res.status(500).json({error:error.message})
+    })
+})
+
 module.exports = router;
