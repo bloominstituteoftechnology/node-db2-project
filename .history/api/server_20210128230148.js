@@ -3,6 +3,7 @@ server = express();
 
 
 //db
+const db = require("../data/dbConfig.js");
 const dbDealer = require('../data/dbDealer');
 
 //middlewares
@@ -11,7 +12,7 @@ const logger = require('morgan');
 const salesRouter = require('./salesRouter');
 
 server.use(express.json(), cors(), logger('short'));
-server.use('/api/sales', salesRouter);
+server.user('/sales', salesRouter);
 // ENDPOINTS
 
 
@@ -29,7 +30,7 @@ server.get('/api/vehicles', async (req, res, next)=>{
 server.get('/api/vehicles/:id', async (req, res)=>{
     const vehicle = await dbDealer.getByID(req.params.id)
     if (vehicle) {
-        res.status(200).json({vehicle: vehicle});
+        res.status(200).json(vehicle);
 
     }else{
         res.status(400).json({message: 'Something went wrong.'})
@@ -59,8 +60,7 @@ server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
     
 })
 
-//middleware 
 
-//validates vehicle is in the database
+
 
 module.exports = server;

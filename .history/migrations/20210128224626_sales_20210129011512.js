@@ -1,11 +1,14 @@
+
 const { table } = require("console");
 
 exports.up = function(knex) {
-  return knex.schema.createTable('car-dealer', function(tbl){
-      tbl.increments()
+  return knex.schema.createTable('sales', function(tbl){
+      tbl.integer('order_id')
+      tbl.timestamp('sell_date')
+        .defaultTo(knex.fn.now())
+      tbl.integer('sale_price')
       tbl.text('Make')
       tbl.text('Model')
-      tbl.integer('value')
       tbl.text('VIN')
         .unique()
       tbl.text('Mileage')
@@ -15,5 +18,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('car-dealer')
+  return knex.schema.dropTableIfExists('sales')
 };

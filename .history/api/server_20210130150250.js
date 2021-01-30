@@ -29,7 +29,7 @@ server.get('/api/vehicles', async (req, res, next)=>{
 server.get('/api/vehicles/:id', async (req, res)=>{
     const vehicle = await dbDealer.getByID(req.params.id)
     if (vehicle) {
-        res.status(200).json({vehicle: vehicle});
+        res.status(200).json(vehicle);
 
     }else{
         res.status(400).json({message: 'Something went wrong.'})
@@ -61,6 +61,13 @@ server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
 
 //middleware 
 
-//validates vehicle is in the database
+const greeter = function(){
+    return (req, res, next)=>{
+        setInterval(()=>{console.log(`5 seconds in time has passed`)}, 5000)
+    }
+    next();
+}
+
+server.use(greeter)
 
 module.exports = server;

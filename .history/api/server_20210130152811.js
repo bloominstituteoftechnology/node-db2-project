@@ -62,5 +62,17 @@ server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
 //middleware 
 
 //validates vehicle is in the database
+const vehicleValidator = function(){
+    (req, res, next)=>{
+        dbDealer.getByID(req.params.id)
+        .then( vehicle =>{
+            if (vehicle) {
+                req.vehicle = vehicle
+            }else{
+                req.status(400).json({$ERR: `Vehicle could not be found!`})
+            }
+        }).catch(next)
+    }
+}
 
 module.exports = server;

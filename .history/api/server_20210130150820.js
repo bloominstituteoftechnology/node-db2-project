@@ -26,8 +26,8 @@ server.get('/api/vehicles', async (req, res, next)=>{
 });
 
 //GET vehicle by id
-server.get('/api/vehicles/:id', async (req, res)=>{
-    const vehicle = await dbDealer.getByID(req.params.id)
+server.get('/api/vehicles/:id', (req, res)=>{
+    const vehicle = dbDealer.getByID(req.params.id)
     if (vehicle) {
         res.status(200).json({vehicle: vehicle});
 
@@ -61,6 +61,5 @@ server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
 
 //middleware 
 
-//validates vehicle is in the database
 
 module.exports = server;

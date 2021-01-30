@@ -1,10 +1,10 @@
 
 const { table } = require("console");
-const shortid = require('shortid')
+
 exports.up = function(knex) {
   return knex.schema.createTable('sales', function(tbl){
-      tbl.increments('order_id')
-        .unique()
+      tbl.text('order_id')
+        .defaultTo(shortid.generate())
       tbl.timestamp('sell_date')
         .defaultTo(knex.fn.now())
       tbl.integer('sale_price')

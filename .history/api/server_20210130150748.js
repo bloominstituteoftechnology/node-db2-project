@@ -61,6 +61,5 @@ server.delete('/api/rm_vehicle/:id', async (req, res, next) =>{
 
 //middleware 
 
-//validates vehicle is in the database
 
 module.exports = server;

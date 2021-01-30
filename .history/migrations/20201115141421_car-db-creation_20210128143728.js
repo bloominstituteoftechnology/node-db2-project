@@ -5,7 +5,6 @@ exports.up = function(knex) {
       tbl.increments()
       tbl.text('Make')
       tbl.text('Model')
-      tbl.integer('value')
       tbl.text('VIN')
         .unique()
       tbl.text('Mileage')
