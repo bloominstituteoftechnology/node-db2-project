@@ -30,7 +30,7 @@ For each time you use rollback the last schema change is taken away. You can kee
 npx knex seed:make 01-fruits
 npx knex seed:run
 This creates the new database with columns from each seperate migrations action command
-
+This will ensure each new migration with the latest fresh database will have this data within it. It is good for production. Seed is the data for the database and migration is the schema to program the database. This makes version writing and vaildating much easier. 
 
 ## Introduction
 
