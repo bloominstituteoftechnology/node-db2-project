@@ -26,6 +26,12 @@ This will give you a fresh database allowing you to purge the db
 For each time you use rollback the last schema change is taken away. You can keep rolling back to start but one migrate:latest will bring you back to the current updated version
 
 
+# Seed
+npx knex seed:make 01-fruits
+npx knex seed:run
+This creates the new database with columns from each seperate migrations action command
+
+
 ## Introduction
 
 In this challenge, you will write an API that can be used to manage _Cars_ stored in a Relational Database.
