@@ -1,13 +1,28 @@
 {
     "name": "node-db2-challenge",
     "version": "1.0.0",
-    "description": "Node DB 2 Module Challenge",
+    "description": "Node2 DBPersistence Project ",
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js"
+        "start": "node index.js",
+        "server": "nodemon index.js",
+        "ketchup": "git fetch && git reset --hard origin/lecture",
+        "migratedb": "knex migrate:latest",
+        "rollbackdb": "knex migrate:rollback",
+        "seed": "knex seed:run"
     },
-    "author": "Lambda School",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/extrude575757/node-db2-project.git"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "helmet": "^4.4.1",
+        "knex": "^0.21.16",
+        "sqlite3": "^5.0.1"
+    },
     "devDependencies": {
-        "nodemon": "^2.0.2"
-    }
+        "nodemon": "^2.0.7"
+    },
+    "author": "Nicholas Lacapria - Lambda School"
 }
