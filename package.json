@@ -4,9 +4,19 @@
     "description": "Node DB 2 Module Challenge",
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js"
+        "start": "node index.js",
+        "server": "nodemon index.js",
+        "migratedb": "knex migrate:latest",
+        "rollbackdb": "knex migrate:rollback",
+        "seed": "knex seed:run"
     },
-    "author": "Lambda School",
+    "dependencies": {
+        "express": "^4.17.1",
+        "helmet": "^4.4.1",
+        "knex": "^0.21.16",
+        "sqlite3": "^5.0.1"
+    },
+    "author": "Nicholas Lacapria at Lambda School",
     "devDependencies": {
         "nodemon": "^2.0.2"
     }
