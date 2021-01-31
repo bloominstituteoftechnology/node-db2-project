@@ -8,12 +8,12 @@ exports.up = function(knex) {
       table.float('price',6).notNullable();
       table.string('description',150);
       table.string('color',15);
-      table.string('producer',15);
+      table.string('transmission',15);
       table.integer('wheels',1);
-      table.string('motor',10);
+      table.string('make',10);
       table.string('vin',15);
-      table.string('liscense plate',10);
-      table.string('addons',50);
+      table.string('mileage',10);
+      table.string('status',10);
 
     
 
