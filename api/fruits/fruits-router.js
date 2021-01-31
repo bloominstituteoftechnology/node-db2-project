@@ -2,9 +2,23 @@ const express = require('express');
 // const knex = require('knex');
 const db = require('../../data/dbconfig.js');
 
+// const fruitsModel = require('./fruits-model')
 
+
+// router.get('/alternative', (req,res) =>{
+//   db.find()
+//     .then( fruits =>{
+//       res.json(fruits)
+//     })
+//     .catch(er=>{
+//       res.status(500).json({
+//         message:'Failed 2 retirev fruits',er
+//       })
+//     })
+// })
 
 const router = express.Router();
+
 
 router.get('/', (req, res) => {
   db('fruits')
