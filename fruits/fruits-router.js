@@ -1,6 +1,6 @@
 const express = require('express');
 // const knex = require('knex');
-const db = require('../../data/dbconfig.js');
+const db = require('../data/dbconfig.js');
 
 // const fruitsModel = require('./fruits-model')
 

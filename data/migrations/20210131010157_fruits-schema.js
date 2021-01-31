@@ -2,13 +2,13 @@
 exports.up = function(knex) {
   return knex.schema.createTable('fruits', tbl => {
       tbl.increments();
-      tbl.string('name', 25).uniqure().notNullable();
-      tbl.decimal('averageOz');
-      tbl.boolean('delicious');
+      tbl.string('name', 25).notNullable().unique();
+      tbl.decimal('avgWeightOz').notNullable();
+      tbl.boolean('isDelicious');
   })
 };
 
 exports.down = function(knex) {
-  knex.schema.dropTableIfExists('fruits');
-  
+  return knex.schema.dropTableIfExists('fruits');
+
 };
