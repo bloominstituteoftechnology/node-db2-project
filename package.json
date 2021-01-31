@@ -6,19 +6,6 @@
     "scripts": {
         "start": "node index.js",
         "server": "nodemon index.js",
-<<<<<<< HEAD
-        "migratedb": "knex migrate:latest",
-        "rollbackdb": "knex migrate:rollback",
-        "seed": "knex seed:run"
-    },
-    "dependencies": {
-        "express": "^4.17.1",
-        "helmet": "^4.4.1",
-        "knex": "^0.21.16",
-        "sqlite3": "^5.0.1"
-    },
-    "author": "Nicholas Lacapria at Lambda School",
-=======
         "ketchup": "git fetch && git reset --hard origin/lecture",
         "migratedb": "knex migrate:latest",
         "rollbackdb": "knex migrate:rollback",
@@ -34,7 +21,6 @@
         "knex": "^0.21.16",
         "sqlite3": "^5.0.1"
     },
->>>>>>> Projectime
     "devDependencies": {
         "nodemon": "^2.0.7"
     },

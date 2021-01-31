@@ -2,7 +2,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('cars',table =>{
       table.increments('id');
-      table.string('name', 50).notNullable().unique();
+      table.string('name', 50).notNullable();
       table.string('model',15).notNullable();
       table.string('condition').notNullable();
       table.float('price',6).notNullable();

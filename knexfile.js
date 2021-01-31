@@ -11,13 +11,20 @@ module.exports = {
     migrations: {
       // tableName
       directory: './data/migrations'
-    }
+    },
+
+    seeds: {
+      directory: './data/seeds',
+    },
+  },
+
+  staging: {
 
   },
 
-  
+  production: {
 
-  
+  }
  
   
 
