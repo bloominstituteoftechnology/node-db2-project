@@ -6,6 +6,9 @@ knex migrate:make fruits-schema
 # Migrate/restore a new Database Version command
 npx knex migrate:latest
 
+
+# Rollback
+npx knex migrate:rollback
 ## Introduction
 
 In this challenge, you will write an API that can be used to manage _Cars_ stored in a Relational Database.
