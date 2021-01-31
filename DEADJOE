@@ -1,0 +1,14 @@
+
+*** Modified files in JOE when it aborted on Sun Jan 31 01:16:08 2021
+*** JOE was aborted by signal 1
+
+*** File '(Unnamed)'
+!date '+%H:%M:%S'
+
+*** File '/home/rex/.gitconfig'
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+
+	name = extrude575757
+	email = nicholas.a.lacapria@gmail.com
