@@ -7,39 +7,17 @@ module.exports = {
     connection: {
       filename: './data/car-dealer.db3'
     },
-    useNullAsDefault: true
-  },
+    useNullAsDefault: true,
 
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
+      directory: './data/migrations'
+    },
 
-  production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
+    seeds: {
+      directory: './data/seeds'
     }
   }
+
+
 
 };
