@@ -13,7 +13,7 @@ router.get('/',async(req,res)=>{
 router.post('/', async(req,res)=>{
     try{
         const car = req.body
-        const data = Cars.create(car)
+        const data = await Cars.create(car)
         res.status(200).json(data)
     } catch(error){
         res.status(400).json({message:`${error}`})
