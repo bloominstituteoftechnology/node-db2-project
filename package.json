@@ -4,10 +4,22 @@
     "description": "Node DB 2 Module Challenge",
     "main": "index.js",
     "scripts": {
-        "server": "nodemon index.js"
+        "server": "nodemon index.js",
+        "mup":"knex migrate:up",
+        "mdown":"knex migrate:down",
+        "mlatest":"knex migrate:latest",
+        "mrollback":"knex migrate:rollback",
+        "seed":"knex seed:run"
     },
     "author": "Lambda School",
     "devDependencies": {
+        "eslint": "^7.20.0",
         "nodemon": "^2.0.2"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "helmet": "^4.4.1",
+        "knex": "^0.21.17",
+        "sqlite3": "^5.0.2"
     }
 }
