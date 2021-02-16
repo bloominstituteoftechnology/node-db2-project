@@ -1,13 +1,13 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('Cars Table').truncate()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('Cars Table').insert([
+        {vin: 'v2324f2',Make: 'tesla',Model: 'model S',Mileage: '5000',TransmissionType: 'none',TitleStatus: 'clean'},
+        {vin: 'v423422',Make: 'Mazda',Model: 'CX-5',Mileage: '700000',TransmissionType: 'auto',TitleStatus: 'clean'},
+        {vin: 'v894a98',Make: 'Ford',Model: 'mustang' ,Mileage: '90000',TransmissionType: 'manual',TitleStatus: 'salvaged'}
       ]);
     });
 };

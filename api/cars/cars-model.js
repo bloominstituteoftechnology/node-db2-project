@@ -20,4 +20,4 @@ async function remove(id) {
     return count;
 }
 
-module.exports = {getCars,insertCar,updateCar,removeCar}
+module.exports = {get,insert,update,remove}
