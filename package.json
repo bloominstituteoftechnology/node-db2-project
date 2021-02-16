@@ -8,6 +8,7 @@
     },
     "author": "Lambda School",
     "devDependencies": {
+        "eslint": "^7.20.0",
         "nodemon": "^2.0.2"
     }
 }
