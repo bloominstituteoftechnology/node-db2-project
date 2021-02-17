@@ -8,6 +8,12 @@
     },
     "author": "Lambda School",
     "devDependencies": {
+        "eslint": "^7.20.0",
         "nodemon": "^2.0.2"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "knex": "^0.21.17",
+        "sqlite3": "^5.0.2"
     }
 }
