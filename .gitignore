@@ -62,3 +62,5 @@ typings/
 
 # VSCode settings
 .vscode/
+
+car-dealer.db3
