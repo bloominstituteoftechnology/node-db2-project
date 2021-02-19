@@ -1,7 +1,32 @@
 const request = require('supertest')
 const server = require('./api/server')
 const db = require('./data/db-config')
-const { cars } = require('./data/seeds/01-cars')
+const cars = [
+  {
+    vin: '11111111111111111',
+    make: 'toyota',
+    model: 'prius',
+    mileage: 250000,
+    title: 'salvage',
+    transmission: 'CVT',
+  },
+  {
+    vin: '22222222222222222',
+    make: 'ford',
+    model: 'mustang',
+    mileage: 120000,
+    title: 'clean',
+    transmission: 'manual',
+  },
+  {
+    vin: '33333333333333333',
+    make: 'honda',
+    model: 'accord',
+    mileage: 220000,
+    title: 'clean',
+    transmission: 'automatic',
+  },
+]
 
 beforeAll(async () => {
   await db.migrate.rollback()
@@ -19,7 +44,8 @@ it('sanity check', () => {
 describe('server.js', () => {
   describe('[GET] /api/cars', () => {
     beforeEach(async () => {
-      await db.seed.run()
+      await db('cars').truncate()
+      await db('cars').insert(cars)
     })
     it('gets the correct number of cars', async () => {
       const res = await request(server).get('/api/cars')
@@ -32,7 +58,8 @@ describe('server.js', () => {
   })
   describe('[GET] /api/cars/:id', () => {
     beforeEach(async () => {
-      await db.seed.run()
+      await db('cars').truncate()
+      await db('cars').insert(cars)
     })
     it('gets the correct car', async () => {
       let res = await request(server).get('/api/cars/1')
