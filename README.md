@@ -45,7 +45,7 @@ The critical information for each car is the vin, make, model, and mileage. They
 
 #### Write Model Functions
 
-- Write the following db access functions inside `api/cars/cars-model.js` using Knex:
+X Write the following db access functions inside `api/cars/cars-model.js` using Knex:
 
   - `getAll` resolves to an array of car records (or an empty array)
   - `getById` resolves to a car record by the given id
@@ -53,7 +53,7 @@ The critical information for each car is the vin, make, model, and mileage. They
 
 #### Write Middleware
 
-- Write the following middlewares inside `api/cars/cars-middleware.js`:
+X Write the following middlewares inside `api/cars/cars-middleware.js`:
 
   - `checkCarId` returns a status 404 with a `{ message: "car with id <car id> is not found" }` if the id in `req.params` does not exist in the database.
 

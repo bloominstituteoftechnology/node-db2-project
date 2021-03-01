@@ -1,11 +1,21 @@
+const knex = require("knex")
+
+const db = knex()
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  db.select("*").from("cars")
 }
 
-const getById = () => {
-  // DO YOUR MAGIC
+const getById = id => {
+  db.select("*").from("cars").where(id)
 }
 
-const create = () => {
-  // DO YOUR MAGIC
+const create = async newCar => {
+  await db("cars").insert(newCar)
+}
+
+module.exports = {
+  getAll,
+  getById,
+  create
 }
