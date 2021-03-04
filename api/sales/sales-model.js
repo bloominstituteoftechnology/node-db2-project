@@ -5,18 +5,18 @@ const getAllSales = () => {
     return db('sales')
   }
 
-const getSaleById = (id) => {
+const getSaleById = (carId) => {
 // DO YOUR MAGIC
 return db('sales')
-    .where('id', id)
+    .where('car_id', carId)
     .first()
 }
 
 const addNewSale = (sale) => {
 // DO YOUR MAGIC
-return db("sale")
-    .insert(sale, "id")
-    .then(([id]) => getSaleById(id))
+return db("sales")
+    .insert(sale, "car_id")
+    .then(([carId]) => getSaleById(carId))
 }
 
 module.exports = {

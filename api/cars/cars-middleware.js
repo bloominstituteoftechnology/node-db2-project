@@ -1,17 +1,20 @@
-const cars = require('./cars-model');
+const Cars = require('./cars-model');
 const vinValidator = require('vin-validator');
 
 const checkCarId = () => {
   // DO YOUR MAGIC
   return async (req, res, next) => {
     try {
-      const car = await cars.getById(req.params.id)
-        if (car) {
+      const { id } = req.params;
+      const car = await Cars.getById(id);
+
+        if (!car) {
+          return res.status(404).json({ message: `car with id ${id} is not found` })
+        } else {
           req.car = car;
           next();
-        } else {
-          res.status(404).json({ message: `car with id ${req.params.id} is not found` });
         }
+
     } catch (err) {
       next(err);
     }
@@ -22,20 +25,17 @@ const checkCarPayload = () => {
   // DO YOUR MAGIC
   return async (req, res, next) => {
     try {
-        const vin = req.body.vin;
-        const make = req.body.make;
-        const model = req.body.model;
-        const mileage = req.body.mileage;
+        const {vin, make, model, mileage} = req.body;
 
         if (!vin) {
-          res.status(400).json({ message: `${vin} is missing` });
+          return res.status(400).json({ message: `vin is missing` });
         } else if (!make) {
           // console.log(name, budget);
-          res.status(400).json({ message: `${make} is missing` });
+          return res.status(400).json({ message: `make is missing` });
         } else if (!model) {
-          res.status(400).json({ message: `${model} is missing` });
+          return res.status(400).json({ message: `model is missing` });
         } else if (!mileage) {
-          res.status(400).json({ message: `${mileage} is missing` });
+          return res.status(400).json({ message: `mileage is missing` });
         } else {
           next();
         }
@@ -69,7 +69,7 @@ const checkVinNumberUnique = () => {
   // DO YOUR MAGIC
   return async (req, res, next) => {
     try {
-        const allCars = await cars.getAll();
+        const allCars = await Cars.getAll();
         const vin = req.body.vin;
 
        const results = allCars.filter((item) => {

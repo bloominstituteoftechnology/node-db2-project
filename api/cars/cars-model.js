@@ -14,7 +14,7 @@ const getById = (id) => {
 
 const addNew = (car) => {
   // DO YOUR MAGIC
-  return db("car")
+  return db("cars")
     .insert(car, "id")
     .then(([id]) => getById(id))
 }
