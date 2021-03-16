@@ -1,11 +1,22 @@
-const getAll = () => {
-  // DO YOUR MAGIC
+const db = require("../../data/dbConfig");
+
+module.exports = {
+  find,
+  findById,
+  post,
+};
+
+function find() {
+  return db("cars");
+}
+function findById(id) {
+  return db("cars").where("id", id).first();
 }
 
-const getById = () => {
-  // DO YOUR MAGIC
-}
-
-const create = () => {
-  // DO YOUR MAGIC
+function post(post) {
+  return db("cars")
+    .insert(post)
+    .then(([id]) => {
+      return db("cars").where("id", id);
+    });
 }
