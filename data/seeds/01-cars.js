@@ -5,25 +5,25 @@ exports.seed = knex => {
             return knex('cars').insert([
                 {
                     vin: '0B28',
-                    make: 'PT Cruiser',
-                    model: '2007',
+                    make: 'Chrysler',
+                    model: 'PT Cruiser',
                     mileage: 2,
                     title: 'N/A',
-                    transmission: '?'
+                    transmission: 'Automatic'
                 },
                 {
-                    vin: '0V32',
+                    vin: 'SHAW0V32',
                     make: 'Jaguar',
-                    model: '2006',
+                    model: 'XJ8-L',
                     mileage: 10000,
                     title: 'Testy McTesterton'
                 },
                 {
                     vin: '0BV1',
-                    make: 'Car',
-                    model: '2167',
+                    make: 'Toyota',
+                    model: 'Corolla',
                     mileage: 69,
-                    transmission: 'Sure'
+                    transmission: 'Manual'
                 }
             ]);
         });
