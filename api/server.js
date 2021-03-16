@@ -1,7 +1,15 @@
-const express = require("express")
+const express = require("express");
+const helmet = require("helmet");
 
-const server = express()
+const carsRouter = require("./cars/cars-router");
+
+const server = express();
 
 // DO YOUR MAGIC
 
-module.exports = server
+server.use(helmet());
+server.use(express.json());
+
+server.use("/api/cars", carsRouter);
+
+module.exports = server;
