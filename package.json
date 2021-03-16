@@ -4,7 +4,12 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
+    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand",
+    "migrate": "knex migrate:latest",
+    "migrateUp": "knex migrate:up",
+    "rollback": "knex migrate:rollback",
+    "migrateDown": "knex migrate:down",
+    "seed": "knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
