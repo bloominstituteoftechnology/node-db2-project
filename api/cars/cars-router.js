@@ -24,4 +24,11 @@ router.get('/:id', (req,res)=> {
         }).catch(()=> res.status(500).json({message:'error fetching car by id'}))
 })
 
+router.post('/',(req,res)=> {
+    Cars.create(req.body)
+        .then(car => {
+            res.status(202).json(car)
+        }).catch(()=> res.status(500).json({message: "error creating new car"}))
+})
+
 module.exports = router;
