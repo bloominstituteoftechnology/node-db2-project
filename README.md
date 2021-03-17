@@ -1,4 +1,4 @@
-# Node DB2 Project Starter Code
+# Node DB2 Project Starter Code --------
 
 ## Introduction
 
