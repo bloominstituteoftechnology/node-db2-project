@@ -36,6 +36,7 @@ const checkCarPayload = (req, res, next) => {
 
 const checkVinNumberValid = (req, res, next,err) => {
   // DO YOUR MAGIC
+  // validator does not work
   if(!vinValidator.validate(req.body.vin)) {
     res.status(400).json({message: `vin ${req.body.vin} is invalid`})
   } else {
@@ -43,14 +44,29 @@ const checkVinNumberValid = (req, res, next,err) => {
   }
 }
 
-const checkVinNumberUnique = (req, res, next,err) => {
-  // DO YOUR MAGIC
-  const {vin} = req.body;
-  if ((Cars.getAll().filter(car => car.vin === vin)).length === 0) {
-    next()
-  } else {
-    next(err)
+const checkVinNumberUnique = async (req, res, next) => {
+
+  try {
+    const car = await Cars.getByVin(req.body.vin);
+
+    if (car) {
+      res.status(400).json({ message: `vin ${req.body.vin} already exists` });
+    } else {
+      next();
+    }
+  } catch {
+    res.status(500).json({ message: `something went wrong checking the vin` });
   }
+
+  // DO YOUR MAGIC
+  // const {vin} = req.body;
+  // if ((Cars.getAll().filter(car => car.vin === vin)).length === 0) {
+  //   next()
+  // } else {
+  //   res.status(400).json({message: `vin ${vin} already exists`})
+  // }
+
+
 }
 
 module.exports = {
