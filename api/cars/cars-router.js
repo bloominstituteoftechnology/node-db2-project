@@ -2,6 +2,7 @@
 const express = require('express')
 const Cars = require('./cars-model')
 const router = express.Router()
+const {checkCarId, checkCarPayload, checkVinNumberValid, checkVinNumberUnique} = require('./cars-middleware')
 
 router.get('/', async (req,res)=> {
   
@@ -13,15 +14,8 @@ router.get('/', async (req,res)=> {
         })
 })
 
-router.get('/:id', (req,res)=> {
-    Cars.getById(req.params.id)
-        .then(car => {
-            if (!car) {
-                res.status(404).json({message: `no car was found with id ${req.params.id}`})
-            } else {
-                res.status(200).json(car)
-            }
-        }).catch(()=> res.status(500).json({message:'error fetching car by id'}))
+router.get('/:id', checkCarId, (req,res)=> {
+    res.status(200).json(req.car)
 })
 
 router.post('/',(req,res)=> {
