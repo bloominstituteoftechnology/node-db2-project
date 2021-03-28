@@ -1,4 +1,4 @@
-// DO YOUR MAGIC
+
 exports.up = function(knex) {
     return knex.schema.createTable('cars', tbl => {
         tbl.increments();
