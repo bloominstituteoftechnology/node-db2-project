@@ -1,6 +1,6 @@
 // STRETCH
 const cars =[
-    {
+    {   
         vin: '32152124235',
         make: 'Toyota',
         model: 'Highlander',
@@ -8,7 +8,7 @@ const cars =[
         title: 'new',
         transmission: 'automatic'
     },
-    {
+    {   
         vin: '322388788',
         make: 'Toyota',
         model: 'celica',

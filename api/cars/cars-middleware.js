@@ -6,8 +6,9 @@ const Cars = require('./cars-model.js');
 exports.checkCarId = async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const car = await Cars.getById(req?.params?.id);
-    if(car){
+    const car = await Cars.getById(req.params.id);
+    console.log(car);
+    if(car.length > 0){
       req.car = car;
       next();
     } else {
