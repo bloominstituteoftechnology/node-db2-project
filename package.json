@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js",
     "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
   },
@@ -22,5 +23,13 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LambdaSchool/node-db2-project.git"
-  }
+  },
+  "description": "## Introduction",
+  "bugs": {
+    "url": "https://github.com/LambdaSchool/node-db2-project/issues"
+  },
+  "homepage": "https://github.com/LambdaSchool/node-db2-project#readme",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
