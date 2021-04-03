@@ -19,3 +19,9 @@ const create = () => {
   return getById(id);
 
 }
+
+module.exports = {
+  getAll,
+  getById,
+  create,
+}
