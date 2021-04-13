@@ -3,6 +3,7 @@ const db = require("../../data/db-config.js")
 module.exports = {
   getAll,
   getById,
+  getByVin,
   create
 }
 
@@ -13,6 +14,12 @@ function getAll(){
 function getById(id){
   return db('cars')
     .where({ id })
+    .first()
+}
+
+function getByVin(vin){
+  return db('cars')
+    .wher({ vin })
 }
 
 async function create(newCar){
