@@ -1,3 +1,10 @@
+module.exports = {
+  checkCarId,
+  checkCarPayload,
+  checkVinNumberValid,
+  checkVinNumberUnique
+}
+
 const checkCarId = (req, res, next) => {
   // DO YOUR MAGIC
 }
