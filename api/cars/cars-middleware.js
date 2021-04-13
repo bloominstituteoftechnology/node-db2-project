@@ -5,18 +5,18 @@ module.exports = {
   checkVinNumberUnique
 }
 
-const checkCarId = (req, res, next) => {
-  // DO YOUR MAGIC
+function checkCarId(req, res, next){
+  next()
 }
 
-const checkCarPayload = (req, res, next) => {
-  // DO YOUR MAGIC
+function checkCarPayload(req, res, next){
+  next()
 }
 
-const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
+function checkVinNumberValid(req, res, next){
+  next()
 }
 
-const checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+function checkVinNumberUnique(req, res, next){
+  next()
 }
