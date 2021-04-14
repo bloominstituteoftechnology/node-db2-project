@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
+    "debug": "nodemon --inspect index.js",
     "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
   },
   "devDependencies": {
@@ -17,7 +18,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.21.17",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "vin-validator": "^1.0.0"
   },
   "repository": {
     "type": "git",
