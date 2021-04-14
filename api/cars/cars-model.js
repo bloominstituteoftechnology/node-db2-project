@@ -19,7 +19,7 @@ function getById(id){
 
 function getByVin(vin){
   return db('cars')
-    .wher({ vin })
+    .where({ vin })
 }
 
 async function create(newCar){
