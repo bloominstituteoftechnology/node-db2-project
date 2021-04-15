@@ -1,10 +1,14 @@
-# Node DB2 Project Starter Code - - - - -
+<<<<<<< HEAD
+# Node DB2 Project Starter Code 
+=======
+# Node DB2 Project Starter Code
+>>>>>>> cb033c6c004985fde84fdef3c6977afd26bd5dbc
 
 ## Introduction
 
 In this challenge, you will write an API that can be used to manage _Cars_ stored in a Relational Database.
 
-## Instructions
+## Instructions - - -- - - - -- 
 
 ### Task 1: Project Setup
 
