@@ -1,8 +1,8 @@
 const cars = require("../cars/cars-model")
 const vinValidator = require("vin-validator")
 
-const checkCarId = (req, res, next) => {
-  return () => {
+const checkCarId = () => {
+  return (req, res, next) => {
     cars.getById(req.params.id)
       .then(car => {
         if(car){
@@ -18,30 +18,28 @@ const checkCarId = (req, res, next) => {
   }
 }
 //vin make model mileage
-const checkCarPayload = (req, res, next) => {
-  return () => {
-    console.log(req.body)
-
+const checkCarPayload = () => {
+  return (req, res, next) => {
     if(!req.body.vin){
-      const fieldName = vin
+      const fieldName = 'vin'
 
       return res.status(400).json({
         message: `${fieldName} is missing`
       })
     } else if(!req.body.make){
-        const fieldName = make
+        const fieldName = 'make'
 
         return res.status(400).json({
         message: `${fieldName} is missing`
       })
     } else if(!req.body.model){
-      const fieldName = model
+      const fieldName = 'model'
 
       return res.status(400).json({
         message: `${fieldName} is missing`
       })
     } else if(!req.body.mileage){
-      const fieldName = mileage
+      const fieldName = 'mileage'
       return res.status(400).json({
         message: `${fieldName} is missing`
       })
@@ -51,33 +49,32 @@ const checkCarPayload = (req, res, next) => {
   }
 }
 
-const checkVinNumberValid = (req, res, next) => {
-  return () => {
-    if(vinValidator.validate(`${req.body.vin}`) = false){
+const checkVinNumberValid = () => {
+  return (req, res, next) => {
+    const validation = vinValidator.validate(`${req.body.vin}`)
+    if(validation === false){
       res.status(400).json({
-        message: `Vin ${req.body.vin} is invalid`
+        message: `vin ${req.body.vin} is invalid`
       })
     }
     next()
   }
 }
 
-const checkVinNumberUnique = (req, res, next) => {
-  return () => {
-    cars.getAll()
-      .then(allCars => {
-        Array.from(allCars)
-
-        allCars.find(car => {
-          if(car.body.vin === req.body.vin){
-            return res.status(400).json({
-              message: `Vin ${req.body.vin} already exists`
+const checkVinNumberUnique = () => {
+  return async (req, res, next) => {
+    const allCars = await cars.getAll()
+      try {
+        allCars.forEach(car => {
+          if(car.vin === req.body.vin){
+            res.status(400).json({
+              message: `vin ${req.body.vin} already exists`
             })
           }
         })
-      })
-    
-    next()
+      } catch(err) {
+        next(err)
+      }
   }
 }
 
