@@ -32,12 +32,11 @@ beforeAll(async () => {
   await db.migrate.rollback()
   await db.migrate.latest()
 })
-afterAll(async (done) => {
+afterAll(async () => {
   await db.destroy()
-  done()
 })
 
-it('sanity check', () => {
+test('[0] sanity check', () => {
   expect(true).not.toBe(false)
 })
 
@@ -47,11 +46,11 @@ describe('server.js', () => {
       await db('cars').truncate()
       await db('cars').insert(cars)
     })
-    it('gets the correct number of cars', async () => {
+    test('[1] gets the correct number of cars', async () => {
       const res = await request(server).get('/api/cars')
       expect(res.body).toHaveLength(cars.length)
     }, 500)
-    it('gets the correct cars', async () => {
+    test('[2] gets the correct cars', async () => {
       const res = await request(server).get('/api/cars')
       expect(res.body).toMatchObject(cars)
     }, 500)
@@ -61,7 +60,7 @@ describe('server.js', () => {
       await db('cars').truncate()
       await db('cars').insert(cars)
     })
-    it('gets the correct car', async () => {
+    test('[3] gets the correct car', async () => {
       let res = await request(server).get('/api/cars/1')
       expect(res.body).toMatchObject(cars[0])
       res = await request(server).get('/api/cars/2')
@@ -69,7 +68,7 @@ describe('server.js', () => {
       res = await request(server).get('/api/cars/3')
       expect(res.body).toMatchObject(cars[2])
     }, 500)
-    it('responds with 404 on id not found', async () => {
+    test('[4] responds with 404 on id not found', async () => {
       let res = await request(server).get('/api/cars/111')
       expect(res.status).toBe(404)
     }, 500)
@@ -78,7 +77,7 @@ describe('server.js', () => {
     beforeEach(async () => {
       await db('cars').truncate()
     })
-    it('creates a car in the database', async () => {
+    test('[5] creates a car in the database', async () => {
       await request(server).post('/api/cars').send(cars[0])
       await request(server).post('/api/cars').send(cars[1])
       await request(server).post('/api/cars').send(cars[2])
@@ -87,7 +86,7 @@ describe('server.js', () => {
       expect(carsDb[1]).toMatchObject(cars[1])
       expect(carsDb[2]).toMatchObject(cars[2])
     }, 500)
-    it('responds with the newly created car', async () => {
+    test('[6] responds with the newly created car', async () => {
       const res1 = await request(server).post('/api/cars').send(cars[0])
       const res2 = await request(server).post('/api/cars').send(cars[1])
       const res3 = await request(server).post('/api/cars').send(cars[2])
@@ -95,37 +94,37 @@ describe('server.js', () => {
       expect(res2.body).toMatchObject({ id: 2, ...cars[1] })
       expect(res3.body).toMatchObject({ id: 3, ...cars[2] })
     }, 500)
-    it('responds with a 400 and proper error on missing vin', async () => {
+    test('[7] responds with a 400 and proper error on missing vin', async () => {
       const { vin, ...badCar } = cars[0] // eslint-disable-line
       const res = await request(server).post('/api/cars').send(badCar)
       expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('message', 'vin is missing')
     }, 500)
-    it('responds with a 400 and proper error on missing make', async () => {
+    test('[8] responds with a 400 and proper error on missing make', async () => {
       const { make, ...badCar } = cars[0] // eslint-disable-line
       const res = await request(server).post('/api/cars').send(badCar)
       expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('message', 'make is missing')
     }, 500)
-    it('responds with a 400 and proper error on missing model', async () => {
+    test('[9] responds with a 400 and proper error on missing model', async () => {
       const { model, ...badCar } = cars[0] // eslint-disable-line
       const res = await request(server).post('/api/cars').send(badCar)
       expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('message', 'model is missing')
     }, 500)
-    it('responds with a 400 and proper error on missing mileage', async () => {
+    test('[10] responds with a 400 and proper error on missing mileage', async () => {
       const { mileage, ...badCar } = cars[0] // eslint-disable-line
       const res = await request(server).post('/api/cars').send(badCar)
       expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('message', 'mileage is missing')
     }, 500)
-    it('responds with a 400 and proper error on invalid vin', async () => {
+    test('[11] responds with a 400 and proper error on invalid vin', async () => {
       const badCar = { ...cars[0], vin: 'abc' }
       const res = await request(server).post('/api/cars').send(badCar)
       expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('message', 'vin abc is invalid')
     }, 500)
-    it('responds with a 400 and proper error on non-unique vin', async () => {
+    test('[12] responds with a 400 and proper error on non-unique vin', async () => {
       await request(server).post('/api/cars').send(cars[0])
       const res = await request(server).post('/api/cars').send(cars[0])
       expect(res.body).toHaveProperty('message', 'vin 11111111111111111 already exists')
