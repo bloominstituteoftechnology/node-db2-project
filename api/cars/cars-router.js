@@ -1,5 +1,6 @@
 // DO YOUR MAGIC
 const express = require("express");
+const { checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid } = require("./cars-middleware.js");
 const Car = require("./cars-model.js");
 
 const router = express.Router();
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkCarId, (req, res) => {
     const { id } = req.params;
     Car.getById(id)
     .then(car => {
@@ -26,5 +27,13 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.post('/', checkVinNumberValid, async (req, res, next) => {
+    try {
+        const newCar = await Car.create(req.body)
+        res.status(201).json(newCar)
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router

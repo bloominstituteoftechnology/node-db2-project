@@ -21,7 +21,7 @@ const checkCarPayload = (req, res, next) => {
   if(vin && make && model && mileage){
     next()
   } else {
-    res.status(400).json(`${vin || make || model || mileage} is missing!`)
+    res.status(400).json(`vin is missing!`)
   }
 }
 
