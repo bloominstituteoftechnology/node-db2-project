@@ -8,14 +8,14 @@ const cars = [
     title: 'clean'
     },
     {
-        vin:'1111111111111',
+        vin:'2222222222222',
         make: 'toyota',
         model: 'corola',
         milege: 215000,
         title: 'salvage'
         },
         {
-            vin:'1111111111111',
+            vin:'33333333333333',
             make: 'ford',
             model: 'focus',
             milege: 215000,
