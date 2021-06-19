@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js",
-    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
+    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand",
+    "mup": "knex migrate:up",
+    "mdown": "knex migrate:down",
+    "mlatest": "knex migrate:latest",
+    "mrollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
