@@ -9,12 +9,12 @@ const getById = (id) => {
 };
 
 const create = async (account) => {
-  const[id] = await db("accounts").insert(account);
+  const [id] = await db("accounts").insert(account);
   return getById(id);
 };
 
-module.exports {
-getAll,
-getById,
-create
-}
+module.exports = {
+  getAll,
+  getById,
+  create,
+};
