@@ -7,8 +7,12 @@ const server = express();
 
 // DO YOUR MAGIC
 server.use(helmet());
-server.use(express());
+server.use(express.json());
 
 server.use("/api/cars", carsRouter);
+
+server.get("/", (req, res) => {
+  res.status(200).json({ api: "up and running player!" });
+});
 
 module.exports = server;
