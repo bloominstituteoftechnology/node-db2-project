@@ -1,5 +1,11 @@
+module.exports ={
+  getAll,
+  getById,
+  create,
+}
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  db.select('*').from('cars');
 }
 
 const getById = () => {
