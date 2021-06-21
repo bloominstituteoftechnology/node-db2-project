@@ -5,6 +5,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
+    "seed":"knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
