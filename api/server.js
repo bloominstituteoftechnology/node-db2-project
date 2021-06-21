@@ -5,14 +5,10 @@ const {
     checkVinNumberValid,
     checkVinNumberUnique,
 } = require('./cars/cars-middleware.js');
-const {
-    getAll,
-    getById,
-    create
-} = require('./cars/cars-model.js');
+const carsController = require("./cars/cars-router.js");
 const server = express();
 
-// DO YOUR 
+// DO YOUR MAGIC
 // So we can parse JSON
 server.use(express.json());
 
@@ -24,26 +20,16 @@ server.get('/', function (req, res) {
 /**
  * returns an array of cars sorted by id (or an empty array if there aren't any).
  */
-server.get('/api/cars', async function(req, res) {
-    const allCars = await getAll();
-
-    res.send(allCars)
-});
+server.get('/api/cars', carsController.getAll);
 
 /**
  * returns a car by the given id.
  */
-server.get('/api/cars/:id', checkCarId, function(req, res) {
-    res.send(req.locals.car);
-});
+server.get('/api/cars/:id', checkCarId, carsController.getById);
 
-server.post('/api/cars', 
-    [checkCarPayload, checkVinNumberValid, checkVinNumberUnique],
-    async function(req, res) {
-        const { vin, make, model, mileage, title, transmission } = req.body;
-        const createCarResponse = await create({ vin, make, model, mileage, title, transmission });
-
-        res.send(createCarResponse)
-})
+/**
+ * creates a car and returns its id
+ */
+server.post('/api/cars', [checkCarPayload, checkVinNumberValid, checkVinNumberUnique], carsController.create);
 
 module.exports = server
