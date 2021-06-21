@@ -8,7 +8,7 @@ const carsController = {
         res.send(allCars);
     },
     getById (req, res) {
-        res.send(req.locals.car);
+        res.send(res.locals.car);
     },
     async create (req, res) {
         const { vin, make, model, mileage, title, transmission } = req.body;

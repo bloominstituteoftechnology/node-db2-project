@@ -13,9 +13,9 @@ const getById = async (id) => {
   // DO YOUR MAGIC
 
   // Returns an array with one result if found
-  const car = knex
+  const car = await knex
     .from('cars')
-    .where({ id })
+    .where({ id: id })
     .select('id', 'vin', 'make', 'model', 'mileage', 'title', 'transmission');
 
   return car[0];
