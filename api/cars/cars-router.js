@@ -12,9 +12,13 @@ const carsController = {
     },
     async create (req, res) {
         const { vin, make, model, mileage, title, transmission } = req.body;
-        const createCarResponse = await create({ vin, make, model, mileage, title, transmission });
 
-        res.send(createCarResponse)
+        // Array with a single value that is the created car's id
+        const createCarResponse = await create({ vin, make, model, mileage, title, transmission });
+        const createdCarId = createCarResponse.pop();
+        const createdCar = { id: createdCarId, vin, make, model, mileage, title, transmission };
+
+        res.send(createdCar)
     }
 };
 

@@ -43,7 +43,7 @@ const checkVinNumberValid = (req, res, next) => {
   const invalidVin = vinNumber === undefined || vinNumber.length !== 17;
 
   if (invalidVin) {
-    res.status(400).send({ message: `vin ${vin} is invalid` })
+    res.status(400).send({ message: `vin ${vinNumber} is invalid` })
   } else {
     next();
   }
