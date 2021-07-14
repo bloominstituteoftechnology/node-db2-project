@@ -17,7 +17,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.95.7",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "test": "^0.6.0"
   },
   "repository": {
     "type": "git",
