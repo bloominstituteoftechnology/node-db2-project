@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "mup": "npx knex migrate:up",
-    "mdo": "npx knex migrate:down",
-    "mlate": "npx knex migrate:latest",
-    "mroll": "npx knex migrate:rollback"
+    "mup": "knex migrate:up",
+    "mdo": "knex migrate:down",
+    "mlate": "knex migrate:latest",
+    "mroll": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
