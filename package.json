@@ -4,7 +4,12 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
+    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "migup": "knex migrate:up",
+    "migdown": "knex migrate:down",
+    "seed": "knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
@@ -17,7 +22,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.95.7",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "vin-validator": "^1.0.0"
   },
   "repository": {
     "type": "git",
