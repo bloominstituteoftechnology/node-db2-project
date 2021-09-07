@@ -1,6 +1,7 @@
 // DO YOUR MAGIC
 const express = require('express')
 const Car = require('./cars-model')
+const md = require('./cars-middleware')
 
 const router = express.Router()
 
