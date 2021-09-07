@@ -41,6 +41,7 @@ const checkCarPayload = (req, res, next) => {
 
 const checkVinNumberValid = async (req, res, next) => {
   // DO YOUR MAGIC
+  // Sketchy
   try {
     const isValidVin = vinValidator.validate(req.body.vin.trim())
 
