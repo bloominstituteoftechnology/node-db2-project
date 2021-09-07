@@ -1,5 +1,4 @@
 const Car = require('./cars-model')
-const db = require('../../data/db-config')
 const vinValidator = require('vin-validator') // to be used in checkVinNumberValid
 
 const checkCarId = async (req, res, next) => {
@@ -40,7 +39,6 @@ const checkCarPayload = (req, res, next) => {
 
 const checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
-  // Hangs
   if (vinValidator.validate(req.body.vin)) {
     next()
   } else {
@@ -49,33 +47,20 @@ const checkVinNumberValid = (req, res, next) => {
       message: `vin ${req.body.vin} is invalid`
      })
   }
-  // try {
-  //   const isValidVin = vinValidator.validate(req.body.vin.trim())
-
-  //   if (isValidVin === false) {
-  //     next({ status: 400, message: `vin ${req.body.vin.trim()} is invalid` })
-  //   } else {
-  //     next()
-  //   }
-
-  // } catch (err) {
-  //   next(err)
-  // }
 }
 
 const checkVinNumberUnique = async (req, res, next) => {
   // DO YOUR MAGIC
-  next()
-  // try {
-  //   const existing = await db('cars').where('vin', req.body.vin.trim()).first()
-
-  //   if (existing) {
-  //     next({ status: 400, message: `vin ${req.body.vin.trim()} already exists` })
-  //   }
-
-  // } catch (err) {
-  //     next(err)
-  // }
+  try {
+    const existing = await Car.getByVin(req.body.vin)
+    if (!existing) {
+      next()
+    } else {
+      next({ status: 400, message: `vin ${req.body.vin} already exists` })
+    }
+  } catch (err) {
+    next(err)
+  }
 }
 
 module.exports = {
