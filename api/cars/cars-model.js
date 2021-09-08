@@ -10,12 +10,19 @@ async function getById(id) {
 }
 
 async function create(car) {
-	const [id] = await db('cars').insert(car);
-	return getById(id);
+	return db('cars')
+		.insert(car)
+		.then(([id]) => {
+			return getById(id);
+		});
+}
+async function getByVin(vin) {
+	return db('cars').where('vin', vin).first();
 }
 
 module.exports = {
 	getAll,
 	getById,
 	create,
+	getByVin,
 };
