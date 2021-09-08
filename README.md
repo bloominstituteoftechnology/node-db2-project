@@ -71,3 +71,6 @@ The critical information for each car is the vin, make, model, and mileage. They
 - Add seed data to the database using `knex seeds`
 - Add `[PUT]` and `[DELETE]` operations to your API.
 - Write a schema file for a `sales` table. This table should track information on the sale of each car. You may wish to research `foreign keys` in order to link each sale to the entry in `cars` which sold.
+
+
+init commit
