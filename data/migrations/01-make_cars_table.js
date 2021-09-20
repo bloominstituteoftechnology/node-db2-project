@@ -15,3 +15,7 @@ exports.up = function (knex) {
     tbl.string('transmission', 128)
   })
 }
+
+exports.down = function(knex) {
+  return knex.schema.dropTableIfExists('cars') //if we had more than one table we would drop them in the opposite order in which we created them
+}
