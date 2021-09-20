@@ -5,7 +5,7 @@ const server = express()
 server.use(express.json())
 
 server.use('*', (req,res,next) =>{
-    next({ status: 404, message: "not found"})
+    next({ status: 404, message: "not found!"})
 
     //res.json( {status: 404, message: "not found"})
 
