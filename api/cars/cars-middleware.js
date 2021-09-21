@@ -15,15 +15,32 @@ const checkCarId = async (req, res, next) => {
   }
 
 const checkCarPayload = (req, res, next) => {
-  // DO YOUR MAGIC
+  //const error = {status:400}
+  if (!req.body.vin) return next({
+      status: 400,
+      message: `is missing vin`,
+  })
+  if (!req.body.make) return next({
+    status: 400,
+    message: `is missing make`,
+  })
+  if (!req.body.model) return next({
+    status: 400,
+    message: `is missing model`,
+  })
+  if (!req.body.mileage) return next({
+    status: 400,
+    message: `is missing milage`,
+  })
+  next()
 }
 
 const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
+  next()
 }
 
 const checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+  next()
 }
 
 module.exports = {
