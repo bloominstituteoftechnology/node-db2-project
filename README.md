@@ -6,7 +6,7 @@ In this challenge, you will write an API that can be used to manage _Cars_ store
 
 ## Instructions
 
-### Task 1: Project Setup
+### Task 1: Project Setup and Submission
 
 Your assignment page on Canvas should contain instructions for submitting this project. If you are still unsure, reach out to Lambda Staff.
 
