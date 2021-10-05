@@ -19,7 +19,11 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', checkCarId, async (req, res, next) => {
-    res.json(`get car by id ${req.params.id}wired/fired`);
+    try {
+        res.json(req.car);
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.post('/',
@@ -31,11 +35,11 @@ router.post('/',
     });
 
 router.put('/:id', checkCarId, async (req, res, next) => {
-    res.json("PUT with id wired/fired");
+    res.json("PUT with id wired/fired needs to be finished");
 });
 
 router.delete('/:id', checkCarId, async (req, res, next) => {
-    res.json("delete wired/fired");
+    res.json("delete wired/fired and needs to be finished");
 });
 
 module.exports = router;

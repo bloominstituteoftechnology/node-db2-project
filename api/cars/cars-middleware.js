@@ -4,9 +4,9 @@ var vinValidator = require("vin-validator");
 const checkCarId = (req, res, next) => {
   const { id } = req.params;
   Cars.getById(id)
-    .then((cars) => {
-      if (cars) {
-        req.cars = cars;
+    .then((car) => {
+      if (car) {
+        req.car = car;
         next();
       } else {
         res.status(404).json({
