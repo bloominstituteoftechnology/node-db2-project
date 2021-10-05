@@ -3,9 +3,9 @@
 ## ROUTERS
 ```javascript
 const express = require('express');
-const router = express.Router();
 const Cars = require('./cars-model');
 
+const router = express.Router();
 const{
     checkCarId, 
     checkCarPayload, 
@@ -13,23 +13,23 @@ const{
     checkVinNumberUnique
 } = require('./cars-middleware')
 
-router.get('/', (req, res, next) => {
-    res.json("get request wired/fired");
+router.get('/', async (req, res, next) => {
+    res.json("get all cars wired/fired");
 });
 
-router.get('/:id', (req, res, next) => {
-    res.json(`get cars by id ${req.params.id}wired/fired`);
+router.get('/:id', async (req, res, next) => {
+    res.json(`get car by id ${req.params.id}wired/fired`);
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     res.json("post cars wired/fired");
 });
 
-router.put('/:id', (req, res, next) =>{
+router.put('/:id', async (req, res, next) =>{
     res.json("PUT with id wired/fired");
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
     res.json("delete wired/fired");
 });
 
