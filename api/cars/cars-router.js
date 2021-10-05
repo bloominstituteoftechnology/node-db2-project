@@ -31,7 +31,12 @@ router.post('/',
     checkVinNumberValid,
     checkVinNumberUnique,
     async (req, res, next) => {
-        res.json("post cars wired/fired");
+        try {
+            const addCar = await Cars.create(req.body);
+            res.status(201).json(addCar);
+        } catch (err) {
+            next(err);
+        }
     });
 
 router.put('/:id', checkCarId, async (req, res, next) => {
