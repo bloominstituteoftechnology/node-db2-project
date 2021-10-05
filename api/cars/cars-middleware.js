@@ -1,5 +1,7 @@
+const Cars = require('./cars-model')
+
 const checkCarId = (req, res, next) => {
-  const { id } req.params
+  const { id } = req.params;
   Cars.get(id)
     .then((cars) => {
       if (cars) {
