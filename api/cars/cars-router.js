@@ -3,10 +3,12 @@ const router = express.Router();
 const Cars = require('./cars-model');
 
 const{
-    checkCarId, checkCarPayload, checkVinNumberValid,
+    checkCarId, 
+    checkCarPayload, 
+    checkVinNumberValid,
     checkVinNumberUnique
-}
-// DO YOUR MAGIC
+} = require('./cars-middleware')
+
 router.get('/', (req, res, next) => {
     return "get request wired/fired"
 })
