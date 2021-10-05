@@ -1,11 +1,11 @@
 const getAll = () => {
-  // DO YOUR MAGIC
-}
+  console.log('working');
+};
 
 const getById = () => {
-  // DO YOUR MAGIC
-}
+  console.log('working');
+};
 
 const create = () => {
-  // DO YOUR MAGIC
-}
+  console.log('working');
+};
