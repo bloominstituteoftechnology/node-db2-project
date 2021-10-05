@@ -15,9 +15,9 @@ router.get('/', async (req, res, next) => {
        next(error) 
     }
 })
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkCarId, async (req, res, next) => {
     try {
-        
+       await res.status(200).json(req.car); 
     } catch (error) {
         next(error)
     }
@@ -30,6 +30,11 @@ router.post('/', (req, res, next) => {
     }
 })
 
+router.use('/', (error, req, res, next) => { //eslint-disable-line
+    res.status(error.status || 500).json({
+        message: error.message
+    })
+})
 
 
 module.exports = router;
