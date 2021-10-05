@@ -1,4 +1,5 @@
 const Cars = require('./cars-model')
+var vinValidator = require("vin-validator");
 
 const checkCarId = (req, res, next) => {
   const { id } = req.params;
