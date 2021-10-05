@@ -74,7 +74,7 @@ The critical information for each car is the vin, make, model, and mileage. They
 
 
 ## Helpful Debugger restart using Nodemon
-[link](https://stackoverflow.com/questions/53352303/how-to-debug-a-nodemon-project-in-vscode)
+[link to stackoverflow solution](https://stackoverflow.com/questions/53352303/how-to-debug-a-nodemon-project-in-vscode)
 
 ``` json
 {
