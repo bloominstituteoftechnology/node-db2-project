@@ -7,9 +7,10 @@ const {
     checkVinNumberUnique
 } = require('./cars-middleware');
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
-        
+      const cars = await Cars.getAll();
+      res.status(200).json(cars)  
     } catch (error) {
        next(error) 
     }
@@ -31,3 +32,4 @@ router.post('/', (req, res, next) => {
 
 
 
+module.exports = router;
