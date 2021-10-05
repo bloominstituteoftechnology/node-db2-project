@@ -1,6 +1,7 @@
 const Cars = require('./cars-model')
 const db = require('../../data/db-config')
 const vinValidator = require('vin-validator')
+const yup = require('yup')
 
 const checkCarId = async (req, res, next) => {
   try {
@@ -18,28 +19,52 @@ const checkCarId = async (req, res, next) => {
   }
 }
 
-const checkCarPayload = (req, res, next) => {
-  const { vin, make, model, mileage } = req.body
-  if (!vin) {
-    res.status(400).json({
-      message: `vin is missing`
-    })
-  } else if (!make) {
-    res.status(400).json({
-      message: `make is missing`
-    })
-  } else if (!model) {
-    res.status(400).json({
-      message: `model is missing`
-    })
-  } else if (!mileage) {
-    res.status(400).json({
-      message: `mileage is missing`
-    })
-  } else {
+const chechCarPayloadSchema = yup.object().shape({
+  vin: yup.string().required('vin is missing'),
+  make: yup.string().required('make is missing'),
+  model: yup.string().required('model is missing'),
+  mileage: yup.number().required('mileage is missing'),
+  title: yup.string(),
+  transmission: yup.string()
+})
+
+const checkCarPayload = async (req, res, next) => {
+  try {
+    const payloadValidation = await chechCarPayloadSchema.validate(
+      req.body,
+      { strict: false, stripUnknown: true }
+    )
+    req.body = payloadValidation
     next()
+  } catch (err) {
+    res.status(400).json({
+      message: err.message
+    })
   }
 }
+
+// const checkCarPayload = (req, res, next) => {
+//   const { vin, make, model, mileage } = req.body
+//   if (!vin) {
+//     res.status(400).json({
+//       message: `vin is missing`
+//     })
+//   } else if (!make) {
+//     res.status(400).json({
+//       message: `make is missing`
+//     })
+//   } else if (!model) {
+//     res.status(400).json({
+//       message: `model is missing`
+//     })
+//   } else if (!mileage) {
+//     res.status(400).json({
+//       message: `mileage is missing`
+//     })
+//   } else {
+//     next()
+//   }
+// }
 
 const checkVinNumberValid = (req, res, next) => {
   if (vinValidator.validate(req.body.vin)) {

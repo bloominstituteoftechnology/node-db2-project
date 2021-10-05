@@ -21,7 +21,8 @@
     "express": "^4.17.1",
     "knex": "^0.95.11",
     "sqlite3": "^5.0.2",
-    "vin-validator": "^1.0.0"
+    "vin-validator": "^1.0.0",
+    "yup": "^0.32.9"
   },
   "repository": {
     "type": "git",
