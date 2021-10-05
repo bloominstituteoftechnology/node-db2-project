@@ -1,3 +1,7 @@
+# STUBS
+
+## ROUTERS
+```javascript
 const express = require('express');
 const router = express.Router();
 const Cars = require('./cars-model');
@@ -30,3 +34,4 @@ router.delete('/:id', (req, res, next) => {
 });
 
 module.exports = router;
+```
