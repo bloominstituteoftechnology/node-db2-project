@@ -20,9 +20,21 @@ const checkCarId = async (req, res, next) => {
 
 const checkCarPayload = (req, res, next) => {
   const { vin, make, model, mileage } = req.body
-  if (vin === undefined || make === undefined || model === undefined || mileage === undefined) {
+  if (!vin) {
     res.status(400).json({
-      message: `is missing`
+      message: `vin is missing`
+    })
+  } else if (!make) {
+    res.status(400).json({
+      message: `make is missing`
+    })
+  } else if (!model) {
+    res.status(400).json({
+      message: `model is missing`
+    })
+  } else if (!mileage) {
+    res.status(400).json({
+      message: `mileage is missing`
     })
   } else {
     next()
@@ -30,14 +42,12 @@ const checkCarPayload = (req, res, next) => {
 }
 
 const checkVinNumberValid = (req, res, next) => {
-  const { vin } = req.body
-  const isValidVin = vinValidator.validate(vin)
-  if (isValidVin === false) {
-    res.status(400).json({
-      message: `vin ${vin} is invalid`
-    })
-  } else {
+  if (vinValidator.validate(req.body.vin)) {
     next()
+  } else {
+    res.status(400).json({
+      message: `vin ${req.body.vin} is invalid`
+    })
   }
 }
 

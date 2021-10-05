@@ -1,6 +1,6 @@
 const cars = [
     {
-        vin: '1231231212',
+        vin: '1FVACWCS96HV81220',
         make: 'Ford',
         model: 'Focus',
         mileage: 175000,
@@ -8,7 +8,7 @@ const cars = [
         transmission: 'manual'
     },
     {
-        vin: '1212312312',
+        vin: '3GCEC14X66G218202',
         make: 'Honda',
         model: 'Civic',
         mileage: 1700,
@@ -16,7 +16,7 @@ const cars = [
         transmission: 'automatic'
     },
     {
-        vin: '12312312312',
+        vin: 'JH4DC4440RS004255',
         make: 'Honda',
         model: 'CRV',
         mileage: 4000,
@@ -24,7 +24,7 @@ const cars = [
         transmission: 'automatic'
     },
     {
-        vin: '1231231231',
+        vin: 'WVGBV7AX6CW559712',
         make: 'Toyota',
         model: 'Rav4',
         mileage: 1,
