@@ -1,4 +1,4 @@
-const db = require('../../data/db-config');// check config file
+const db = require('../../data/db-config');
 
 const getAll = () => {
   return db('cars');
@@ -25,7 +25,7 @@ const updateById = async (id, car) => {
 const deleteById = id => {
   //DELETE FROM accounts WHERE id='some number';
   return db('cars').where('id', id).del();
-}
+};
 
 module.exports = {
   getAll,
@@ -34,4 +34,4 @@ module.exports = {
   getByVin,
   updateById,
   deleteById,
-}
+};

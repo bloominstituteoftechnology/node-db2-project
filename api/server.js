@@ -1,4 +1,4 @@
-const express = require("express")
+const express = require("express");
 const server = express();
 const carsRouter = require('./cars/cars-router');
 
@@ -11,11 +11,11 @@ server.get('/', (req, res) => {
 });
 
 server.use('*', (req, res, next) => {
-    // next({status: 404, message: 'Bad Route try another'});
+    next({status: 404, message: 'Bad Route try another'});
     // alternative
-    res.status(404).json({
-        message: 'Bad route try another'
-    });
+    // res.status(404).json({
+    //     message: 'Bad route try another'
+    // });
 });
 
 server.use((err, req, res, next) => { // eslint-disable-line
