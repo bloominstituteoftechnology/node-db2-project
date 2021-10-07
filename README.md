@@ -71,3 +71,30 @@ The critical information for each car is the vin, make, model, and mileage. They
 - Add seed data to the database using `knex seeds`
 - Add `[PUT]` and `[DELETE]` operations to your API.
 - Write a schema file for a `sales` table. This table should track information on the sale of each car. You may wish to research `foreign keys` in order to link each sale to the entry in `cars` which sold.
+
+
+## Helpful Debugger restart using Nodemon
+[link to stackoverflow solution](https://stackoverflow.com/questions/53352303/how-to-debug-a-nodemon-project-in-vscode)
+
+``` json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node", 
+            "request": "launch",
+            "name": "nodemon",
+            "runtimeExecutable": "nodemon",
+            "program": "${workspaceFolder}/index.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env": {
+                "debug": "app:*",
+            }
+        }
+    ]
+}
+//be sure nodmone is installed globally 
+//npm i -g nodemon
+```
