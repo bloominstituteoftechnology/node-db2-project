@@ -18,7 +18,7 @@ const checkCarId = (req, res, next) => {
 };
 
 const checkCarPayload = (req, res, next) => {
-  //const error = { status: 400 }
+  // const error = { status: 400 };
   if (!req.body.vin) 
     return next({ status: 400, message: "vin is missing" });
   if (!req.body.make) 

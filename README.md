@@ -95,4 +95,6 @@ The critical information for each car is the vin, make, model, and mileage. They
         }
     ]
 }
+//be sure nodmone is installed globally 
+//npm i -g nodemon
 ```
