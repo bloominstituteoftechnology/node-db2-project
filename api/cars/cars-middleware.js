@@ -20,10 +20,15 @@ const checkCarId = (req, res, next) => {
 
 const checkCarPayload = (req, res, next) => {
   // DO YOUR MAGIC
-  if (!req.body.vin || !req.body.make || !req.body.model || !req.body.mileage) {
-    res.status(400).json({ message: `Please fill out all required fields` })
-  }
-  else {
+  if (!req.body.vin) {
+    res.status(400).json({ message: 'vin is missing!' })
+  } else if (!req.body.make) {
+    res.status(400).json({ message: 'make is missing!' })
+  } else if (!req.body.model) {
+    res.status(400).json({ message: 'model is missing!' })
+  } else if (!req.body.mileage) {
+    res.status(400).json({ message: 'mileage is missing!' })
+  } else {
     next()
   }
 }
