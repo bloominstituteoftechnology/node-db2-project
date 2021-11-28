@@ -1,5 +1,3 @@
-const { default: knex } = require("knex")
-
 const cars = [
   {
     vin: 'JTEBU11F670058710',
