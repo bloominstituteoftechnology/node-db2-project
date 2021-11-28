@@ -10,14 +10,14 @@ const Cars = require('./cars-model')
 
 router.get('/', async (req, res, next) => {
     try{
-        const data = await Cars.getAll()
-        res.json(data)
+        const cars = await Cars.getAll()
+        res.json(cars)
     } catch (error) {
         next(error)
     }
 })
 
-router.get('/:id', checkCarId, (req, res, next) => {
+router.get('/:id', checkCarId, async (req, res, next) => {
     res.json(req.car)
 })
 
