@@ -1,13 +1,30 @@
+const { default: knex } = require("knex")
 
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('cars').truncate()
-    .then(function () {
-      // Inserts seed entries
-      return knex('cars').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
-};
+const cars = [
+  {
+    vin: '1111111111111111',
+    make: 'toyota',
+    model: 'yaris',
+    mileage: 246000,
+    title: 'clean',
+    transmision: 'manual'
+  },
+  {
+    vin: '1111111111111111',
+    make: 'jeep',
+    model: 'grand cherokee',
+    mileage: 115000,
+    title: 'clean',
+  },
+  {
+    vin: '1111111111111111',
+    make: 'ford',
+    model: 'bronco',
+    mileage: 250000,
+  }
+]
+
+exports.seed = async function(knex){
+  await knex('cars').truncate()
+  await knex('cars').insert(cars)
+}
