@@ -7,16 +7,16 @@
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^27.0.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.0.1",
-    "jest": "^27.3.1",
-    "nodemon": "^2.0.14",
+    "eslint": "^8.4.1",
+    "jest": "^27.4.4",
+    "nodemon": "^2.0.15",
     "supertest": "^6.1.6"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "knex": "^0.95.11",
+    "knex": "^0.95.14",
     "sqlite3": "^5.0.2"
   },
   "repository": {
