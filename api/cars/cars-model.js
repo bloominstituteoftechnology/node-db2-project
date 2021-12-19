@@ -1,5 +1,6 @@
 const getAll = () => {
   // DO YOUR MAGIC
+  console.log('test console')
 }
 
 const getById = () => {
