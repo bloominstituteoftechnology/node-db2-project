@@ -57,4 +57,4 @@ const checkVinNumberUnique = async (req, res, next) => {
   }
 }
 
-module.exports = {checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid}
+module.exports = {logger, checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid}
