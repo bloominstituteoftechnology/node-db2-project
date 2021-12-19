@@ -1,1 +1,33 @@
-// DO YOUR MAGIC
+const router = require('express').Router()
+const Cars = require('./cars-model')
+const mw = require('./cars-middleware')
+
+router.get('/', async (req, res, next) => {
+    try{
+        const cars = await Cars.getAll()
+        res.status(200).json(cars)
+    }catch(err){
+        next(err)
+    }
+})
+
+router.get('/:id', mw.checkCarId, async (req, res, next) => {
+    try{
+        await res.status(200).json(req.car)
+    }catch(err){
+        next(err)
+    }
+})
+
+router.post('/', mw.checkCarPayload, mw.checkVinNumberUnique, mw.checkVinNumberValid, async (req, res, next) => {
+    try{
+        const newCar = await Cars.create(req.body)
+        res.status(201).json(newCar)
+    }catch(err){
+        next(err)
+    }
+})
+
+router.use((err, req, res, next) => {
+    res.status(err.status || 500).json({message: err.message})
+})
