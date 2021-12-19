@@ -1,36 +1,38 @@
 const Cars = require('./cars-model')
 const vinValidator = require('vin-validator')
+const yup = require('yup')
+const db = require('../../data/db-config')
 
-const checkCarId = (req, res, next) => {
-  const {id} = req.params
-  Cars.getById(id)
-  .then((car) => {
-    if(car){
+const checkCarId = async (req, res, next) => {
+  try{
+    const car = await Cars.getById(req.params.id)
+    if(!car){
+      next({message: `Car with id ${id} is not found`})
+    }else{
       req.car = car
       next()
-    }else{
-      res.status(400).json({message: `Car with id ${id} is not found`})
     }
-  })
-  .catch(next)
+  }catch(err){
+    next(err)
+  }
 }
 
-const checkCarPayload = (req, res, next) => {
-  const {vin, make, model, mileage} = req.body
-  const err = {status: 400}
-  if(!vin || typeof vin !== 'string' || !vin.trim()){
-    err.message = 'vin is missing'
-  }else if(!make || typeof make !== 'string' || make.trim()){
-    err.message = 'make is missing'
-  }else if(!model || typeof model !== 'string' || model.trim()){
-    err.message = 'model is missing'
-  }else if(!mileage || typeof mileage !== 'number'){
-    err.message = 'mileage is missing'
-  }
-  if(err.message){
-    next(err)
-  }else{
+const checkCarPayloadSchema = yup.object().shape({
+  vin: yup.string().required('vin is missing'),
+  make: yup.string().required('make is missing'),
+  model: yup.string().required('model is missing'),
+  mileage: yup.string().required('mileage is missing'),
+  title: yup.string(),
+  transmission: yup.string()
+})
+
+const checkCarPayload = async (req, res, next) => {
+  try{
+    const payValidation = await checkCarPayloadSchema.validate(req.body, {strict: false, stripUnkown: true})
+    req.body = payValidation
     next()
+  }catch(err){
+    res.status(400).json({message: err.message})
   }
 }
 
@@ -44,17 +46,16 @@ const checkVinNumberValid = async (req, res, next) => {
 }
 
 const checkVinNumberUnique = async (req, res, next) => {
-  const {vin} = req.body
   try{
-    const existing = await Cars.getByVin(vin)
-    if(existing){
-      next({status: 400, message: `vin ${vin} already exists`})
-    }else{
+    const existing = await db('cars').where('vin', req.body.vin).first()
+    if(!existing){
       next()
+    }else{
+      res.status(400).json({message: `vin ${req.body.vin} already exists`})
     }
   }catch(err){
     next(err)
   }
 }
 
-module.exports = {logger, checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid}
+module.exports = {checkCarId, checkCarPayload, checkVinNumberUnique, checkVinNumberValid}

@@ -2,7 +2,6 @@ const db = require('../../data/db-config')
 
 const getAll = () => {
   return db('cars')
-  .select('vin', 'make', 'model', 'mileage', 'title', 'transmission')
 }
 
 const getById = (id) => {
@@ -10,9 +9,11 @@ const getById = (id) => {
   .first()
 }
 
-const create = async car => {
+const create = async (car) => {
   const [id] = await db('cars').insert(car)
-  return getById(id)
+  .then(([id]) => {
+    return getById(id)
+  })
 }
 
 const getByVin = async (vin) => {
@@ -20,13 +21,4 @@ const getByVin = async (vin) => {
   .first()
 }
 
-const updateById = async (id, car) => {
-  await db('cars').where('id', id).update(car)
-  return getById(id)
-}
-
-const deleteById = id => {
-  return db('cars').where('id', id).del()
-}
-
-module.exports = {getAll, getById, create, getByVin, updateById, deleteById}
+module.exports = {getAll, getById, create, getByVin}

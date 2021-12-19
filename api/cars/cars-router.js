@@ -5,18 +5,14 @@ const mw = require('./cars-middleware')
 router.get('/', async (req, res, next) => {
     try{
         const cars = await Cars.getAll()
-        res.status(200).json(cars)
+        res.json(cars)
     }catch(err){
         next(err)
     }
 })
 
 router.get('/:id', mw.checkCarId, async (req, res, next) => {
-    try{
-        await res.status(200).json(req.car)
-    }catch(err){
-        next(err)
-    }
+    res.status(200).json(req.car)
 })
 
 router.post('/', mw.checkCarPayload, mw.checkVinNumberUnique, mw.checkVinNumberValid, async (req, res, next) => {
@@ -29,5 +25,7 @@ router.post('/', mw.checkCarPayload, mw.checkVinNumberUnique, mw.checkVinNumberV
 })
 
 router.use((err, req, res, next) => {
-    res.status(err.status || 500).json({message: err.message})
+    res.status(err.status || 404).json({message: err.message})
 })
+
+module.exports = router
