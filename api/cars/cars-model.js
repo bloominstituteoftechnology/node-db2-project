@@ -11,9 +11,7 @@ const getById = (id) => {
 
 const create = async (car) => {
   const [id] = await db('cars').insert(car)
-  .then(([id]) => {
-    return getById(id)
-  })
+  return getById(id)
 }
 
 const getByVin = async (vin) => {
