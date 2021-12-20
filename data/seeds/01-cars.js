@@ -3,7 +3,7 @@ const cars = [
         vin: '1111111111111',
         make: 'toyota',
         model: 'corolla', 
-        milage: 432000
+        mileage: 432000
         title: 'clean',
         transmission: 'manual'
     },
@@ -11,7 +11,7 @@ const cars = [
         vin: '1111111111111',
         make: 'toyota',
         model: 'prius', 
-        milage: 32000
+        mileage: 32000
         title: 'salvage',
    
     },
@@ -19,7 +19,7 @@ const cars = [
         vin: '1111111111111',
         make: 'ford',
         model: 'mustang', 
-        milage: 2000
+        mileage: 2000
   
     },
 ]
@@ -31,3 +31,8 @@ exports.seed = function(knex){
         return knex('cars').insert(cars)
     })
 }
+
+// exports.seed = async function(knex){
+    // await knex('cars').truncated()
+    // await knex('cars').insert(cars)
+// }
