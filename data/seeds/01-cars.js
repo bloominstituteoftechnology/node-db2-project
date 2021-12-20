@@ -1,6 +1,6 @@
 const cars = [
     {
-        vin: '11111111111111111',
+        vin: '1D4HR38N13F581006',
         make: 'toyota',
         model: 'corolla', 
         mileage: 432000,
@@ -8,7 +8,7 @@ const cars = [
         transmission: 'manual'
     },
     {
-        vin: '11111111111111112',
+        vin: 'ZCFJS7458M1953433',
         make: 'toyota',
         model: 'prius', 
         mileage: 32000,
@@ -16,7 +16,7 @@ const cars = [
    
     },
     {
-        vin: '11111111111111113',
+        vin: 'SCBBR53W36C034889',
         make: 'ford',
         model: 'mustang', 
         mileage: 2000
@@ -33,6 +33,6 @@ exports.seed = function(knex){
 }
 
 exports.seed = async function(knex){
-    await knex('cars').truncated()
+    await knex('cars').truncate()
     await knex('cars').insert(cars)
 }
