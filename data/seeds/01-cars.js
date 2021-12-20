@@ -32,7 +32,7 @@ exports.seed = function(knex){
     })
 }
 
-// exports.seed = async function(knex){
-    // await knex('cars').truncated()
-    // await knex('cars').insert(cars)
-// }
+exports.seed = async function(knex){
+    await knex('cars').truncated()
+    await knex('cars').insert(cars)
+}
