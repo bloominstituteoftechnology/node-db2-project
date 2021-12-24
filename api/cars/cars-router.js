@@ -4,10 +4,32 @@ const carsModel = require("./cars-model")
 
 const router = express.Router();
 
+router.get("/", async (req, res, next) => {
+	try {
+		const cars = await carsModel.getAll()
+		res.json(cars)
+	} catch (err) {
+		next(err)
+	}
+})
 
-//   - `getAll` resolves to an array of car records (or an empty array)
-//   - `getById` resolves to a car record by the given id
-//   - `create` resolves to the newly created car record
+router.get("/:id", async (req, res, next) => {
+	const {id} = req.params
+	const car = carsModel.getById(id)
+	res.status(200).json(car)
+	next()
+})
+
+router.post("/", async (req, res, next) => {
+	
+	try {
+		const newCar = carsModel.create(req.body)
+		res.status(201).json(newCar)
+		}
+	catch (err) {
+		next(err)
+	}
+})
 
 
 module.exports = router
