@@ -9,6 +9,7 @@ server.use(express.json())
 server.use(helmet())
 server.use(morgan('dev'))
 
+server.use("/api/cars", carsRouter)
 
 
 
