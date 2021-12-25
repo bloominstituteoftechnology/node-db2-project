@@ -19,7 +19,8 @@
     "helmet": "^4.6.0",
     "knex": "^0.95.14",
     "morgan": "^1.10.0",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "vin-validator": "^1.0.0"
   },
   "repository": {
     "type": "git",
