@@ -2,17 +2,20 @@ const cars = [
   {
     vin: '111111111111111111',
     make: 'chevy',
-    model: 'camaro'
+    model: 'camaro',
+    mileage: 50000
   },
   {
     vin: '111111111111111111',
     make: 'ford',
-    model: 'mustang'
+    model: 'mustang',
+    mileage: 40000
   },
   {
     vin: '111111111111111111',
     make: 'dodge',
-    model: 'charger'
+    model: 'charger',
+    mileage: 30000
   }
 ]
 
