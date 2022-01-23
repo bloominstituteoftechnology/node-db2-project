@@ -3,20 +3,20 @@ const cars = [
     vin: '1PNFK16448G269795',
     make: 'chevy',
     model: 'camaro',
-    mileage: 100000
+    mileage: 10000
   },
   {
     vin: '1HD1FMW122Y641723',
     make: 'ford',
     model: 'mustang',
-    mileage: 150000,
+    mileage: 15000,
     transmission: 'manual'
   },
   {
     vin: 'HJ4KA3261JC334072',
     make: 'honda', 
     model: 'civic',
-    mileage: 50000,
+    mileage: 5000,
     title: 'clean',
     transmission: 'automatic'
   }
