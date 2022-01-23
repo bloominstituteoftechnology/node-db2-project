@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "server": "nodemon index.js",
-    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand"
+    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "migup": "knex migrate:up",
+    "migdown": "knex migrate:down",
+    "seed": "knex seed:run"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
@@ -15,9 +21,11 @@
     "supertest": "^6.1.6"
   },
   "dependencies": {
+    "@vscode/sqlite3": "^5.0.7",
+    "dotenv": "^14.2.0",
     "express": "^4.17.1",
-    "knex": "^0.95.14",
-    "sqlite3": "^5.0.2"
+    "knex": "^1.0.1",
+    "vin-validator": "^1.0.0"
   },
   "repository": {
     "type": "git",
