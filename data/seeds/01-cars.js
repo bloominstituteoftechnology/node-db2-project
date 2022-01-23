@@ -1,6 +1,6 @@
 const cars = [
   {
-    vin: '3GNFK16448G269795',
+    vin: '1PNFK16448G269795',
     make: 'chevy',
     model: 'camaro',
     mileage: 100000
@@ -13,12 +13,12 @@ const cars = [
     transmission: 'manual'
   },
   {
-    vin: 'JH4KA3261JC334072',
-    make: 'handa', 
+    vin: 'HJ4KA3261JC334072',
+    make: 'honda', 
     model: 'civic',
     mileage: 50000,
     title: 'clean',
-    transmission: 'auto'
+    transmission: 'automatic'
   }
 ];
 
