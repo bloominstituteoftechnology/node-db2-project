@@ -1,32 +1,30 @@
 const cars = [
   {
-    vin: '111111111111111111',
+    vin: '3GNFK16448G269795',
     make: 'chevy',
     model: 'camaro',
-    mileage: 50000
+    mileage: 100000
   },
   {
-    vin: '211111111111111111',
+    vin: '1HD1FMW122Y641723',
     make: 'ford',
     model: 'mustang',
-    mileage: 40000
+    mileage: 150000,
+    transmission: 'manual'
   },
   {
-    vin: '311111111111111111',
-    make: 'dodge',
-    model: 'charger',
-    mileage: 30000
+    vin: 'JH4KA3261JC334072',
+    make: 'handa', 
+    model: 'civic',
+    mileage: 50000,
+    title: 'clean',
+    transmission: 'auto'
   }
-]
-
-// exports.seed = async function(knex) {
-//   await knex('cars').truncate()
-//   await knex('cars').insert(cars)
-// }
+];
 
 exports.seed = function(knex) {
-  return knex('cars')
-  .truncate().then(() => {
-    return knex('cars').insert(cars)
-  })
-}
+  return knex('cars').truncate()
+    .then(()=> {
+      return knex('cars').insert(cars);
+    });
+};
