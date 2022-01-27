@@ -16,7 +16,7 @@
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
     "nodemon": "^2.0.15",
-    "supertest": "^6.1.6"
+    "supertest": "^6.2.2"
   },
   "dependencies": {
     "express": "^4.17.1",
