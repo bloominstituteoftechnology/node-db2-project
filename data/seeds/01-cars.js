@@ -5,7 +5,7 @@ const cars = [
       model: 'yaris',
       mileage: 235000,
       title: 'clean',
-      transmision: 'manual'
+      transmission: 'manual'
     },
     {
       vin: '1D7HA18287S191814',
@@ -13,7 +13,7 @@ const cars = [
       model: 'grand cherokee',
       mileage: 115000,
       title: 'clean',
-      transmision: 'automatic'
+      transmission: 'automatic'
     },
     {
       vin: '5UXXW3C58F0M65560',
@@ -21,7 +21,7 @@ const cars = [
       model: 'bronco',
       mileage: 250000,
       title: 'clean',
-      transmision: 'automatic'
+      transmission: 'automatic'
     }
   ]
   
