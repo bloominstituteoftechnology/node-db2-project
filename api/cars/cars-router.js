@@ -15,4 +15,8 @@ router.get('/', async (req, res, next) => {
     next(err)
    }
 })
+
+router.get('/:id', checkCarId, (req, res, next) => {
+    res.json(req.car)
+})
 module.exports = router
