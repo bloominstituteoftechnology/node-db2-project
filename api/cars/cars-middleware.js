@@ -34,10 +34,10 @@ const checkCarPayload = (req, res, next) => {
     status: 400,
     message: 'model is missing'
   })
-  if(!req.body.vin)
+  if(!req.body.mileage)
   return next({
     status: 400,
-    message: 'vin is missing'
+    message: 'mileage is missing'
   })
   next()
 }
